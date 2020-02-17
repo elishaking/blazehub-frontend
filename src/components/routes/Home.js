@@ -14,7 +14,7 @@ import { resizeImage } from '../../utils/resizeImage';
 
 import MainNav from '../nav/MainNav';
 import AuthNav from '../nav/AuthNav';
-import Posts from '../containers/Posts';
+import Posts from '../../containers/Posts';
 
 class Home extends Component {
   constructor(props) {
