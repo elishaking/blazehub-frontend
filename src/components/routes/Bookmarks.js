@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import app from 'firebase/app';
 import 'firebase/database';
 
-import AuthNav from '../nav/AuthNav';
-import MainNav from '../nav/MainNav';
+import MainNav from '../../containers/nav/MainNav';
+import AuthNav from '../../containers/nav/AuthNav';
 import Spinner from '../Spinner';
 import Post from '../Post';
 

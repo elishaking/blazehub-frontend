@@ -10,8 +10,8 @@ import { faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { getFriends, addFriend } from '../../redux_actions/friendActions';
 
-import MainNav from '../nav/MainNav';
-import AuthNav from '../nav/AuthNav';
+import MainNav from '../../containers/nav/MainNav';
+import AuthNav from '../../containers/nav/AuthNav';
 import Spinner from '../Spinner';
 import Avatar from '../Avatar';
 

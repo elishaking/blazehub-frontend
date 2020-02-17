@@ -12,8 +12,8 @@ import { getFriends } from '../../redux_actions/friendActions';
 import { listenForNewChats } from '../../redux_actions/chatActions';
 import { getProfilePic } from '../../redux_actions/profileActions';
 
-import MainNav from '../nav/MainNav';
-import AuthNav from '../nav/AuthNav';
+import MainNav from '../../containers/nav/MainNav';
+import AuthNav from '../../containers/nav/AuthNav';
 import Spinner from '../Spinner';
 import Avatar from '../Avatar';
 

@@ -12,8 +12,8 @@ import { getProfilePic } from '../../redux_actions/profileActions';
 
 import { resizeImage } from '../../utils/resizeImage';
 
-import MainNav from '../nav/MainNav';
-import AuthNav from '../nav/AuthNav';
+import MainNav from '../../containers/nav/MainNav';
+import AuthNav from '../../containers/nav/AuthNav';
 import Posts from '../../containers/Posts';
 
 class Home extends Component {

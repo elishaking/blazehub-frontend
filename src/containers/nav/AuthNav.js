@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faBell } from '@fortawesome/free-solid-svg-icons';
 import { signoutUser } from '../../redux_actions/authActions';
-import Avatar from '../Avatar';
+import Avatar from '../../components/Avatar';
 
 class AuthNav extends Component {
   state = {
@@ -15,7 +15,7 @@ class AuthNav extends Component {
   }
 
   getNotifications = () => {
-    console.log(this.props.hello)
+    // console.log(this.props.hello)
     this.props.notificationsRef.child(this.props.user.id).orderByChild("date").on('child_added', (newNotificationSnapShot) => {
       const newNotification = {
         key: newNotificationSnapShot.key,
@@ -28,7 +28,7 @@ class AuthNav extends Component {
       if (this.state.loading) this.setState({ loading: false });
 
       const { notifications } = this.state;
-      newNotification.date > this.mountedOn ? notifications.unshift(newNotification) : notifications.push(newNotification);
+      // newNotification.date > this.mountedOn ? notifications.unshift(newNotification) : notifications.push(newNotification);
       this.setState({
         notifications
       });
