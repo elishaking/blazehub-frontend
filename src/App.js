@@ -8,7 +8,7 @@ import './App.scss';
 import store from './store';
 import { setAuthToken, setCurrentUser, signoutUser, } from './redux_actions/authActions';
 
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/containers/PrivateRoute';
 import Landing from './components/routes/Landing';
 import Signin from './components/routes/Signin';
 import Home from './components/routes/Home';
