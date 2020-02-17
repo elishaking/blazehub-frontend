@@ -13,7 +13,7 @@ import { TextFormInput, TextAreaFormInput } from '../form/TextFormInput';
 import { DateFormInput } from '../form/DateFormInput';
 import { getFriends } from '../../redux_actions/friendActions';
 import { getProfilePic, updateProfilePic } from '../../redux_actions/profileActions';
-import Posts from '../Posts';
+import Posts from '../containers/Posts';
 
 import { resizeImage } from '../../utils/resizeImage';
 import { validateProfileEditInput } from '../../validation/profile';
