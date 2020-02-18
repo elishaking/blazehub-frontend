@@ -1,8 +1,8 @@
 import React from 'react';
 import Home from './Home';
 import { shallow } from 'enzyme';
-import { findByTestAttr, findByAttr, testStore } from '../../tests/utils/testUtils';
-import { firebaseMock } from '../../tests/utils/mocks';
+import { findByTestAttr, findByAttr, testStore } from '../tests/utils/testUtils';
+import { firebaseMock } from '../tests/utils/mocks';
 import app from 'firebase/app';
 
 const setUp = (initialState = {}) => {

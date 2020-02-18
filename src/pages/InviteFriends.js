@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import MainNav from '../../containers/nav/MainNav';
-import AuthNav from '../../containers/nav/AuthNav';
-import Spinner from '../Spinner';
+import MainNav from '../containers/nav/MainNav';
+import AuthNav from '../containers/nav/AuthNav';
+import Spinner from '../components/Spinner';
 
 class InviteFriends extends Component {
   constructor(props) {

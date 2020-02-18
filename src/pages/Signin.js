@@ -1,9 +1,9 @@
 //@ts-check
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signinUser } from '../../redux_actions/authActions';
-import Spinner from '../Spinner';
-import { TextFormInput } from '../form/TextFormInput';
+import { signinUser } from '../actions/authActions';
+import Spinner from '../components/Spinner';
+import { TextFormInput } from '../components/form/TextFormInput';
 
 class Signin extends Component {
   constructor(props) {

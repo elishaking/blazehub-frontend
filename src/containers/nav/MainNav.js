@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserAlt, faComments, faBookmark, faSignOutAlt, faUsers, faUserFriends } from '@fortawesome/free-solid-svg-icons';
-import { signoutUser } from '../../redux_actions/authActions';
+import { signoutUser } from '../../actions/authActions';
 import './Nav.scss';
 
 function MainNav({ user, signoutUser }) {

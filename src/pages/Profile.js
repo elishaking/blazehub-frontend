@@ -5,18 +5,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faUser, faBible, faAddressBook, faGlobe, faBaby, faPeopleCarry, faImages } from '@fortawesome/free-solid-svg-icons';
 import app from 'firebase/app';
 import 'firebase/database';
-import MainNav from '../../containers/nav/MainNav';
-import AuthNav from '../../containers/nav/AuthNav';
+import MainNav from '../containers/nav/MainNav';
+import AuthNav from '../containers/nav/AuthNav';
 import './Profile.scss';
-import Spinner from '../Spinner';
-import { TextFormInput, TextAreaFormInput } from '../form/TextFormInput';
-import { DateFormInput } from '../form/DateFormInput';
-import { getFriends } from '../../redux_actions/friendActions';
-import { getProfilePic, updateProfilePic } from '../../redux_actions/profileActions';
-import Posts from '../../containers/Posts';
+import Spinner from '../components/Spinner';
+import { TextFormInput, TextAreaFormInput } from '../components/form/TextFormInput';
+import { DateFormInput } from '../components/form/DateFormInput';
+import { getFriends } from '../actions/friendActions';
+import { getProfilePic, updateProfilePic } from '../actions/profileActions';
+import Posts from '../containers/Posts';
 
-import { resizeImage } from '../../utils/resizeImage';
-import { validateProfileEditInput } from '../../validation/profile';
+import { resizeImage } from '../utils/resizeImage';
+import { validateProfileEditInput } from '../validation/profile';
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 class Profile extends Component {

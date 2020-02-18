@@ -8,12 +8,12 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { getFriends, addFriend } from '../../redux_actions/friendActions';
+import { getFriends, addFriend } from '../actions/friendActions';
 
-import MainNav from '../../containers/nav/MainNav';
-import AuthNav from '../../containers/nav/AuthNav';
-import Spinner from '../Spinner';
-import Avatar from '../Avatar';
+import MainNav from '../containers/nav/MainNav';
+import AuthNav from '../containers/nav/AuthNav';
+import Spinner from '../components/Spinner';
+import Avatar from '../components/Avatar';
 
 class FindFriends extends Component {
   constructor(props) {

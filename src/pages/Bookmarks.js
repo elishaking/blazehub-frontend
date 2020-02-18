@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import app from 'firebase/app';
 import 'firebase/database';
 
-import MainNav from '../../containers/nav/MainNav';
-import AuthNav from '../../containers/nav/AuthNav';
-import Spinner from '../Spinner';
-import Post from '../Post';
+import MainNav from '../containers/nav/MainNav';
+import AuthNav from '../containers/nav/AuthNav';
+import Spinner from '../components/Spinner';
+import Post from '../components/Post';
 
 class Bookmarks extends Component {
   state = {

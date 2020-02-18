@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { signinUser, signupUser } from '../../redux_actions/authActions';
-import Spinner from '../Spinner';
-import { TextFormInput } from '../form/TextFormInput';
+import { signinUser, signupUser } from '../actions/authActions';
+import Spinner from '../components/Spinner';
+import { TextFormInput } from '../components/form/TextFormInput';
 
 class Landing extends Component {
   constructor(props) {

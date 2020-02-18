@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faBell } from '@fortawesome/free-solid-svg-icons';
-import { signoutUser } from '../../redux_actions/authActions';
+import { signoutUser } from '../../actions/authActions';
 import Avatar from '../../components/Avatar';
 
 class AuthNav extends Component {
