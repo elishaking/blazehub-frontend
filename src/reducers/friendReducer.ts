@@ -3,7 +3,7 @@ import { SET_FRIENDS, ADD_FRIEND } from "../actions/types";
 const initialState = {};
 
 // ===REDUCERS===
-export default function (state = initialState, action) {
+export default function(state = initialState, action: any) {
   switch (action.type) {
     case SET_FRIENDS:
       return {
@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         ...action.payload
-      }
+      };
 
     default:
       return state;

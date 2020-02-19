@@ -1,11 +1,11 @@
 //@ts-check
-import { ADD_CHAT } from '../actions/types';
+import { ADD_CHAT } from "../actions/types";
 
-export default function (state = {}, action) {
+export default function(state: any = {}, action: any) {
   switch (action.type) {
     case ADD_CHAT:
       let chats = state;
-      const { chatKey, message } = action.payload
+      const { chatKey, message } = action.payload;
       if (chats[chatKey]) {
         chats[chatKey][message.key] = message;
       } else {

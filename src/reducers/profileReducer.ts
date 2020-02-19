@@ -1,14 +1,14 @@
 import { SET_PROFILE_PIC } from "../actions/types";
 
 export const initialState = {
-  avatar: '',
-  coverPhoto: ''
+  avatar: "",
+  coverPhoto: ""
 };
 
 /**
  * @param {{ type: string; payload: { key: string; dataUrl: string; }; }} action
  */
-export default function (state = initialState, action) {
+export default function(state = initialState, action: any) {
   switch (action.type) {
     case SET_PROFILE_PIC:
       return {

@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, GET_ERRORS } from '../actions/types';
+import { SET_CURRENT_USER, GET_ERRORS } from "../actions/types";
 
 export const initialState = {
   isAuthenticated: false,
@@ -7,7 +7,7 @@ export const initialState = {
 };
 
 // ===REDUCERS===
-export default function (state = initialState, action) {
+export default function(state = initialState, action: any) {
   switch (action.type) {
     case SET_CURRENT_USER:
       return {
@@ -28,11 +28,11 @@ export default function (state = initialState, action) {
 }
 
 // ===UTILS===
-const isEmpty = (value) => {
+const isEmpty = (value: any) => {
   return (
     value === undefined ||
     value === null ||
-    (typeof value === 'object' && Object.keys(value).length === 0) ||
-    (typeof value === 'string' && value.trim().length === 0)
+    (typeof value === "object" && Object.keys(value).length === 0) ||
+    (typeof value === "string" && value.trim().length === 0)
   );
 };
