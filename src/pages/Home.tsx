@@ -7,7 +7,7 @@ import "firebase/database";
 // import axios from 'axios';
 // import { initializeApp, updateUsername } from '../../utils/firebase';
 
-import { signoutUser } from "../actions/authActions";
+// import { signoutUser } from "../actions/authActions";
 import { getProfilePic } from "../actions/profileActions";
 
 import { resizeImage } from "../utils/resizeImage";
@@ -16,7 +16,24 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 
-class Home extends Component<any, Readonly<any>> {
+interface HomeState {
+  postText: string;
+  postImgDataUrl: string;
+  notifications: any[];
+  loadingNotifications: boolean;
+  [key: string]: any;
+}
+
+interface HomeProps {
+  auth: any;
+  profile: any;
+  getProfilePic: (
+    userKey: string,
+    key: string
+  ) => (dispatch: any) => Promise<void>;
+}
+
+class Home extends Component<HomeProps, Readonly<HomeState>> {
   db = app.database();
   postsRef = this.db.ref("posts");
   postImagesRef = this.db.ref("post-images");
@@ -261,4 +278,4 @@ const mapStateToProps = (state: any) => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { signoutUser, getProfilePic })(Home);
+export default connect<any>(mapStateToProps, { getProfilePic })(Home);
