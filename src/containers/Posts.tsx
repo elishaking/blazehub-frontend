@@ -1,21 +1,40 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import app from "firebase/app";
 import "firebase/database";
 import Post from "../components/Post";
 import Spinner from "../components/Spinner";
 
-class Posts extends Component<any, Readonly<any>> {
-  state = {
-    posts: new Array(),
-    loadingPosts: true
-  };
+interface PostsProps extends RouteComponentProps {
+  user: any;
+  forProfile?: boolean;
+  otherUserId?: string;
+  otherUser?: any;
+}
 
-  db = app.database();
-  postsRef = this.db.ref("posts");
+interface PostsState {
+  posts: any[];
+  loadingPosts: boolean;
+}
+
+class Posts extends Component<PostsProps, Readonly<PostsState>> {
+  db: app.database.Database;
+  postsRef: app.database.Reference;
   mountedOn = 0;
-  user: any = {};
-  otherUser: any = {};
+  user: any;
+  otherUser: any;
+
+  constructor(props: PostsProps) {
+    super(props);
+
+    this.state = {
+      posts: [],
+      loadingPosts: true
+    };
+
+    this.db = app.database();
+    this.postsRef = this.db.ref("posts");
+  }
 
   componentDidMount() {
     this.mountedOn = Date.now();
@@ -108,7 +127,7 @@ class Posts extends Component<any, Readonly<any>> {
 
   render() {
     const { loadingPosts, posts } = this.state;
-    const { avatar } = this.props;
+    // const { avatar } = this.props;
 
     return (
       <React.Fragment>
