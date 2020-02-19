@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, GET_ERRORS } from '../redux_actions/types';
+import { SET_CURRENT_USER, GET_ERRORS } from '../actions/types';
 
 export const initialState = {
   isAuthenticated: false,

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import app from 'firebase/app';
 import 'firebase/database';
-import Post from './Post';
-import Spinner from './Spinner';
+import Post from '../components/Post';
+import Spinner from '../components/Spinner';
 
 class Posts extends Component {
   state = {

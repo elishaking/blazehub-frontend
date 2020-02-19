@@ -1,6 +1,6 @@
 import { ShallowWrapper } from 'enzyme';
 import { applyMiddleware, createStore, compose } from 'redux';
-import rootReducer from '../../redux_reducers';
+import rootReducer from '../../reducers';
 import { middleware } from '../../store';
 
 /**

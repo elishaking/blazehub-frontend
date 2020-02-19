@@ -7,14 +7,14 @@ import 'firebase/database';
 // import axios from 'axios';
 // import { initializeApp, updateUsername } from '../../utils/firebase';
 
-import { signoutUser } from '../../redux_actions/authActions';
-import { getProfilePic } from '../../redux_actions/profileActions';
+import { signoutUser } from '../actions/authActions';
+import { getProfilePic } from '../actions/profileActions';
 
-import { resizeImage } from '../../utils/resizeImage';
+import { resizeImage } from '../utils/resizeImage';
 
-import MainNav from '../nav/MainNav';
-import AuthNav from '../nav/AuthNav';
-import Posts from '../Posts';
+import MainNav from '../containers/nav/MainNav';
+import AuthNav from '../containers/nav/AuthNav';
+import Posts from '../containers/Posts';
 
 class Home extends Component {
   constructor(props) {

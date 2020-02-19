@@ -1,4 +1,4 @@
-import { ADD_CHAT } from '../redux_actions/types';
+import { ADD_CHAT } from '../actions/types';
 import chatReducer from './chatReducer';
 
 describe('Chat Reducer', () => {

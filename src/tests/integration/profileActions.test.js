@@ -1,6 +1,6 @@
 import { testStore } from '../utils/testUtils';
-import { getProfilePic, updateProfilePic } from '../../redux_actions/profileActions';
-import { initialState as initialProfileState } from '../../redux_reducers/profileReducer';
+import { getProfilePic, updateProfilePic } from '../../actions/profileActions';
+import { initialState as initialProfileState } from '../../reducers/profileReducer';
 import app from 'firebase/app';
 import { firebaseMock } from '../utils/mocks';
 

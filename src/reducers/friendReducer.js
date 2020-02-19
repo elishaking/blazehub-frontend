@@ -1,4 +1,4 @@
-import { SET_FRIENDS, ADD_FRIEND } from "../redux_actions/types";
+import { SET_FRIENDS, ADD_FRIEND } from "../actions/types";
 
 const initialState = {};
 

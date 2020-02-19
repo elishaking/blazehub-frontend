@@ -1,4 +1,4 @@
-import { SET_PROFILE_PIC } from '../redux_actions/types';
+import { SET_PROFILE_PIC } from '../actions/types';
 import profileReducer, { initialState } from './profileReducer';
 
 describe('Profile Reducer', () => {

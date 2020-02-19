@@ -8,14 +8,14 @@ import app from 'firebase/app';
 import 'firebase/database';
 // import axios from 'axios';
 
-import { getFriends } from '../../redux_actions/friendActions';
-import { listenForNewChats } from '../../redux_actions/chatActions';
-import { getProfilePic } from '../../redux_actions/profileActions';
+import { getFriends } from '../actions/friendActions';
+import { listenForNewChats } from '../actions/chatActions';
+import { getProfilePic } from '../actions/profileActions';
 
-import MainNav from '../nav/MainNav';
-import AuthNav from '../nav/AuthNav';
-import Spinner from '../Spinner';
-import Avatar from '../Avatar';
+import MainNav from '../containers/nav/MainNav';
+import AuthNav from '../containers/nav/AuthNav';
+import Spinner from '../components/Spinner';
+import Avatar from '../components/Avatar';
 
 // @ts-ignore
 import notificationSound from './notification.ogg';

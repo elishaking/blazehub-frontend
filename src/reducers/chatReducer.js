@@ -1,5 +1,5 @@
 //@ts-check
-import { ADD_CHAT } from '../redux_actions/types';
+import { ADD_CHAT } from '../actions/types';
 
 export default function (state = {}, action) {
   switch (action.type) {
