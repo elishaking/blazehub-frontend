@@ -1,24 +1,27 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import jwt_decode from 'jwt-decode';
-import axios from 'axios';
-import app from 'firebase/app';
-import './App.scss';
-import store from './store';
-import { setAuthToken, setCurrentUser, signoutUser, } from './actions/authActions';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
+import app from "firebase/app";
+import "./App.scss";
+import store from "./store";
+import {
+  setAuthToken,
+  setCurrentUser,
+  signoutUser
+} from "./actions/authActions";
 
-import PrivateRoute from './containers/PrivateRoute';
-import Landing from './pages/Landing';
-import Signin from './pages/Signin';
-import Home from './pages/Home';
-import Chat from './pages/Chat';
-import FindFriends from './pages/FindFriends';
-import Profile from './pages/Profile';
-import Bookmarks from './pages/Bookmarks';
-import InviteFriends from './pages/InviteFriends';
-import Spinner from './components/Spinner';
-
+import PrivateRoute from "./containers/PrivateRoute";
+import Landing from "./pages/Landing";
+import Signin from "./pages/Signin";
+import Home from "./pages/Home";
+import Chat from "./pages/Chat";
+import FindFriends from "./pages/FindFriends";
+import Profile from "./pages/Profile";
+import Bookmarks from "./pages/Bookmarks";
+import InviteFriends from "./pages/InviteFriends";
+import Spinner from "./components/Spinner";
 
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
@@ -28,7 +31,7 @@ class App extends Component {
     loading: true
   };
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
   }
 
@@ -40,7 +43,7 @@ class App extends Component {
     if (localStorage.jwtToken) {
       setAuthToken(localStorage.jwtToken);
 
-      const decodedUserData = jwt_decode(localStorage.jwtToken);
+      const decodedUserData: any = jwt_decode(localStorage.jwtToken);
 
       store.dispatch(setCurrentUser(decodedUserData));
 
@@ -50,9 +53,9 @@ class App extends Component {
         store.dispatch(signoutUser());
 
         // Redirect to signin
-        window.location.href = '/signin';
+        window.location.href = "/signin";
       } else {
-        axios.get('/api/users/firebase').then((res) => {
+        axios.get("/api/users/firebase").then(res => {
           app.initializeApp(res.data);
           this.setState({ loading: false });
         });
@@ -63,7 +66,9 @@ class App extends Component {
   };
 
   render() {
-    return this.state.loading ? (<Spinner />) : (
+    return this.state.loading ? (
+      <Spinner />
+    ) : (
       <Provider store={store}>
         <Router>
           <Route exact path="/" component={Landing} />
@@ -92,7 +97,7 @@ class App extends Component {
           </Switch>
         </Router>
       </Provider>
-    )
+    );
   }
 }
 
