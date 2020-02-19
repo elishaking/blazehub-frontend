@@ -6,17 +6,17 @@ import axios from 'axios';
 import app from 'firebase/app';
 import './App.scss';
 import store from './store';
-import { setAuthToken, setCurrentUser, signoutUser, } from './redux_actions/authActions';
+import { setAuthToken, setCurrentUser, signoutUser, } from './actions/authActions';
 
 import PrivateRoute from './containers/PrivateRoute';
-import Landing from './components/routes/Landing';
-import Signin from './components/routes/Signin';
-import Home from './components/routes/Home';
-import Chat from './components/routes/Chat';
-import FindFriends from './components/routes/FindFriends';
-import Profile from './components/routes/Profile';
-import Bookmarks from './components/routes/Bookmarks';
-import InviteFriends from './components/routes/InviteFriends';
+import Landing from './pages/Landing';
+import Signin from './pages/Signin';
+import Home from './pages/Home';
+import Chat from './pages/Chat';
+import FindFriends from './pages/FindFriends';
+import Profile from './pages/Profile';
+import Bookmarks from './pages/Bookmarks';
+import InviteFriends from './pages/InviteFriends';
 import Spinner from './components/Spinner';
 
 
