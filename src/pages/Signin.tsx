@@ -1,17 +1,17 @@
 //@ts-check
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { signinUser } from '../actions/authActions';
-import Spinner from '../components/Spinner';
-import { TextFormInput } from '../components/form/TextFormInput';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { signinUser } from "../actions/authActions";
+import Spinner from "../components/Spinner";
+import { TextFormInput } from "../components/form/TextFormInput";
 
-class Signin extends Component {
-  constructor(props) {
+class Signin extends Component<any, Readonly<any>> {
+  constructor(props: any) {
     super(props);
 
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {},
       loading: false
     };
@@ -22,7 +22,7 @@ class Signin extends Component {
   }
 
   // after redux store is updated, this life cycle method will be called
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: any) {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
@@ -34,23 +34,23 @@ class Signin extends Component {
   }
 
   /** @param {boolean} isAuthenticated */
-  redirectIfAuthenticated = (isAuthenticated) => {
+  redirectIfAuthenticated = (isAuthenticated: boolean) => {
     // redirect authenticated user to home-page
     if (isAuthenticated) {
       // this.props.history.push('/home');
       window.location.href = "/home";
     }
-  }
+  };
 
   /**  @param {React.ChangeEvent<HTMLInputElement>} event */
-  onChange = (event) => {
+  onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       [event.target.name]: event.target.value
     });
-  }
+  };
 
   /**  @param {React.FormEvent<HTMLFormElement>} event */
-  onSubmit = (event) => {
+  onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     this.setState({ loading: true });
@@ -58,7 +58,7 @@ class Signin extends Component {
     const userData = {
       email: this.state.email,
       password: this.state.password
-    }
+    };
     this.props.signinUser(userData);
   };
 
@@ -69,7 +69,8 @@ class Signin extends Component {
         <header>
           <nav>
             <h1>
-              <img src={`./assets/img/logo-pri.svg`} alt="Logo" srcSet="" /> <span>BlazeHub</span>
+              <img src={`./assets/img/logo-pri.svg`} alt="Logo" srcSet="" />{" "}
+              <span>BlazeHub</span>
             </h1>
           </nav>
         </header>
@@ -83,26 +84,34 @@ class Signin extends Component {
                 name="email"
                 placeholder="email"
                 error={errors.signinEmail}
-                onChange={this.onChange} />
+                onChange={this.onChange}
+              />
 
               <TextFormInput
                 type="password"
                 name="password"
                 placeholder="password"
                 error={errors.signinPassword}
-                onChange={this.onChange} />
-              {
-                this.state.loading ? <Spinner full={false} /> : <input type="submit" value="Sign In" className="btn-input btn-pri" />
-              }
+                onChange={this.onChange}
+              />
+              {this.state.loading ? (
+                <Spinner full={false} />
+              ) : (
+                <input
+                  type="submit"
+                  value="Sign In"
+                  className="btn-input btn-pri"
+                />
+              )}
             </form>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   auth: state.auth
 });
 
