@@ -1,11 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
 
 import { signinUser, signupUser } from "../actions/authActions";
 import Spinner from "../components/Spinner";
 import { TextFormInput } from "../components/form/TextFormInput";
+import { UserSigninData, UserSignupData } from "../models/user";
 
-class Landing extends Component<any, Readonly<any>> {
+interface LandingProps extends RouteComponentProps {
+  auth: any;
+  signinUser: (userData: UserSigninData) => (dispatch: any) => void;
+  signupUser: (
+    userData: UserSignupData,
+    history: any
+  ) => (dispatch: any) => Promise<void>;
+}
+
+class Landing extends Component<LandingProps, Readonly<any>> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -291,4 +302,6 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { signinUser, signupUser })(Landing);
+export default connect<any>(mapStateToProps, { signinUser, signupUser })(
+  Landing
+);
