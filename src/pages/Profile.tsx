@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RouteComponentProps, match } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
@@ -28,9 +29,32 @@ import Posts from "../containers/Posts";
 
 import { resizeImage } from "../utils/resizeImage";
 import { validateProfileEditInput } from "../validation/profile";
+import { Friends } from "../models/friend";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
-class Profile extends Component<any, Readonly<any>> {
+interface Params {
+  username: string;
+}
+
+interface ProfileProps extends RouteComponentProps {
+  match: match<Params>;
+  auth: any;
+  friends: Friends;
+  profile: any;
+  getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
+  getProfilePic: (
+    userKey: string,
+    key: string
+  ) => (dispatch: any) => Promise<void>;
+  updateProfilePic: (
+    userKey: string,
+    key: string,
+    dataUrl: string,
+    dataUrlSmall?: string
+  ) => (dispatch: any) => Promise<void>;
+}
+
+class Profile extends Component<ProfileProps, Readonly<any>> {
   updateCover = false;
   otherUser = true;
   otherUserId = "";
@@ -625,7 +649,7 @@ const mapStateToProps = (state: any) => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, {
+export default connect<any>(mapStateToProps, {
   getFriends,
   getProfilePic,
   updateProfilePic
