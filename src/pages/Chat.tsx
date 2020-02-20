@@ -1,4 +1,3 @@
-//@ts-check
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -106,14 +105,14 @@ class Chat extends Component<any, Readonly<any>> {
 
         // update UI with new friends
         this.setState({
-          friends: friends,
+          friends,
           loading: false
         });
       } else if (
         JSON.stringify(friends) !== JSON.stringify(this.state.friends)
       ) {
         this.setState({
-          friends: friends,
+          friends,
           loading: false
         });
       } else {
@@ -124,7 +123,7 @@ class Chat extends Component<any, Readonly<any>> {
 
   updateChats = ({ chats }: any) => {
     const { currentChatKey } = this.state;
-    let stateChats = this.state.chats;
+    const stateChats = this.state.chats;
 
     if (chats[currentChatKey]) {
       const messageKeys = Object.keys(chats[currentChatKey]);
@@ -215,7 +214,7 @@ class Chat extends Component<any, Readonly<any>> {
         this.chatRef
           .child(this.state.currentChatKey)
           .once("value", chatSnapShot => {
-            let { chats } = this.state;
+            const { chats } = this.state;
             chats[this.state.currentChatKey] = chatSnapShot.val() || {};
             this.setState(
               {

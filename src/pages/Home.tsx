@@ -96,15 +96,15 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
     if (postImgInput.files && postImgInput.files[0]) {
       const imgReader = new FileReader();
 
-      imgReader.onload = (e: any) => {
+      imgReader.onload = (err: any) => {
         if (postImgInput.files[0].size > 100000)
           resizeImage(
-            e.target.result.toString(),
+            err.target.result.toString(),
             postImgInput.files[0].type
           ).then((dataUrl: any) => {
             this.setState({ postImgDataUrl: dataUrl });
           });
-        else this.setState({ postImgDataUrl: e.target.result });
+        else this.setState({ postImgDataUrl: err.target.result });
       };
 
       imgReader.readAsDataURL(postImgInput.files[0]);

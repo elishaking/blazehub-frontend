@@ -216,24 +216,25 @@ class Profile extends Component<any, Readonly<any>> {
       const imgReader = new FileReader();
       // const key = this.updateCover ? "coverPhoto" : "avatar";
 
-      imgReader.onload = (e: any) => {
+      imgReader.onload = (err: any) => {
         if (imgInput.files[0].size > 100000)
-          resizeImage(e.target.result.toString(), imgInput.files[0].type).then(
-            (dataUrl: any) => {
-              if (this.updateCover) {
-                this.updatePic(dataUrl);
-              } else {
-                resizeImage(
-                  e.target.result.toString(),
-                  imgInput.files[0].type,
-                  50
-                ).then((dataUrlSmall: any) => {
-                  this.updatePic(dataUrl, dataUrlSmall);
-                });
-              }
+          resizeImage(
+            err.target.result.toString(),
+            imgInput.files[0].type
+          ).then((dataUrl: any) => {
+            if (this.updateCover) {
+              this.updatePic(dataUrl);
+            } else {
+              resizeImage(
+                err.target.result.toString(),
+                imgInput.files[0].type,
+                50
+              ).then((dataUrlSmall: any) => {
+                this.updatePic(dataUrl, dataUrlSmall);
+              });
             }
-          );
-        else this.updatePic(e.target.result);
+          });
+        else this.updatePic(err.target.result);
       };
 
       imgReader.readAsDataURL(imgInput.files[0]);

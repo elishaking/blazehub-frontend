@@ -1,4 +1,3 @@
-//@ts-check
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import app from "firebase/app";
@@ -35,8 +34,8 @@ class FindFriends extends Component<any, Readonly<any>> {
     }
 
     axios.get("/api/users").then(res => {
-      let users = res.data.data;
-      delete users["blazebot"];
+      const users = res.data.data;
+      delete users.blazebot;
       delete users[this.userKey];
 
       const friendKeys = Object.keys(this.props.friends);
@@ -53,7 +52,7 @@ class FindFriends extends Component<any, Readonly<any>> {
 
   componentWillReceiveProps(nextProps: any) {
     const friendKeys = Object.keys(nextProps.friends);
-    let { users } = this.state;
+    const { users } = this.state;
 
     Object.keys(users).forEach(userKey => {
       if (friendKeys.indexOf(userKey) !== -1) delete users[userKey];
@@ -89,7 +88,7 @@ class FindFriends extends Component<any, Readonly<any>> {
     userEmail.replace(/\./g, "~").replace(/@/g, "~~");
 
   addFriend = (friendKey: string) => {
-    let { users } = this.state;
+    const { users } = this.state;
     users[friendKey].adding = true;
     this.setState({
       users
@@ -123,13 +122,16 @@ class FindFriends extends Component<any, Readonly<any>> {
               </div>
             ) : (
               userKeys.map((userKey, idx, arr) => {
-                const user = users[userKey];
+                const currentUser = users[userKey];
                 return (
                   <div className="friend-container" key={userKey}>
                     <div className="friend-main">
                       <div className="friend-inner">
-                        {user.avatar ? (
-                          <Avatar avatar={user.avatar} marginRight="1.5em" />
+                        {currentUser.avatar ? (
+                          <Avatar
+                            avatar={currentUser.avatar}
+                            marginRight="1.5em"
+                          />
                         ) : (
                           <FontAwesomeIcon
                             icon={faUserCircle}
@@ -137,10 +139,10 @@ class FindFriends extends Component<any, Readonly<any>> {
                           />
                         )}
                         <p>
-                          {user.firstName} {user.lastName}
+                          {currentUser.firstName} {currentUser.lastName}
                         </p>
                       </div>
-                      {user.adding ? (
+                      {currentUser.adding ? (
                         <Spinner full={false} />
                       ) : (
                         <button

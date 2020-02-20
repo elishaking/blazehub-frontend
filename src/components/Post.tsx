@@ -1,4 +1,3 @@
-//@ts-check
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -150,22 +149,22 @@ class Post extends Component<any, Readonly<any>> {
     } else {
       postRef.child("likes").update(
         {
-          [user.firstName]: 1 //todo: change to user_id
+          [user.firstName]: 1 // todo: change to user_id
         },
         (err: any) => {
           if (err) return console.log(err);
 
           const newNotification = {
             type: "new_like",
-            user: user,
+            user,
             post: post.key,
             read: false,
             date: 1e15 - Date.now()
           };
           this.props.notificationsRef
             .child(post.user.id)
-            .push(newNotification, (err: any) => {
-              if (err) return console.log(err);
+            .push(newNotification, (notifErr: any) => {
+              if (notifErr) return console.log(notifErr);
             });
 
           this.setState({ liked: true });
@@ -188,7 +187,7 @@ class Post extends Component<any, Readonly<any>> {
       const newComment = {
         text: commentText,
         date: Date.now(),
-        user: user
+        user
       };
       commentText = "";
       // @ts-ignore

@@ -1,4 +1,3 @@
-//@ts-check
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { signinUser } from "../actions/authActions";

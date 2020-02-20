@@ -1,4 +1,3 @@
-//@ts-check
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -47,7 +46,7 @@ class InviteFriends extends Component<any, Readonly<any>> {
   };
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    let { friendEmails } = this.state;
+    const { friendEmails } = this.state;
     friendEmails[index].email = e.target.value;
 
     this.setState({

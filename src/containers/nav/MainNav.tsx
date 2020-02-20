@@ -14,9 +14,9 @@ import {
 import { signoutUser } from "../../actions/authActions";
 import "./Nav.scss";
 
-function MainNav({ user, signoutUser }: any) {
+function MainNav({ user, signoutUser: signoutUserFunc }: any) {
   const { firstName, lastName } = user;
-  const signOut = () => signoutUser();
+  const signOut = () => signoutUserFunc();
 
   return (
     <div className="main-nav">

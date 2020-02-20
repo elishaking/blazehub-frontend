@@ -45,7 +45,9 @@ class AuthNav extends Component<any, Readonly<any>> {
 
   signOut = () => this.props.signoutUser(this.props.history);
 
-  openNotifications = () => {};
+  openNotifications = () => {
+    console.log("open");
+  };
 
   render() {
     const { notifications } = this.state;
