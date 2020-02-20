@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { UserSigninData, UserSignupData } from "../models/user";
 
 // ===ACTIONS===
 
@@ -18,7 +19,7 @@ export const setCurrentUser = (userData: any) => ({
 
 // @action-type GET_ERRORS
 // @description sign-up user
-export const signupUser = (userData: any, history: any) => async (
+export const signupUser = (userData: UserSignupData, history: any) => async (
   dispatch: any
 ) => {
   await axios
@@ -31,12 +32,12 @@ export const signupUser = (userData: any, history: any) => async (
 
 // @action-types SET_CURRENT_USER, GET_ERRORS
 // @description sign-in/authenticate user
-export const signinUser = (userData: any) => (dispatch: any) => {
+export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
   axios
     .post("/api/users/signin", userData)
     .then(res => {
       // save token to localStorage to enable global access
-      const token = res.data.data;
+      const token: string = res.data.data;
       localStorage.setItem("jwtToken", token);
 
       // add token to axios Authorization Header
