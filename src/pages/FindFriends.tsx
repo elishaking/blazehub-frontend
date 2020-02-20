@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
 import app from "firebase/app";
 import "firebase/database";
 import axios from "axios";
@@ -8,13 +9,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { getFriends, addFriend } from "../actions/friendActions";
+import { Friends, Friend } from "../models/friend";
 
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import Avatar from "../components/Avatar";
 
-class FindFriends extends Component<any, Readonly<any>> {
+interface FindFriendsProps extends RouteComponentProps {
+  auth: any;
+  friends: Friends;
+  getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
+  addFriend: (
+    userKey: string,
+    friendKey: string,
+    friendData: Friend
+  ) => (dispatch: any) => Promise<void>;
+}
+
+class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
   userKey: string;
 
   constructor(props: any) {
@@ -172,4 +185,6 @@ const mapStateToProps = (state: any) => ({
   friends: state.friends
 });
 
-export default connect(mapStateToProps, { getFriends, addFriend })(FindFriends);
+export default connect<any>(mapStateToProps, { getFriends, addFriend })(
+  FindFriends
+);

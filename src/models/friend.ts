@@ -1,6 +1,6 @@
 export interface Friend {
   name: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export interface Friends {
