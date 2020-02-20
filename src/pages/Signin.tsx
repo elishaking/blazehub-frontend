@@ -5,9 +5,10 @@ import { signinUser } from "../actions/authActions";
 import Spinner from "../components/Spinner";
 import { TextFormInput } from "../components/form/TextFormInput";
 import { UserSigninData } from "../models/user";
+import { AuthState } from "../models/auth";
 
 interface SigninProps extends RouteComponentProps {
-  auth: any;
+  auth: AuthState;
   signinUser: (userData: UserSigninData) => (dispatch: any) => void;
 }
 

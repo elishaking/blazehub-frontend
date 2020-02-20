@@ -10,10 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "./Spinner";
 import Avatar from "./Avatar";
+import { AuthUser } from "../models/auth";
 
 interface PostProps extends RouteComponentProps {
   post: any;
-  user: any;
+  user: AuthUser;
   otherUser?: any;
   canBookmark?: boolean;
   bookmarkRef: any;
@@ -36,7 +37,7 @@ class Post extends Component<PostProps, Readonly<any>> {
     transition: "0.3s ease-in-out"
   };
 
-  constructor(props: any) {
+  constructor(props: PostProps) {
     super(props);
 
     this.state = {

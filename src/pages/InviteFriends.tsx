@@ -6,9 +6,10 @@ import axios from "axios";
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
+import { AuthState } from "../models/auth";
 
 interface InviteFriendsProps extends RouteComponentProps {
-  auth: any;
+  auth: AuthState;
 }
 
 class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {

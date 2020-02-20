@@ -19,10 +19,11 @@ import Avatar from "../components/Avatar";
 // @ts-ignore
 import notificationSound from "./notification.ogg";
 import "./Chat.scss";
+import { AuthState } from "../models/auth";
 
 interface ChatProps extends RouteComponentProps {
   profile: any;
-  auth: any;
+  auth: AuthState;
   getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
   getProfilePic: (
     userKey: string,

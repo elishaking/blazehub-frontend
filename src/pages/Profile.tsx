@@ -30,6 +30,7 @@ import Posts from "../containers/Posts";
 import { resizeImage } from "../utils/resizeImage";
 import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
+import { AuthState } from "../models/auth";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 interface Params {
@@ -38,7 +39,7 @@ interface Params {
 
 interface ProfileProps extends RouteComponentProps {
   match: match<Params>;
-  auth: any;
+  auth: AuthState;
   friends: Friends;
   profile: any;
   getFriends: (userKey: string) => (dispatch: any) => Promise<void>;

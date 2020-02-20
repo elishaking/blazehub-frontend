@@ -15,6 +15,7 @@ import { resizeImage } from "../utils/resizeImage";
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
+import { AuthState } from "../models/auth";
 
 interface HomeState {
   postText: string;
@@ -25,7 +26,7 @@ interface HomeState {
 }
 
 interface HomeProps {
-  auth: any;
+  auth: AuthState;
   profile: any;
   getProfilePic: (
     userKey: string,

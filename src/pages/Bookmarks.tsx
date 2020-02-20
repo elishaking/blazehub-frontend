@@ -8,9 +8,10 @@ import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import Post from "../components/Post";
 import { RouteComponentProps } from "react-router-dom";
+import { AuthState } from "../models/auth";
 
 interface BookmarksProps extends RouteComponentProps {
-  auth: any;
+  auth: AuthState;
 }
 
 class Bookmarks extends Component<BookmarksProps, Readonly<any>> {

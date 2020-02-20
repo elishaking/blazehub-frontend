@@ -6,9 +6,10 @@ import { signinUser, signupUser } from "../actions/authActions";
 import Spinner from "../components/Spinner";
 import { TextFormInput } from "../components/form/TextFormInput";
 import { UserSigninData, UserSignupData } from "../models/user";
+import { AuthState } from "../models/auth";
 
 interface LandingProps extends RouteComponentProps {
-  auth: any;
+  auth: AuthState;
   signinUser: (userData: UserSigninData) => (dispatch: any) => void;
   signupUser: (
     userData: UserSignupData,
