@@ -7,8 +7,13 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import Post from "../components/Post";
+import { RouteComponentProps } from "react-router-dom";
 
-class Bookmarks extends Component<any, Readonly<any>> {
+interface BookmarksProps extends RouteComponentProps {
+  auth: any;
+}
+
+class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
   db = app.database();
 
   state = {
