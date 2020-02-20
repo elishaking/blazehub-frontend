@@ -16,12 +16,8 @@ interface ErrorData {
 
 /**
  * Validate input
- * @param {{
- * name: string, bio: string,
- * location: string, website: string,
- * birth: string
- * }} formData
- * */
+ * @param {{name: string, bio: string,location: string, website: string,birth: string}} formData
+ */
 export const validateProfileEditInput = (formData: FormData) => {
   const errors: ErrorData = {};
 
@@ -57,6 +53,6 @@ export const validateProfileEditInput = (formData: FormData) => {
 
   return {
     isValid: Object.keys(errors).length === 0,
-    errors: errors
+    errors
   };
 };

@@ -66,9 +66,9 @@ export const signoutUser = () => (dispatch: any) => {
 export const setAuthToken = (token: string) => {
   if (token) {
     // Apply token to every request
-    axios.defaults.headers.common["Authorization"] = token;
+    axios.defaults.headers.common.Authorization = token;
   } else {
     // Delete Auth Header
-    delete axios.defaults.headers.common["Authorization"];
+    delete axios.defaults.headers.common.Authorization;
   }
 };

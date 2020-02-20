@@ -34,13 +34,13 @@ export const resizeImage = (
 };
 
 export const base64MimeType = (encoded: string) => {
-  var result = null;
+  let result = null;
 
   if (typeof encoded !== "string") {
     return result;
   }
 
-  var mime = encoded.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
+  const mime = encoded.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
 
   if (mime && mime.length) {
     result = mime[1];

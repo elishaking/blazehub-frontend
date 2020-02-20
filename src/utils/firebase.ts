@@ -43,7 +43,7 @@ export const createSmallAvatar = () => {
     const pp = p.val();
 
     Object.keys(pp).forEach(key => {
-      var mime = pp[key].avatar.match(
+      const mime = pp[key].avatar.match(
         /data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
       );
       resizeImage(pp[key].avatar, "image/jpeg", 50).then(sm => {
