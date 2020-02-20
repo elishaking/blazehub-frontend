@@ -17,7 +17,7 @@ interface LandingProps extends RouteComponentProps {
 }
 
 class Landing extends Component<LandingProps, Readonly<any>> {
-  constructor(props: any) {
+  constructor(props: LandingProps) {
     super(props);
     this.state = {
       method: "POST",

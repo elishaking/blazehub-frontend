@@ -41,7 +41,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
   notificationSound: HTMLAudioElement;
   chatRef = app.database().ref("chats");
 
-  constructor(props: any) {
+  constructor(props: ChatProps) {
     super(props);
 
     this.state = {

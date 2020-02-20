@@ -38,7 +38,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
   postsRef = this.db.ref("posts");
   postImagesRef = this.db.ref("post-images");
 
-  constructor(props: any) {
+  constructor(props: HomeProps) {
     super(props);
 
     this.state = {

@@ -30,7 +30,7 @@ interface FindFriendsProps extends RouteComponentProps {
 class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
   userKey: string;
 
-  constructor(props: any) {
+  constructor(props: FindFriendsProps) {
     super(props);
 
     this.state = {
