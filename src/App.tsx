@@ -26,12 +26,12 @@ import Spinner from "./components/Spinner";
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
 
-class App extends Component {
+class App extends Component<{}, Readonly<any>> {
   state = {
     loading: true
   };
 
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
   }
 
