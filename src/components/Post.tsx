@@ -11,9 +11,10 @@ import {
 import Spinner from "./Spinner";
 import Avatar from "./Avatar";
 import { AuthUser } from "../models/auth";
+import { PostData } from "../models/post";
 
 interface PostProps extends RouteComponentProps {
-  post: any;
+  post: PostData;
   user: AuthUser;
   otherUser?: any;
   canBookmark?: boolean;

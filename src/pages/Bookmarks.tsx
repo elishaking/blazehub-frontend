@@ -10,6 +10,8 @@ import Post from "../components/Post";
 import { RouteComponentProps } from "react-router-dom";
 import { AuthState } from "../models/auth";
 
+import { PostData } from "../models/post";
+
 interface BookmarksProps extends RouteComponentProps {
   auth: AuthState;
 }
@@ -18,7 +20,7 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
   db = app.database();
 
   state = {
-    bookmarkedPosts: new Array(),
+    bookmarkedPosts: new Array<PostData>(),
     loading: true
   };
 
