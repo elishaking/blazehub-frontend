@@ -219,7 +219,7 @@ class Profile extends Component<any, Readonly<any>> {
       imgReader.onload = (e: any) => {
         if (imgInput.files[0].size > 100000)
           resizeImage(e.target.result.toString(), imgInput.files[0].type).then(
-            dataUrl => {
+            (dataUrl: any) => {
               if (this.updateCover) {
                 this.updatePic(dataUrl);
               } else {
@@ -227,7 +227,7 @@ class Profile extends Component<any, Readonly<any>> {
                   e.target.result.toString(),
                   imgInput.files[0].type,
                   50
-                ).then(dataUrlSmall => {
+                ).then((dataUrlSmall: any) => {
                   this.updatePic(dataUrl, dataUrlSmall);
                 });
               }

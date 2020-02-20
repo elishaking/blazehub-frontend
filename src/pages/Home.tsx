@@ -101,7 +101,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
           resizeImage(
             e.target.result.toString(),
             postImgInput.files[0].type
-          ).then(dataUrl => {
+          ).then((dataUrl: any) => {
             this.setState({ postImgDataUrl: dataUrl });
           });
         else this.setState({ postImgDataUrl: e.target.result });
