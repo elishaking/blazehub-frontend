@@ -259,8 +259,8 @@ class Profile extends Component<any, Readonly<any>> {
     }
   };
 
-  /** @param {React.ChangeEvent<HTMLInputElement>} e */
-  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /** @param {any} e */
+  onChange = (e: any) => {
     this.setState({
       [e.target.name]: e.target.value
     });

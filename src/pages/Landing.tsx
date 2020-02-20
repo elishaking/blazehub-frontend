@@ -80,7 +80,7 @@ class Landing extends Component<any, Readonly<any>> {
     }
   };
 
-  onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  onChange = (event: any) => {
     this.setState({
       [event.target.name]: event.target.value
     });
