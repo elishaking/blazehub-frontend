@@ -1,12 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUserAlt, faComments, faBookmark, faSignOutAlt, faUsers, faUserFriends } from '@fortawesome/free-solid-svg-icons';
-import { signoutUser } from '../../actions/authActions';
-import './Nav.scss';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faUserAlt,
+  faComments,
+  faBookmark,
+  faSignOutAlt,
+  faUsers,
+  faUserFriends
+} from "@fortawesome/free-solid-svg-icons";
+import { signoutUser } from "../../actions/authActions";
+import "./Nav.scss";
 
-function MainNav({ user, signoutUser }) {
+function MainNav({ user, signoutUser }: any) {
   const { firstName, lastName } = user;
   const signOut = () => signoutUser();
 
@@ -44,7 +52,8 @@ function MainNav({ user, signoutUser }) {
           </li>
           <li>
             <Link to="/invite">
-              <FontAwesomeIcon icon={faUserFriends} /> <span>Invite Friends</span>
+              <FontAwesomeIcon icon={faUserFriends} />{" "}
+              <span>Invite Friends</span>
             </Link>
           </li>
           <li className="hide-wide">
@@ -55,7 +64,7 @@ function MainNav({ user, signoutUser }) {
         </ul>
       </nav>
     </div>
-  )
+  );
 }
 
 export default connect(null, { signoutUser })(MainNav);
