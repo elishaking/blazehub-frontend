@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 
@@ -6,7 +7,11 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 
-class InviteFriends extends Component<any, Readonly<any>> {
+interface InviteFriendsProps extends RouteComponentProps {
+  auth: any;
+}
+
+class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
   constructor(props: any) {
     super(props);
 
