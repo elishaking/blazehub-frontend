@@ -2,15 +2,16 @@ import axios from "axios";
 import app from "firebase/app";
 import "firebase/database";
 import { SET_FRIENDS, ADD_FRIEND } from "./types";
+import { Friends, Friend } from "../models/friend";
 
 // ===ACTIONS===
 
-export const setFriends = (friendsData: any[]) => ({
+export const setFriends = (friendsData: Friends) => ({
   type: SET_FRIENDS,
   payload: friendsData
 });
 
-export const setFriend = (friendData: any) => ({
+export const setFriend = (friendData: Friend) => ({
   type: ADD_FRIEND,
   payload: friendData
 });
@@ -56,7 +57,7 @@ export const getFriends = (userKey: string) => async (dispatch: any) => {
 export const addFriend = (
   userKey: string,
   friendKey: string,
-  friendData: any
+  friendData: Friend
 ) => async (dispatch: any) => {
   await axios
     .post("/api/friends/add", {
