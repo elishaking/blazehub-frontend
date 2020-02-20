@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
@@ -20,12 +20,23 @@ import Avatar from "../components/Avatar";
 import notificationSound from "./notification.ogg";
 import "./Chat.scss";
 
+interface ChatProps extends RouteComponentProps {
+  profile: any;
+  auth: any;
+  getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
+  getProfilePic: (
+    userKey: string,
+    key: string
+  ) => (dispatch: any) => Promise<void>;
+  listenForNewChats: (chatKeys: string[]) => (dispatch: any) => void;
+}
+
 const SLIDE_IN = {
   display: "block",
   transform: "translateX(0)"
 };
 
-class Chat extends Component<any, Readonly<any>> {
+class Chat extends Component<ChatProps, Readonly<any>> {
   userKey: string;
   notificationSound: HTMLAudioElement;
   chatRef = app.database().ref("chats");
@@ -262,11 +273,6 @@ class Chat extends Component<any, Readonly<any>> {
     }
   };
 
-  signOut = () => {
-    this.props.signoutUser();
-    this.props.history.push("/");
-  };
-
   toggleFriends = () => {
     this.setState({
       slideInStyle: this.state.slideInStyle === SLIDE_IN ? {} : SLIDE_IN
@@ -474,7 +480,7 @@ const mapStateToProps = (state: any) => ({
   chats: state.chats
 });
 
-export default connect(mapStateToProps, {
+export default connect<any>(mapStateToProps, {
   getProfilePic,
   getFriends,
   listenForNewChats
