@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserCircle,
@@ -11,7 +11,19 @@ import {
 import Spinner from "./Spinner";
 import Avatar from "./Avatar";
 
-class Post extends Component<any, Readonly<any>> {
+interface PostProps extends RouteComponentProps {
+  post: any;
+  user: any;
+  otherUser?: any;
+  canBookmark?: boolean;
+  bookmarkRef: any;
+  postRef: any;
+  profilePhotosRef: any;
+  postImageRef: any;
+  notificationsRef: any;
+}
+
+class Post extends Component<PostProps, Readonly<any>> {
   beforeMountStyle = {
     opacity: 0,
     transform: "scale(0.7)",
@@ -515,19 +527,5 @@ class Post extends Component<any, Readonly<any>> {
     );
   }
 }
-
-// interface PostProps {
-//   post: any;
-//   user: any;
-//   otherUser: any;
-//   canBookmark: boolean;
-//   bookmarkRef: any;
-//   postRef: any;
-//   profilePhotosRef: any;
-//   postImageRef: any;
-//   notificationsRef: any;
-// }
-
-// interface PostState {}
 
 export default withRouter(Post);

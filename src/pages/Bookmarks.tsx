@@ -100,6 +100,7 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
                     .ref("bookmarks")
                     .child(bookmarkedPost.key)}
                   profilePhotosRef={this.db.ref("profile-photos")}
+                  notificationsRef={this.db.ref("notifications")}
                   post={bookmarkedPost}
                   user={user}
                 />
