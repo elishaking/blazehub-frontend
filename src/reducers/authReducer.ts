@@ -1,9 +1,10 @@
 import { SET_CURRENT_USER, GET_ERRORS } from "../actions/types";
+import { AuthState, AuthUser, AuthErrors } from "../models/auth";
 
-export const initialState = {
+export const initialState: AuthState = {
   isAuthenticated: false,
-  user: {},
-  errors: {}
+  user: {} as AuthUser,
+  errors: {} as AuthErrors
 };
 
 // ===REDUCERS===
