@@ -69,7 +69,10 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
 
     return (
       <div className="container">
-        <AuthNav showSearch={true} history={this.props.history} />
+        <AuthNav
+          showSearch={true}
+          notificationsRef={this.db.ref("notifications")}
+        />
 
         <div className="main">
           <MainNav user={user} />

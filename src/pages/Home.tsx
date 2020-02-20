@@ -160,7 +160,6 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
       <div className="container" data-test="homeComponent">
         <AuthNav
           showSearch={true}
-          hello="hello"
           avatar={avatar}
           notificationsRef={this.db.ref("notifications")}
         />

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,7 +10,17 @@ import {
 import { signoutUser } from "../../actions/authActions";
 import Avatar from "../../components/Avatar";
 
-class AuthNav extends Component<any, Readonly<any>> {
+interface AuthNavProps extends RouteComponentProps {
+  showSearch: boolean;
+  avatar?: string;
+  notificationsRef: any;
+  user: any;
+  signoutUser: () => (dispatch: any) => void;
+}
+
+// type AuthNavProps = StateProps & DispatchProps & ComponentProps;
+
+class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   state = {
     notifications: [],
     loading: true
@@ -43,7 +54,7 @@ class AuthNav extends Component<any, Readonly<any>> {
       });
   };
 
-  signOut = () => this.props.signoutUser(this.props.history);
+  signOut = () => this.props.signoutUser();
 
   openNotifications = () => {
     console.log("open");
@@ -139,7 +150,9 @@ const mapStateToProps = (state: any) => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { signoutUser })(AuthNav);
+export default connect<any, any, any>(mapStateToProps, { signoutUser })(
+  AuthNav
+);
 
 // export default function AuthNav({ user, signoutUser, history, hasProfilePic, showSearch = false }) {
 //   const signOut = () => {
