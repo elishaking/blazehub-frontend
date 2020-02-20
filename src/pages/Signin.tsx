@@ -1,10 +1,17 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { signinUser } from "../actions/authActions";
 import Spinner from "../components/Spinner";
 import { TextFormInput } from "../components/form/TextFormInput";
+import { UserSigninData } from "../models/user";
 
-class Signin extends Component<any, Readonly<any>> {
+interface SigninProps extends RouteComponentProps {
+  auth: any;
+  signinUser: (userData: UserSigninData) => (dispatch: any) => void;
+}
+
+class Signin extends Component<SigninProps, Readonly<any>> {
   constructor(props: any) {
     super(props);
 
