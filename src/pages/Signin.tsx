@@ -12,7 +12,7 @@ interface SigninProps extends RouteComponentProps {
 }
 
 class Signin extends Component<SigninProps, Readonly<any>> {
-  constructor(props: any) {
+  constructor(props: SigninProps) {
     super(props);
 
     this.state = {
@@ -121,4 +121,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { signinUser })(Signin);
+export default connect<any>(mapStateToProps, { signinUser })(Signin);

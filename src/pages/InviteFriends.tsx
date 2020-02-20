@@ -12,7 +12,7 @@ interface InviteFriendsProps extends RouteComponentProps {
 }
 
 class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
-  constructor(props: any) {
+  constructor(props: InviteFriendsProps) {
     super(props);
 
     this.state = {

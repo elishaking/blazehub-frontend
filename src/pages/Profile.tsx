@@ -61,7 +61,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
   db = app.database();
   profileRef: app.database.Reference;
 
-  constructor(props: any) {
+  constructor(props: ProfileProps) {
     super(props);
 
     this.state = {
