@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import Avatar from "../../components/Avatar";
+import "./AuthNav.scss";
 
 interface AuthNavProps extends RouteComponentProps {
   showSearch: boolean;

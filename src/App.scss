@@ -50,36 +50,6 @@ body {
   padding: 2em 10vw;
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 3em;
-
-  h1 {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-
-    img {
-      margin-right: 1em;
-    }
-
-    small {
-      font-size: 50%;
-      font-weight: 300;
-      padding: 0.1em 0.5em;
-      background-color: #7c62a9;
-      color: white;
-      border-radius: 100px;
-      margin-left: 1em;
-    }
-  }
-
-  .text-input {
-    margin-right: 1em;
-  }
-}
-
 .landing-bg nav h1 {
   color: white;
 }
