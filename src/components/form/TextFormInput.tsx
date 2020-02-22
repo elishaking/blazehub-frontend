@@ -1,4 +1,5 @@
 import React from "react";
+import "./TextFormInput.scss";
 
 interface InputProps {
   name: string;
