@@ -225,7 +225,7 @@ input[type="text"]:focus {
   color: #b1a3e1;
 }
 
-input[type="text"]:focus+.icon {
+input[type="text"]:focus + .icon {
   color: #7c62a9;
 }
 
@@ -620,7 +620,7 @@ button:focus {
     img {
       cursor: pointer;
       width: 100%;
-      border: 1px solid #E0E0E0;
+      border: 1px solid #e0e0e0;
       border-radius: 17px;
     }
   }

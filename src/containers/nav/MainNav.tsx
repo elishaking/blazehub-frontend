@@ -12,7 +12,7 @@ import {
   faUserFriends
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
-import "./Nav.scss";
+import "./MainNav.scss";
 
 function MainNav({ user, signoutUser: signoutUserFunc }: any) {
   const { firstName, lastName } = user;
