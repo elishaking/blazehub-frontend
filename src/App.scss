@@ -163,30 +163,6 @@ select {
   max-width: 600px;
 }
 
-.create-post {
-  border: 1px solid #f2eff6;
-  border-radius: 5px;
-}
-
-.create-post h3 {
-  padding: 0.3em 0.8em;
-  background-color: #f2eff6;
-}
-
-.create-post textarea {
-  outline: none;
-  resize: none;
-  border: none;
-  width: 100%;
-  margin-bottom: 0.5em;
-}
-
-.create-post-actions {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.3em 2em 1em 2.5em;
-}
-
 .friend-container {
   padding: 1em 2em 0 2em;
 

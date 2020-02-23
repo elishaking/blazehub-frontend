@@ -16,6 +16,7 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
+import "./Home.scss";
 
 interface HomeState {
   postText: string;
