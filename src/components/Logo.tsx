@@ -2,9 +2,10 @@ import React from "react";
 
 interface LogoProps {
   color?: string;
+  style?: React.CSSProperties;
 }
 
-export default function Logo({ color = "#7c62a9" }: LogoProps) {
+export default function Logo({ color = "#7c62a9", style }: LogoProps) {
   //   if (!color) color = "#7c62a9";
 
   return (
@@ -16,6 +17,7 @@ export default function Logo({ color = "#7c62a9" }: LogoProps) {
       height="1em"
       width="1.36em"
       className="svg-inline--fa fa-w-16"
+      style={style}
     >
       <path
         id="Path_1"

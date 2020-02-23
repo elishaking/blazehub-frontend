@@ -6,7 +6,7 @@ import { signinUser, signupUser } from "../actions/authActions";
 import Spinner from "../components/Spinner";
 import { TextFormInput } from "../components/form/TextFormInput";
 import { UserSigninData, UserSignupData } from "../models/user";
-import { AuthState } from "../models/auth";
+import { AuthState, AuthErrors } from "../models/auth";
 import Logo from "../components/Logo";
 
 interface LandingProps extends RouteComponentProps {
@@ -18,7 +18,31 @@ interface LandingProps extends RouteComponentProps {
   ) => (dispatch: any) => Promise<void>;
 }
 
-class Landing extends Component<LandingProps, Readonly<any>> {
+type LandingErrors = AuthErrors & {
+  signinEmail: string;
+  signinPassword: string;
+};
+
+interface LandingState {
+  method: string;
+  navLogoColor: string;
+
+  signinEmail: string;
+  signinPassword: string;
+
+  signupEmail: string;
+  signupPassword: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+
+  loadingSignin: boolean;
+  loadingSignup: boolean;
+
+  errors: LandingErrors;
+}
+
+class Landing extends Component<LandingProps, Readonly<LandingState>> {
   constructor(props: LandingProps) {
     super(props);
     this.state = {
@@ -37,7 +61,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
       loadingSignin: false,
       loadingSignup: false,
 
-      errors: {}
+      errors: {} as LandingErrors
     };
   }
 
@@ -96,7 +120,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
   onChange = (event: any) => {
     this.setState({
       [event.target.name]: event.target.value
-    });
+    } as any);
   };
 
   onSubmitSignin = (event: React.FormEvent<HTMLFormElement>) => {
@@ -156,7 +180,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
                       name="signinEmail"
                       placeholder="email"
                       onChange={this.onChange}
-                      error={errors.signinEmail}
+                      error={errors.signinEmail as string}
                     />
 
                     <TextFormInput
@@ -222,7 +246,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
           <div className="right">
             <div className="inner">
               <div className="welcome">
-                <Logo />
+                <Logo style={{ fontSize: "1.7em" }} />
                 <h1>Join BlazeHub Today</h1>
               </div>
 
