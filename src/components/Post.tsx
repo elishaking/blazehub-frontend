@@ -12,6 +12,7 @@ import Spinner from "./Spinner";
 import Avatar from "./Avatar";
 import { AuthUser } from "../models/auth";
 import { PostData } from "../models/post";
+import "./Post.scss";
 
 interface PostProps extends RouteComponentProps {
   post: PostData;
