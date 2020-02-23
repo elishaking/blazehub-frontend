@@ -1,5 +1,7 @@
 import React from "react";
 import "./TextFormInput.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface InputProps {
   name: string;
@@ -11,6 +13,12 @@ interface InputProps {
 interface TextFormInputProps extends InputProps {
   type: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface TextIconFormInputProps extends InputProps {
+  type: string;
+  icon: IconDefinition;
+  onChange: () => void;
 }
 
 interface TextAreaFormInputProps extends InputProps {
@@ -36,6 +44,34 @@ export function TextFormInput({
         onChange={onChange}
       />
       {error && <small>{error}</small>}
+    </div>
+  );
+}
+
+export function TextIconFormInput({
+  type,
+  name,
+  placeholder,
+  onChange,
+  error,
+  value,
+  icon
+}: TextIconFormInputProps) {
+  return (
+    <div
+      className="form-input icon-input"
+      data-test="textIconFormInputComponent"
+    >
+      <input
+        type={type}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        className={`fill-parent ${error ? "error" : ""}`}
+        onChange={onChange}
+      />
+      {error && <small>{error}</small>}
+      <FontAwesomeIcon icon={icon} className="icon" />
     </div>
   );
 }

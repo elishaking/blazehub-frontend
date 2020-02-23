@@ -10,6 +10,7 @@ import {
 import { signoutUser } from "../../actions/authActions";
 import Avatar from "../../components/Avatar";
 import "./AuthNav.scss";
+import { TextIconFormInput } from "../../components/form/TextFormInput";
 
 interface AuthNavProps extends RouteComponentProps {
   showSearch: boolean;
@@ -101,10 +102,14 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
 
           {showSearch && (
             <div className="search">
-              <div className="icon-input">
-                <input type="text" placeholder="Search" />
-                <FontAwesomeIcon icon={faSearch} className="icon" />
-              </div>
+              <TextIconFormInput
+                type="email"
+                name="signinEmail"
+                placeholder="email"
+                onChange={() => {}}
+                error={""}
+                icon={faSearch}
+              />
             </div>
           )}
 
