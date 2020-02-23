@@ -7,6 +7,7 @@ import Spinner from "../components/Spinner";
 import { TextFormInput } from "../components/form/TextFormInput";
 import { UserSigninData, UserSignupData } from "../models/user";
 import { AuthState } from "../models/auth";
+import Logo from "../components/Logo";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
@@ -22,7 +23,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
     super(props);
     this.state = {
       method: "POST",
-      navLogo: "logo.svg",
+      navLogoColor: "#fff",
 
       signinEmail: "",
       signinPassword: "",
@@ -84,10 +85,10 @@ class Landing extends Component<LandingProps, Readonly<any>> {
       });
     }
 
-    const newLogo = window.innerWidth > 1000 ? "logo.svg" : "logo-pri.svg";
-    if (this.state.navLogo !== newLogo) {
+    const newLogoColor = window.innerWidth > 1000 ? "#fff" : "";
+    if (this.state.navLogoColor !== newLogoColor) {
       this.setState({
-        navLogo: newLogo
+        navLogoColor: newLogoColor
       });
     }
   };
@@ -130,7 +131,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
   };
 
   render() {
-    const { errors } = this.state;
+    const { errors, navLogoColor } = this.state;
     // console.log(errors);
 
     return (
@@ -138,11 +139,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
         <header>
           <nav>
             <h1>
-              <img
-                src={`./assets/img/${this.state.navLogo}`}
-                alt="Logo"
-                srcSet=""
-              />{" "}
+              <Logo color={navLogoColor} />
               <span>BlazeHub</span>
             </h1>
 
@@ -225,7 +222,7 @@ class Landing extends Component<LandingProps, Readonly<any>> {
           <div className="right">
             <div className="inner">
               <div className="welcome">
-                <img src="./assets/img/logo-pri.svg" alt="Logo" srcSet="" />
+                <Logo />
                 <h1>Join BlazeHub Today</h1>
               </div>
 
