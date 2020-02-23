@@ -214,30 +214,6 @@ button:focus {
   border: none;
 }
 
-.icon-btns {
-  button {
-    background: none;
-    border: none;
-
-    svg {
-      font-size: x-large;
-      color: #7c62a9;
-    }
-  }
-
-  #select-image {
-    display: inline-block;
-    position: relative;
-
-    input {
-      width: 2em;
-      position: absolute;
-      left: 0;
-      visibility: hidden;
-    }
-  }
-}
-
 .create-post-actions .icon-btns button {
   margin-right: 1.7em;
 }
