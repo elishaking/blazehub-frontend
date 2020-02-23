@@ -7,7 +7,6 @@ interface LogoProps {
 
 export default function Logo({ color = "#7c62a9", style }: LogoProps) {
   //   if (!color) color = "#7c62a9";
-
   return (
     <svg
       id="logo"
@@ -17,7 +16,10 @@ export default function Logo({ color = "#7c62a9", style }: LogoProps) {
       height="1em"
       width="1.36em"
       className="svg-inline--fa fa-w-16"
-      style={style}
+      style={{
+        marginRight: "0.5em",
+        ...style
+      }}
     >
       <path
         id="Path_1"
