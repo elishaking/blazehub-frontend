@@ -8,6 +8,7 @@ import { TextFormInput } from "../components/form/TextFormInput";
 import { UserSigninData, UserSignupData } from "../models/user";
 import { AuthState, AuthErrors } from "../models/auth";
 import Logo from "../components/Logo";
+import "./Landing.scss";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
