@@ -14,3 +14,24 @@ input[type="text"]:focus {
   box-shadow: 0 0 8px 0 #b1a3e1;
   outline: none;
 }
+
+.icon-input {
+  position: relative;
+
+  input,
+  textarea {
+    display: block;
+    padding-left: 3em;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0.8em;
+    left: 0.8em;
+    color: #b1a3e1;
+  }
+}
+
+input[type="text"]:focus + .icon {
+  color: #7c62a9;
+}
