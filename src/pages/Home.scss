@@ -1,0 +1,47 @@
+.create-post {
+  border: 1px solid #f2eff6;
+  border-radius: 5px;
+
+  h3 {
+    padding: 0.3em 0.8em;
+    background-color: #f2eff6;
+  }
+
+  textarea {
+    outline: none;
+    resize: none;
+    border: none;
+    width: 100%;
+    margin-bottom: 0.5em;
+  }
+}
+
+.create-post-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3em 2em 1em 2.5em;
+}
+
+.icon-btns {
+  button {
+    background: none;
+    border: none;
+
+    svg {
+      font-size: x-large;
+      color: #7c62a9;
+    }
+  }
+
+  #select-image {
+    display: inline-block;
+    position: relative;
+
+    input {
+      width: 2em;
+      position: absolute;
+      left: 0;
+      visibility: hidden;
+    }
+  }
+}

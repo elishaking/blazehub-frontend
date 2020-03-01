@@ -4,6 +4,8 @@ A platform for connecting people: A place to chat, follow interesting conversion
 
 https://blazehub.skyblazar.com
 
+Find the backend repo here: https://github.com/elishaking/blazehub
+
 ### _Under development_
 
 ## Setup

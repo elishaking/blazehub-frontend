@@ -16,6 +16,8 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
+import "./Home.scss";
+import IconButton from "../components/Button";
 
 interface HomeState {
   postText: string;
@@ -239,14 +241,11 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                         onChange={this.showImage}
                         accept="image/*"
                       />
-                      <button onClick={this.selectImage}>
-                        <FontAwesomeIcon icon={faImage} />
-                      </button>
+
+                      <IconButton icon={faImage} onClick={this.selectImage} />
                     </div>
 
-                    <button>
-                      <FontAwesomeIcon icon={faSmile} />
-                    </button>
+                    <IconButton icon={faSmile} onClick={() => {}} />
                   </div>
                   <button
                     className="btn"
