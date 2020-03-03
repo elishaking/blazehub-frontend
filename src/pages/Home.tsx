@@ -198,7 +198,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                 <div className="post-img">
                   {postImgDataUrl && (
                     <div className="img-container">
-                      <img src={postImgDataUrl} alt="Post Image" />
+                      <img src={postImgDataUrl} alt="Post" />
                       <div className="close" onClick={this.removeImage}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
