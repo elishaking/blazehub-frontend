@@ -49,7 +49,9 @@ export const getFriends = (userKey: string) => async (dispatch: any) => {
         dispatch(setFriends(friendsWithAvatars));
       });
     })
-    .catch(err => console.error(err));
+    .catch(err => {
+      // console.error(err)
+    });
 };
 
 // @action-type ADD_FRIEND
@@ -66,5 +68,7 @@ export const addFriend = (
       friend: friendData
     })
     .then(res => dispatch(setFriend(res.data.data)))
-    .catch(err => console.error(err));
+    .catch(err => {
+      // console.error(err)
+    });
 };

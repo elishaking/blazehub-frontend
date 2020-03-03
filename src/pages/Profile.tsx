@@ -327,7 +327,10 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
         err => {
           this.setState({ loadingProfile: false });
 
-          if (err) return console.log(err);
+          if (err) {
+            // console.log(err);
+            return;
+          }
 
           this.toggleEditProfile();
         }

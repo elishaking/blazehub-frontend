@@ -144,7 +144,9 @@ class Post extends Component<PostProps, Readonly<any>> {
 
   deletePost = () => {
     this.props.postRef.remove((err: any) => {
-      if (err) console.log(err.message);
+      if (err) {
+        // console.log(err.message);
+      }
     });
   };
 
@@ -157,7 +159,10 @@ class Post extends Component<PostProps, Readonly<any>> {
         .child("likes")
         .child(user.firstName)
         .remove((err: any) => {
-          if (err) return console.log(err);
+          if (err) {
+            // console.log(err);
+            return;
+          }
 
           this.setState({ liked: false });
         });
@@ -167,7 +172,10 @@ class Post extends Component<PostProps, Readonly<any>> {
           [user.firstName]: 1 // todo: change to user_id
         },
         (err: any) => {
-          if (err) return console.log(err);
+          if (err) {
+            return;
+            // console.log(err);
+          }
 
           const newNotification = {
             type: "new_like",
@@ -179,7 +187,10 @@ class Post extends Component<PostProps, Readonly<any>> {
           this.props.notificationsRef
             .child(post.user.id)
             .push(newNotification, (notifErr: any) => {
-              if (notifErr) return console.log(notifErr);
+              if (notifErr) {
+                // console.log(notifErr);
+                return;
+              }
             });
 
           this.setState({ liked: true });
@@ -208,8 +219,12 @@ class Post extends Component<PostProps, Readonly<any>> {
       // @ts-ignore
       event.target.value = "";
       this.props.postRef.child("comments").push(newComment, (err: any) => {
-        if (err) return console.error(err);
-        else console.log("comment added");
+        if (err) {
+          // console.error(err);
+          return;
+        } else {
+          // console.log("comment added");
+        }
       });
     }
   };
@@ -219,13 +234,15 @@ class Post extends Component<PostProps, Readonly<any>> {
     bookmarkRef.once("value", (bookmarkSnapShot: any) => {
       if (bookmarkSnapShot.exists()) {
         bookmarkRef.set(!bookmarkSnapShot.val(), (err: any) => {
-          if (err) console.log(err);
-          else this.setState({ isBookmarked: !this.state.isBookmarked });
+          if (err) {
+            // console.log(err);
+          } else this.setState({ isBookmarked: !this.state.isBookmarked });
         });
       } else {
         bookmarkRef.set(true, (err: any) => {
-          if (err) console.log(err);
-          else this.setState({ isBookmarked: !this.state.isBookmarked });
+          if (err) {
+            // console.log(err);
+          } else this.setState({ isBookmarked: !this.state.isBookmarked });
         });
       }
     });

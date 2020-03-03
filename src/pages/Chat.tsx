@@ -267,7 +267,9 @@ class Chat extends Component<ChatProps, Readonly<any>> {
       // event.target.value = "";
 
       this.chatRef.child(currentChatKey).push(newMessage, err => {
-        if (err) console.error(err);
+        if (err) {
+          // console.error(err);
+        }
         // this.notificationSound.play();
         // else console.log("chat added");
       });
