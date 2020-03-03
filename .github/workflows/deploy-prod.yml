@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - develop
+      - master
 
 env:
   SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
