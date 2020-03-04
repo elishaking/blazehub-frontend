@@ -16,7 +16,8 @@ import axios from "axios";
 //   messagingSenderId: firebaseKeys.FIREBASE_MESSEGING_SENDER_ID,
 // });
 
-axios.defaults.baseURL = "https://blazehub-bk.herokuapp.com";
+const BASE_URL = "https://blazehub-bk.herokuapp.com";
+axios.defaults.baseURL = BASE_URL;
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
