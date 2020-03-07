@@ -60,7 +60,11 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   signOut = () => this.props.signoutUser();
 
   openNotifications = () => {
-    console.log("open");
+    // console.log("open");
+  };
+
+  search = () => {
+    // console.log("performing search");
   };
 
   render() {
@@ -83,7 +87,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
                 type="email"
                 name="signinEmail"
                 placeholder="email"
-                onChange={() => {}}
+                onChange={this.search}
                 error={""}
                 icon={faSearch}
               />

@@ -83,6 +83,13 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
   };
 
   /**
+   * Opens Emoticon explorer
+   */
+  selectEmoticon = () => {
+    // console.log("Opening emoticon explorer")
+  };
+
+  /**
    * Remove image attached to new post
    */
   removeImage = () => {
@@ -136,7 +143,9 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
         if (newPost.imageUrl)
           this.postImagesRef.child(post.key).set(postImgDataUrl);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        // console.log(err)
+      });
 
     this.setState({
       postText: "",
@@ -189,7 +198,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                 <div className="post-img">
                   {postImgDataUrl && (
                     <div className="img-container">
-                      <img src={postImgDataUrl} alt="Post Image" />
+                      <img src={postImgDataUrl} alt="Post" />
                       <div className="close" onClick={this.removeImage}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +254,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                       <IconButton icon={faImage} onClick={this.selectImage} />
                     </div>
 
-                    <IconButton icon={faSmile} onClick={() => {}} />
+                    <IconButton icon={faSmile} onClick={this.selectEmoticon} />
                   </div>
                   <button
                     className="btn"

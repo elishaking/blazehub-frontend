@@ -327,7 +327,10 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
         err => {
           this.setState({ loadingProfile: false });
 
-          if (err) return console.log(err);
+          if (err) {
+            // console.log(err);
+            return;
+          }
 
           this.toggleEditProfile();
         }
@@ -383,7 +386,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                 />
                 {coverPhoto ? (
                   <div className="cover-img main">
-                    <img src={coverPhoto} alt="Cover Photo" />
+                    <img src={coverPhoto} alt="Cover" />
                   </div>
                 ) : (
                   <div
@@ -409,7 +412,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                 >
                   {avatar ? (
                     <div className="avatar-img main">
-                      <img src={avatar} alt="Profile Picture" />
+                      <img src={avatar} alt="Profile Avatar" />
                     </div>
                   ) : (
                     <div

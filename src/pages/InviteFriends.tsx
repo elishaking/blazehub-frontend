@@ -43,7 +43,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
       })
       .catch(err => {
         this.setState({ loading: false });
-        console.error(err);
+        // console.error(err);
       });
   };
 

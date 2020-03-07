@@ -54,10 +54,14 @@ export const updateProfilePic = (
           .child("avatar-small")
           .set(dataUrlSmall)
           .then(() => dispatch(setProfilePic(key, dataUrl)))
-          .catch(err => console.log(err));
+          .catch(err => {
+            // console.log(err)
+          });
       } else {
         dispatch(setProfilePic(key, dataUrl));
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // console.log(err)
+    });
 };
