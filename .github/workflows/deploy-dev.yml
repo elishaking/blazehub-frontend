@@ -28,4 +28,4 @@ jobs:
         run: yarn build
 
       - name: "Deploy to Surge"
-        run: surge --project ./build --domain blazehub-dev.surge.sh
+        run: yarn deploy:dev

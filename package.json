@@ -32,7 +32,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint -c tslint.json 'src/**/*.ts*'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts*'",
+    "deploy:dev": "surge --project ./build --domain blazehub-dev.surge.sh",
+    "deploy:prod": "surge --project ./build --domain blazehub-prod.surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
