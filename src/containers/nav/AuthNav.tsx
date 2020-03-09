@@ -57,7 +57,10 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
       });
   };
 
-  signOut = () => this.props.signoutUser();
+  signOut = () => {
+    // this.props.signoutUser()
+    throw new Error("Test Sentry");
+  };
 
   openNotifications = () => {
     // console.log("open");
