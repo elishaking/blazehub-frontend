@@ -6,6 +6,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.6",
+    "@sentry/browser": "^5.13.2",
     "@types/jest": "^25.1.2",
     "@types/jwt-decode": "^2.2.1",
     "@types/node": "^13.7.2",
@@ -56,7 +57,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "moxios": "^0.4.0",
-    "tslint": "6.0.0",
-    "surge": "0.21.3"
+    "surge": "0.21.3",
+    "tslint": "6.0.0"
   }
 }

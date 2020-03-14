@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import * as Sentry from "@sentry/browser";
 // import app from 'firebase/app';
 // import { firebaseKeys } from './keys.env';
 
@@ -15,7 +16,11 @@ import * as serviceWorker from "./serviceWorker";
 //   messagingSenderId: firebaseKeys.FIREBASE_MESSEGING_SENDER_ID,
 // });
 
-ReactDOM.render((<App />), document.getElementById("root"));
+Sentry.init({
+  dsn: "https://8f9df8cc348a417199281b5eb31e341c@sentry.io/4173378"
+});
+
+ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
