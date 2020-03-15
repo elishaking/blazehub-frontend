@@ -1,6 +1,7 @@
 import app from "firebase/app";
 import "firebase/database";
 import { SET_PROFILE_PIC } from "./types";
+import logError from "../utils/logError";
 
 /**
  * @param {string} key
@@ -26,7 +27,8 @@ export const getProfilePic = (userKey: string, key: string) => async (
     .once("value")
     .then(picSnapShot => {
       dispatch(setProfilePic(key, picSnapShot.val()));
-    });
+    })
+    .catch(err => logError(err));
 };
 
 /**
@@ -63,5 +65,6 @@ export const updateProfilePic = (
     })
     .catch(err => {
       // console.log(err)
+      logError(err);
     });
 };
