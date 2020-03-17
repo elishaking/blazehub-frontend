@@ -1,9 +1,9 @@
 import { captureException } from "@sentry/browser";
 
-export default function logErrorFunction() {
+export default function logErrorFunction(err: any) {
   if (process.env.NODE_ENV === "development") {
-    return console.error;
+    return console.error(err);
   } else if (process.env.NODE_ENV === "production") {
-    return captureException;
+    return captureException(err);
   }
 }
