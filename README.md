@@ -16,6 +16,13 @@ Find the backend repo here: https://github.com/elishaking/blazehub
 yarn install
 ```
 
+- Create and `env.local` file in the project root
+- Add the following environment variables to `env.local`
+
+```env
+NODE_ENV=development
+```
+
 - Finally, run this command in the project root to launch the project:
 
 ```
