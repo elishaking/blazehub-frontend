@@ -18,6 +18,7 @@ import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
 import "./Home.scss";
 import IconButton from "../components/Button";
+import logError from "../utils/logError";
 
 interface HomeState {
   postText: string;
@@ -145,6 +146,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
       })
       .catch(err => {
         // console.log(err)
+        logError(err);
       });
 
     this.setState({

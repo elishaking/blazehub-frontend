@@ -7,6 +7,7 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import { AuthState } from "../models/auth";
+import logError from "../utils/logError";
 
 interface InviteFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -44,6 +45,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
       .catch(err => {
         this.setState({ loading: false });
         // console.error(err);
+        logError(err);
       });
   };
 

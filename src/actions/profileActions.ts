@@ -58,6 +58,7 @@ export const updateProfilePic = (
           .then(() => dispatch(setProfilePic(key, dataUrl)))
           .catch(err => {
             // console.log(err)
+            logError(err);
           });
       } else {
         dispatch(setProfilePic(key, dataUrl));
