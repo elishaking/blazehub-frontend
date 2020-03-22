@@ -6,6 +6,7 @@
 -
 - As an **active user**, I want to **save my login status in my current browser/app** so that I can access my account without having to login
 - As an **active user**, I want to **enable two-factor authentication** to secure my account
+- As an **active user**, I want to **update my password** to improve my account's security
 -
 - As an **active user**, I want to **create a post with text and/or images** to reflect my thoughts and/or activities in my life
 - As an **active user**, I want to **edit and update my post** to reflect some changes
@@ -49,3 +50,5 @@
 - As an **active user**, I want to **receive notifications when a friend sends me a message** so that I can respond to them
 - As an **active user**, I want to **see all my friends in my chat list** when I visit the **chat page**
 - As an **active user**, I want to **see all my online friends first in my chat list** when I visit the **chat page** so that I can be aware of their availablilty to chat
+-
+- As an **active user**, I want to **sign out** to prevent future access to my account without authentication
