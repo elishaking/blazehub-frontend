@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import { UserSigninData, UserSignupData } from "../models/user";
+import logError from "../utils/logError";
 
 // ===ACTIONS===
 
@@ -26,6 +27,7 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
     .post("/api/users/signup", userData)
     .then(res => history.push("/signin"))
     .catch(err => {
+      logError(err);
       if (err.response) dispatch(getErrors(err.response.data));
     });
 };
@@ -50,6 +52,7 @@ export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
       // window.location.href = "/home";
     })
     .catch(err => {
+      logError(err);
       if (err.response) dispatch(getErrors(err.response.data));
     });
 };
