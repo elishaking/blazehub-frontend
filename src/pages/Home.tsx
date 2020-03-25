@@ -5,7 +5,7 @@ import { faUserAlt, faImage, faSmile } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 // import axios from 'axios';
-// import { initializeApp, updateUsername } from '../../utils/firebase';
+// import { initializeApp, updateUsername, updatePostLikeKeys } from '../utils/firebase';
 
 // import { signoutUser } from "../actions/authActions";
 import { getProfilePic } from "../actions/profileActions";
@@ -60,6 +60,8 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
     // updateUsername();
 
     // this.setupFirebase();
+
+    // updatePostLikeKeys()
 
     const { profile, auth } = this.props;
     if (!profile.avatar) this.props.getProfilePic(auth.user.id, "avatar");
