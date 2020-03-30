@@ -1,17 +1,18 @@
-import moxios from 'moxios';
-import { firebaseMock } from '../utils/mocks';
-import { getFriends, addFriend } from '../../actions/friendActions';
-import { testStore } from '../utils/testUtils';
-import app from 'firebase/app';
+import moxios from "moxios";
+import { firebaseMock } from "../utils/mocks";
+import { getFriends, addFriend } from "../../actions/friendActions";
+import { testStore } from "../utils/testUtils";
+import app from "firebase/app";
+import { Friend } from "../../models/friend";
 
-describe('friend action creators', () => {
+describe("friend action creators", () => {
   const friends = {
     "friend-1": {
       name: "John"
     },
     "friend-2": {
       name: "James"
-    },
+    }
   };
 
   beforeEach(() => {
@@ -25,8 +26,8 @@ describe('friend action creators', () => {
     moxios.uninstall();
   });
 
-  describe('getFriends action creator', () => {
-    it('should update store with friends', async () => {
+  describe("getFriends action creator", () => {
+    it("should update store with friends", async () => {
       const store = testStore();
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
@@ -38,14 +39,14 @@ describe('friend action creators', () => {
         });
       });
 
-      await store.dispatch(getFriends());
+      await store.dispatch(getFriends(""));
       const newState = store.getState();
       expect(newState.friends).toEqual(friends);
     });
   });
 
-  describe('addFriend action creator', () => {
-    it('should update store with new friend', async () => {
+  describe("addFriend action creator", () => {
+    it("should update store with new friend", async () => {
       const initialState = { friends };
       const store = testStore(initialState);
 
@@ -63,7 +64,7 @@ describe('friend action creators', () => {
         });
       });
 
-      await store.dispatch(addFriend());
+      await store.dispatch(addFriend("", "", {} as Friend));
       const newState = store.getState();
       expect(newState.friends).toEqual({
         ...friends,
@@ -71,5 +72,4 @@ describe('friend action creators', () => {
       });
     });
   });
-
 });
