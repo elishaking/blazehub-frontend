@@ -27,7 +27,7 @@ describe("friend action creators", () => {
   });
 
   describe("getFriends action creator", () => {
-    it("should update store with friends", async () => {
+    it("should update store with friends", async done => {
       const store = testStore();
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
@@ -42,11 +42,13 @@ describe("friend action creators", () => {
       await store.dispatch(getFriends(""));
       const newState = store.getState();
       expect(newState.friends).toEqual(friends);
+
+      done();
     });
   });
 
   describe("addFriend action creator", () => {
-    it("should update store with new friend", async () => {
+    it("should update store with new friend", async done => {
       const initialState = { friends };
       const store = testStore(initialState);
 
@@ -70,6 +72,8 @@ describe("friend action creators", () => {
         ...friends,
         ...newFriend
       });
+
+      done();
     });
   });
 });
