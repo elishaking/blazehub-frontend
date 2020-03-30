@@ -1,19 +1,20 @@
-import moxios from 'moxios';
-import { testStore } from '../utils/testUtils';
-import { signupUser } from '../../actions/authActions';
-import { initialState as initialAuthState } from '../../reducers/authReducer';
+import moxios from "moxios";
+import { testStore } from "../utils/testUtils";
+import { signupUser } from "../../actions/authActions";
+import { initialState as initialAuthState } from "../../reducers/authReducer";
+import { UserSignupData } from "../../models/user";
 
-describe('auth action creators', () => {
+describe("auth action creators", () => {
   beforeEach(() => {
     moxios.install();
   });
 
   afterEach(() => {
-    moxios.uninstall()
+    moxios.uninstall();
   });
 
-  describe('signupUser action creator', () => {
-    it('should not update store for successful sign-up', () => {
+  describe("signupUser action creator", () => {
+    it("should not update store for unsuccessful sign-up", async done => {
       const userData = {
         name: "King"
       };
@@ -27,14 +28,15 @@ describe('auth action creators', () => {
         });
       });
 
-      return store.dispatch(signupUser())
-        .then(() => {
-          const newState = store.getState();
-          expect(newState.auth).toEqual(initialAuthState);
-        });
+      await store.dispatch(signupUser({} as UserSignupData, undefined));
+
+      const newState = store.getState();
+      expect(newState.auth).toEqual(initialAuthState);
+
+      done();
     });
 
-    it('should update store correctly (with errors)', () => {
+    it("should update store correctly (with errors)", async done => {
       const expectedErrorState = {
         name: "name is required"
       };
@@ -48,11 +50,12 @@ describe('auth action creators', () => {
         });
       });
 
-      return store.dispatch(signupUser())
-        .then(() => {
-          const newState = store.getState();
-          expect(newState.auth.errors).toEqual(expectedErrorState);
-        });
+      await store.dispatch(signupUser({} as UserSignupData, undefined));
+
+      const newState = store.getState();
+      expect(newState.auth.errors).toEqual(expectedErrorState);
+
+      done();
     });
   });
 });
