@@ -8,17 +8,17 @@ import { Friend } from "../../models/friend";
 describe("friend action creators", () => {
   const friends = {
     "friend-1": {
-      name: "John"
+      name: "John",
     },
     "friend-2": {
-      name: "James"
-    }
+      name: "James",
+    },
   };
 
   beforeEach(() => {
     moxios.install();
 
-    //@ts-ignore
+    // @ts-ignore
     app.database = firebaseMock();
   });
 
@@ -27,15 +27,15 @@ describe("friend action creators", () => {
   });
 
   describe("getFriends action creator", () => {
-    it("should update store with friends", async done => {
+    it("should update store with friends", async (done) => {
       const store = testStore();
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
         req.respondWith({
           status: 200,
           response: {
-            data: friends
-          }
+            data: friends,
+          },
         });
       });
 
@@ -48,12 +48,12 @@ describe("friend action creators", () => {
   });
 
   describe("addFriend action creator", () => {
-    it("should update store with new friend", async done => {
+    it("should update store with new friend", async (done) => {
       const initialState = { friends };
       const store = testStore(initialState);
 
       const newFriend = {
-        "friend-3": { name: "Alexios" }
+        "friend-3": { name: "Alexios" },
       };
 
       moxios.wait(() => {
@@ -61,8 +61,8 @@ describe("friend action creators", () => {
         req.respondWith({
           status: 201,
           response: {
-            data: newFriend
-          }
+            data: newFriend,
+          },
         });
       });
 
@@ -70,7 +70,7 @@ describe("friend action creators", () => {
       const newState = store.getState();
       expect(newState.friends).toEqual({
         ...friends,
-        ...newFriend
+        ...newFriend,
       });
 
       done();
