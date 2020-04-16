@@ -6,8 +6,10 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.6",
+    "@sentry/browser": "^5.13.2",
     "@types/jest": "^25.1.2",
     "@types/jwt-decode": "^2.2.1",
+    "@types/moxios": "^0.4.9",
     "@types/node": "^13.7.2",
     "@types/react-dom": "^16.9.5",
     "@types/react-redux": "^7.1.7",
@@ -32,7 +34,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint -c tslint.json 'src/**/*.ts*'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts*'",
+    "deploy:dev": "surge --project ./build --domain blazehub-dev.surge.sh",
+    "deploy:prod": "surge --project ./build --domain blazehub-prod.surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,6 +57,8 @@
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "moxios": "^0.4.0"
+    "moxios": "^0.4.0",
+    "surge": "0.21.3",
+    "tslint": "6.0.0"
   }
 }

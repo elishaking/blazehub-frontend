@@ -3,6 +3,7 @@ import app from "firebase/app";
 import "firebase/database";
 import { SET_FRIENDS, ADD_FRIEND } from "./types";
 import { Friends, Friend } from "../models/friend";
+import logError from "../utils/logError";
 
 // ===ACTIONS===
 
@@ -37,19 +38,24 @@ export const getFriends = (userKey: string) => async (dispatch: any) => {
           .once("value")
       );
 
-      await Promise.all(avatarPromises).then(avatarSnapShots => {
-        avatarSnapShots.forEach((avatarSnapShot: any) => {
-          const friendKey = avatarSnapShot.ref.parent.key;
-          friendsWithAvatars[friendKey] = {
-            name: friends[friendKey].name,
-            avatar: avatarSnapShot.exists() ? avatarSnapShot.val() : ""
-          };
-        });
+      await Promise.all(avatarPromises)
+        .then(avatarSnapShots => {
+          avatarSnapShots.forEach((avatarSnapShot: any) => {
+            const friendKey = avatarSnapShot.ref.parent.key;
+            friendsWithAvatars[friendKey] = {
+              name: friends[friendKey].name,
+              avatar: avatarSnapShot.exists() ? avatarSnapShot.val() : ""
+            };
+          });
 
-        dispatch(setFriends(friendsWithAvatars));
-      });
+          dispatch(setFriends(friendsWithAvatars));
+        })
+        .catch(err => logError(err));
     })
-    .catch(err => console.error(err));
+    .catch(err => {
+      // console.error(err)
+      logError(err);
+    });
 };
 
 // @action-type ADD_FRIEND
@@ -66,5 +72,8 @@ export const addFriend = (
       friend: friendData
     })
     .then(res => dispatch(setFriend(res.data.data)))
-    .catch(err => console.error(err));
+    .catch(err => {
+      // console.error(err)
+      logError(err);
+    });
 };

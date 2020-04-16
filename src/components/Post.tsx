@@ -6,12 +6,13 @@ import {
   faComments,
   faThumbsUp,
   faBookmark,
-  faTrash
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "./Spinner";
 import Avatar from "./Avatar";
 import { AuthUser } from "../models/auth";
 import { PostData } from "../models/post";
+import "./Post.scss";
 
 interface PostProps extends RouteComponentProps {
   post: PostData;
@@ -29,13 +30,13 @@ class Post extends Component<PostProps, Readonly<any>> {
   beforeMountStyle = {
     opacity: 0,
     transform: "scale(0.7)",
-    transition: "0.3s ease-in-out"
+    transition: "0.3s ease-in-out",
   };
 
   mountStyle = {
     opacity: 1,
     transform: "scale(1)",
-    transition: "0.3s ease-in-out"
+    transition: "0.3s ease-in-out",
   };
 
   constructor(props: PostProps) {
@@ -43,7 +44,7 @@ class Post extends Component<PostProps, Readonly<any>> {
 
     this.state = {
       post: {
-        ...props.post
+        ...props.post,
       },
       showComments: false,
       liked: props.post.likes && props.post.likes[props.user.firstName],
@@ -55,7 +56,7 @@ class Post extends Component<PostProps, Readonly<any>> {
       postImage: "",
       postTextMaxHeight: "7em",
       postTextOverflows: false,
-      viewImage: false
+      viewImage: false,
     };
   }
 
@@ -90,7 +91,7 @@ class Post extends Component<PostProps, Readonly<any>> {
 
         this.setState({
           postImage: postImageSnapShot.val(),
-          loadingImage: false
+          loadingImage: false,
         });
       });
     }
@@ -107,11 +108,11 @@ class Post extends Component<PostProps, Readonly<any>> {
       const { post } = this.state;
       post.likes = updatedLikesSnapShot.val();
       this.setState({
-        post
+        post,
       });
       setTimeout(() => {
         this.setState({
-          transitionStyle: this.mountStyle
+          transitionStyle: this.mountStyle,
         });
       });
     });
@@ -120,10 +121,10 @@ class Post extends Component<PostProps, Readonly<any>> {
       const { post } = this.state;
       post.comments = {
         [newCommentSnapShot.key]: newCommentSnapShot.val(),
-        ...post.comments
+        ...post.comments,
       };
       this.setState({
-        post
+        post,
       });
     });
 
@@ -136,14 +137,16 @@ class Post extends Component<PostProps, Readonly<any>> {
     if (pText.clientHeight < pText.scrollHeight) {
       this.setState({
         postTextMaxHeight: "7em",
-        postTextOverflows: true
+        postTextOverflows: true,
       });
     }
   };
 
   deletePost = () => {
     this.props.postRef.remove((err: any) => {
-      if (err) console.log(err.message);
+      if (err) {
+        // console.log(err.message);
+      }
     });
   };
 
@@ -156,29 +159,38 @@ class Post extends Component<PostProps, Readonly<any>> {
         .child("likes")
         .child(user.firstName)
         .remove((err: any) => {
-          if (err) return console.log(err);
+          if (err) {
+            // console.log(err);
+            return;
+          }
 
           this.setState({ liked: false });
         });
     } else {
       postRef.child("likes").update(
         {
-          [user.firstName]: 1 // todo: change to user_id
+          [user.firstName]: 1, // todo: change to user_id
         },
         (err: any) => {
-          if (err) return console.log(err);
+          if (err) {
+            return;
+            // console.log(err);
+          }
 
           const newNotification = {
             type: "new_like",
             user,
             post: post.key,
             read: false,
-            date: 1e15 - Date.now()
+            date: 1e15 - Date.now(),
           };
           this.props.notificationsRef
             .child(post.user.id)
             .push(newNotification, (notifErr: any) => {
-              if (notifErr) return console.log(notifErr);
+              if (notifErr) {
+                // console.log(notifErr);
+                return;
+              }
             });
 
           this.setState({ liked: true });
@@ -189,7 +201,7 @@ class Post extends Component<PostProps, Readonly<any>> {
 
   toggleComments = () => {
     this.setState({
-      showComments: !this.state.showComments
+      showComments: !this.state.showComments,
     });
   };
 
@@ -201,14 +213,18 @@ class Post extends Component<PostProps, Readonly<any>> {
       const newComment = {
         text: commentText,
         date: Date.now(),
-        user
+        user,
       };
       commentText = "";
       // @ts-ignore
       event.target.value = "";
       this.props.postRef.child("comments").push(newComment, (err: any) => {
-        if (err) return console.error(err);
-        else console.log("comment added");
+        if (err) {
+          // console.error(err);
+          return;
+        } else {
+          // console.log("comment added");
+        }
       });
     }
   };
@@ -218,13 +234,15 @@ class Post extends Component<PostProps, Readonly<any>> {
     bookmarkRef.once("value", (bookmarkSnapShot: any) => {
       if (bookmarkSnapShot.exists()) {
         bookmarkRef.set(!bookmarkSnapShot.val(), (err: any) => {
-          if (err) console.log(err);
-          else this.setState({ isBookmarked: !this.state.isBookmarked });
+          if (err) {
+            // console.log(err);
+          } else this.setState({ isBookmarked: !this.state.isBookmarked });
         });
       } else {
         bookmarkRef.set(true, (err: any) => {
-          if (err) console.log(err);
-          else this.setState({ isBookmarked: !this.state.isBookmarked });
+          if (err) {
+            // console.log(err);
+          } else this.setState({ isBookmarked: !this.state.isBookmarked });
         });
       }
     });
@@ -233,7 +251,7 @@ class Post extends Component<PostProps, Readonly<any>> {
   /** @param {React.ChangeEvent<HTMLInputElement>} event */
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -242,11 +260,7 @@ class Post extends Component<PostProps, Readonly<any>> {
     // date = 1e+15 - date;
 
     if (now - date > 86400000)
-      return new Date(date)
-        .toDateString()
-        .split(" ")
-        .slice(1, 3)
-        .join(" ");
+      return new Date(date).toDateString().split(" ").slice(1, 3).join(" ");
 
     now /= 1000;
     date /= 1000;
@@ -276,7 +290,7 @@ class Post extends Component<PostProps, Readonly<any>> {
 
   toggleSeeMore = () => {
     this.setState({
-      postTextMaxHeight: this.state.postTextMaxHeight ? "" : "7em"
+      postTextMaxHeight: this.state.postTextMaxHeight ? "" : "7em",
     });
   };
 
@@ -292,7 +306,7 @@ class Post extends Component<PostProps, Readonly<any>> {
       viewImage,
       showComments,
       transitionStyle,
-      isBookmarked
+      isBookmarked,
     } = this.state;
     return (
       <div>
@@ -339,7 +353,7 @@ class Post extends Component<PostProps, Readonly<any>> {
             style={{
               maxHeight: postTextMaxHeight,
               overflow: "hidden",
-              textOverflow: "ellipsis"
+              textOverflow: "ellipsis",
             }}
           >
             {post.text}
@@ -398,7 +412,7 @@ class Post extends Component<PostProps, Readonly<any>> {
               <button
                 style={{
                   marginRight: 0,
-                  color: isBookmarked ? "#7C62A9" : "#b1a3e1"
+                  color: isBookmarked ? "#7C62A9" : "#b1a3e1",
                 }}
                 className="post-action"
                 onClick={this.toggleBookmarkPost}
@@ -423,7 +437,7 @@ class Post extends Component<PostProps, Readonly<any>> {
               </div>
 
               {post.comments &&
-                Object.keys(post.comments).map(commentKey => {
+                Object.keys(post.comments).map((commentKey) => {
                   const comment = post.comments[commentKey];
                   return (
                     <div key={commentKey} className="comment">
@@ -489,7 +503,7 @@ class Post extends Component<PostProps, Readonly<any>> {
             <div className="inner-content">
               <div className="modal">
                 <div>
-                  <img src={postImage} alt="Post Image" />
+                  <img src={postImage} alt={post.text.substr(0, 20)} />
                 </div>
               </div>
             </div>
@@ -513,7 +527,7 @@ class Post extends Component<PostProps, Readonly<any>> {
                   <button
                     style={{
                       marginRight: 0,
-                      color: isBookmarked ? "#7C62A9" : "#b1a3e1"
+                      color: isBookmarked ? "#7C62A9" : "#b1a3e1",
                     }}
                     className="post-action"
                     onClick={this.toggleBookmarkPost}

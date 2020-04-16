@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
+import * as Sentry from "@sentry/browser";
 // import app from 'firebase/app';
 // import { firebaseKeys } from './keys.env';
 
@@ -18,6 +19,10 @@ import axios from "axios";
 
 const BASE_URL = "https://blazehub-bk.herokuapp.com";
 axios.defaults.baseURL = BASE_URL;
+
+Sentry.init({
+  dsn: "https://8f9df8cc348a417199281b5eb31e341c@sentry.io/4173378",
+});
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

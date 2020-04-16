@@ -1,0 +1,31 @@
+name: Production-CD
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+  SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+  NODE_VERSION: "10.x"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Packages
+        run: yarn install
+
+      - name: Build Project
+        run: yarn build
+
+      - name: "Deploy to Surge"
+        run: yarn deploy:prod

@@ -10,7 +10,7 @@ import {
   faGlobe,
   faBaby,
   faPeopleCarry,
-  faImages
+  faImages,
 } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
@@ -20,7 +20,7 @@ import "./Profile.scss";
 import Spinner from "../components/Spinner";
 import {
   TextFormInput,
-  TextAreaFormInput
+  TextAreaFormInput,
 } from "../components/form/TextFormInput";
 import { DateFormInput } from "../components/form/DateFormInput";
 import { getFriends } from "../actions/friendActions";
@@ -84,7 +84,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       loadingFriends: true,
       friends: [],
 
-      loadingOtherUserId: true
+      loadingOtherUserId: true,
     };
 
     this.profileRef = this.db.ref("profiles").child(this.props.auth.user.id);
@@ -129,10 +129,10 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
   setFriends = (friendKeys: string[], friends: any) => {
     this.setState({
-      friends: friendKeys.map(friendKey => ({
+      friends: friendKeys.map((friendKey) => ({
         key: friendKey,
-        ...friends[friendKey]
-      }))
+        ...friends[friendKey],
+      })),
     });
   };
 
@@ -141,7 +141,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       .ref("friends")
       .child(this.otherUserId)
       .once("value")
-      .then(friendsSnapShot => {
+      .then((friendsSnapShot) => {
         if (friendsSnapShot.exists()) {
           const friends = friendsSnapShot.val();
           this.setFriends(Object.keys(friends), friends);
@@ -154,7 +154,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       .ref("profile-photos")
       .child(this.otherUserId)
       .once("value")
-      .then(photosSnapShot => {
+      .then((photosSnapShot) => {
         const photos = photosSnapShot.exists()
           ? photosSnapShot.val()
           : { avatar: "", coverPhoto: "" };
@@ -169,7 +169,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       .orderByChild("username")
       .equalTo(this.props.match.params.username)
       .once("value")
-      .then(profileSnapShot => {
+      .then((profileSnapShot) => {
         if (!profileSnapShot.exists()) return (window.location.href = "/home");
 
         const profile = profileSnapShot.val();
@@ -204,7 +204,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
     // createProfileForExistingUser();
 
-    this.profileRef.once("value", profileSnapShot => {
+    this.profileRef.once("value", (profileSnapShot) => {
       this.setProfile(profileSnapShot.val());
     });
   };
@@ -220,7 +220,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       bio: profile.bio,
       location: profile.location,
       website: profile.website,
-      birth: profile.birth
+      birth: profile.birth,
     });
   };
 
@@ -288,7 +288,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
   /** @param {any} e */
   onChange = (e: any) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -308,7 +308,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       bio,
       location,
       website,
-      birth
+      birth,
     });
 
     // console.log({ isValid, errors });
@@ -322,12 +322,15 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
           bio,
           location,
           website,
-          birth
+          birth,
         },
-        err => {
+        (err) => {
           this.setState({ loadingProfile: false });
 
-          if (err) return console.log(err);
+          if (err) {
+            // console.log(err);
+            return;
+          }
 
           this.toggleEditProfile();
         }
@@ -349,7 +352,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       avatar,
       coverPhoto,
       loadingProfile,
-      loadingFriends,
+      // loadingFriends,
       friends,
       editProfile,
       username,
@@ -359,7 +362,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       website,
       birth,
       errors,
-      loadingOtherUserId
+      loadingOtherUserId,
     } = this.state;
 
     return (
@@ -383,7 +386,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                 />
                 {coverPhoto ? (
                   <div className="cover-img main">
-                    <img src={coverPhoto} alt="Cover Photo" />
+                    <img src={coverPhoto} alt="Cover" />
                   </div>
                 ) : (
                   <div
@@ -409,7 +412,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                 >
                   {avatar ? (
                     <div className="avatar-img main">
-                      <img src={avatar} alt="Profile Picture" />
+                      <img src={avatar} alt="Profile Avatar" />
                     </div>
                   ) : (
                     <div
@@ -647,13 +650,13 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 const mapStateToProps = (state: any) => ({
   auth: state.auth,
   friends: state.friends,
-  profile: state.profile
+  profile: state.profile,
 });
 
 export default connect<any>(mapStateToProps, {
   getFriends,
   getProfilePic,
-  updateProfilePic
+  updateProfilePic,
 })(Profile);
 
 interface ProfileData {

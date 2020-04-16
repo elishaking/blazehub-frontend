@@ -5,11 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faUserCircle,
-  faBell
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import Avatar from "../../components/Avatar";
 import "./AuthNav.scss";
+import { TextIconFormInput } from "../../components/form/TextFormInput";
+import Logo from "../../components/Logo";
 
 interface AuthNavProps extends RouteComponentProps {
   showSearch: boolean;
@@ -24,7 +26,7 @@ interface AuthNavProps extends RouteComponentProps {
 class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   state = {
     notifications: [],
-    loading: true
+    loading: true,
   };
 
   componentDidMount() {
@@ -39,7 +41,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
       .on("child_added", (newNotificationSnapShot: any) => {
         const newNotification = {
           key: newNotificationSnapShot.key,
-          ...newNotificationSnapShot.val()
+          ...newNotificationSnapShot.val(),
         };
 
         // set date
@@ -50,7 +52,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
         const { notifications } = this.state;
         // newNotification.date > this.mountedOn ? notifications.unshift(newNotification) : notifications.push(newNotification);
         this.setState({
-          notifications
+          notifications,
         });
       });
   };
@@ -58,53 +60,40 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   signOut = () => this.props.signoutUser();
 
   openNotifications = () => {
-    console.log("open");
+    // console.log("open");
+  };
+
+  search = () => {
+    // console.log("performing search");
   };
 
   render() {
     const { notifications } = this.state;
     const { user, showSearch, avatar = "" } = this.props;
-    const { firstName, lastName } = user;
+    const {
+      firstName,
+      // lastName
+    } = user;
 
     return (
       <header>
         <nav className="auth-nav">
           <h1 className="logo">
-            <svg
-              id="logo"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 34.202 25.018"
-              role="img"
-              className="svg-inline--fa fa-w-16"
-            >
-              <path
-                id="Path_1"
-                data-name="Path 1"
-                d="M86.8,240.021a.307.307,0,0,1,.311-.288h8.33a1.965,1.965,0,0,0,1.371-.549,1.837,1.837,0,0,0,.568-1.332,1.928,1.928,0,0,0-1.968-1.868H86.36a.725.725,0,0,1-.633-.36,9.319,9.319,0,0,0-.941-1.36.3.3,0,0,1,.244-.49h7.785a1.966,1.966,0,0,0,1.371-.549,1.837,1.837,0,0,0,.568-1.332,1.927,1.927,0,0,0-1.968-1.868H75.347q-.175,0-.352,0c-6.526,0-11.815,4.317-11.815,9.642S68.47,249.3,75,249.3a13.172,13.172,0,0,0,8.535-2.975,1.529,1.529,0,0,1,.991-.365h9.872a1.966,1.966,0,0,0,1.371-.549,1.838,1.838,0,0,0,.568-1.332,1.927,1.927,0,0,0-1.967-1.868H86.811a.3.3,0,0,1-.3-.383A7.97,7.97,0,0,0,86.8,240.021ZM75,245.55c-3.984,0-7.214-2.636-7.214-5.887s3.23-5.887,7.214-5.887,7.214,2.636,7.214,5.887S78.98,245.55,75,245.55Z"
-                transform="translate(-63.18 -230.02)"
-                fill="#7c62a9"
-              />
-              <ellipse
-                id="Ellipse_1"
-                data-name="Ellipse 1"
-                cx="2.889"
-                cy="2.867"
-                rx="2.889"
-                ry="2.867"
-                transform="translate(21.163 19.285)"
-                fill="#7c62a9"
-              />
-            </svg>
+            <Logo />
             <span>BlazeHub</span>
             <small>Beta</small>
           </h1>
 
           {showSearch && (
             <div className="search">
-              <div className="icon-input">
-                <input type="text" placeholder="Search" />
-                <FontAwesomeIcon icon={faSearch} className="icon" />
-              </div>
+              <TextIconFormInput
+                type="email"
+                name="signinEmail"
+                placeholder="email"
+                onChange={this.search}
+                error={""}
+                icon={faSearch}
+              />
             </div>
           )}
 
@@ -148,7 +137,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
 }
 
 const mapStateToProps = (state: any) => ({
-  user: state.auth.user
+  user: state.auth.user,
 });
 
 export default connect<any, any, any>(mapStateToProps, { signoutUser })(

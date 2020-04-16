@@ -5,7 +5,7 @@ import { faUserAlt, faImage, faSmile } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 // import axios from 'axios';
-// import { initializeApp, updateUsername } from '../../utils/firebase';
+// import { initializeApp, updateUsername, updatePostLikeKeys } from '../utils/firebase';
 
 // import { signoutUser } from "../actions/authActions";
 import { getProfilePic } from "../actions/profileActions";
@@ -16,6 +16,9 @@ import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
+import "./Home.scss";
+import IconButton from "../components/Button";
+import logError from "../utils/logError";
 
 interface HomeState {
   postText: string;
@@ -58,6 +61,8 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
 
     // this.setupFirebase();
 
+    // updatePostLikeKeys()
+
     const { profile, auth } = this.props;
     if (!profile.avatar) this.props.getProfilePic(auth.user.id, "avatar");
   }
@@ -78,6 +83,13 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
   selectImage = () => {
     const postImgInput = document.getElementById("post-img") as HTMLElement;
     postImgInput.click();
+  };
+
+  /**
+   * Opens Emoticon explorer
+   */
+  selectEmoticon = () => {
+    // console.log("Opening emoticon explorer")
   };
 
   /**
@@ -134,7 +146,10 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
         if (newPost.imageUrl)
           this.postImagesRef.child(post.key).set(postImgDataUrl);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        // console.log(err)
+        logError(err);
+      });
 
     this.setState({
       postText: "",
@@ -187,7 +202,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                 <div className="post-img">
                   {postImgDataUrl && (
                     <div className="img-container">
-                      <img src={postImgDataUrl} alt="Post Image" />
+                      <img src={postImgDataUrl} alt="Post" />
                       <div className="close" onClick={this.removeImage}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -239,14 +254,11 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                         onChange={this.showImage}
                         accept="image/*"
                       />
-                      <button onClick={this.selectImage}>
-                        <FontAwesomeIcon icon={faImage} />
-                      </button>
+
+                      <IconButton icon={faImage} onClick={this.selectImage} />
                     </div>
 
-                    <button>
-                      <FontAwesomeIcon icon={faSmile} />
-                    </button>
+                    <IconButton icon={faSmile} onClick={this.selectEmoticon} />
                   </div>
                   <button
                     className="btn"

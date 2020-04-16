@@ -24,7 +24,7 @@ export const listenForNewChats = (chatKeys: string[]) => (dispatch: any) => {
       .orderByChild("date")
       .startAt(now)
       .on("child_added", messageSnapshot => {
-        console.log("chat_added");
+        // console.log("chat_added");
         dispatch(
           addMessage(chatKey, {
             key: messageSnapshot.key,

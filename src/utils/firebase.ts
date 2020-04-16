@@ -36,6 +36,55 @@ export const updateUsername = () => {
     });
 };
 
+export const updatePostLikeKeys = () => {
+  const db = app.database();
+  db.ref("posts")
+    .once("value")
+    .then(postsSnapshot => {
+      const posts = postsSnapshot.val();
+
+      Object.keys(posts).forEach(postKey => {
+        const postLikes = posts[postKey].likes;
+
+        if (postLikes) {
+          const postlikeUsersPromises: Promise<
+            firebase.database.DataSnapshot
+          >[] = [];
+
+          Object.keys(postLikes).forEach(postLikeKey => {
+            postlikeUsersPromises.push(
+              db
+                .ref("users")
+                .orderByChild("firstName")
+                .equalTo(postLikeKey)
+                .limitToFirst(1)
+                .once("value")
+            );
+          });
+
+          Promise.all(postlikeUsersPromises).then(snapshots => {
+            const newPostLikes: { [key: string]: any } = {};
+            snapshots.forEach(snapshot => {
+              snapshot.forEach(user => {
+                newPostLikes[user.key as string] =
+                  postLikes[user.val().firstName];
+              });
+            });
+
+            db.ref("posts")
+              .child(postKey)
+              .child("likes")
+              .set(newPostLikes)
+              .then(v => {
+                // console.log(v);
+                // console.log("done");
+              });
+          });
+        }
+      });
+    });
+};
+
 // Profile
 export const createSmallAvatar = () => {
   const profileRef = app.database().ref("profile-photos");
