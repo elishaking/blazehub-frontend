@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faUserCircle,
-  faBell
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import Avatar from "../../components/Avatar";
@@ -26,7 +26,7 @@ interface AuthNavProps extends RouteComponentProps {
 class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   state = {
     notifications: [],
-    loading: true
+    loading: true,
   };
 
   componentDidMount() {
@@ -41,7 +41,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
       .on("child_added", (newNotificationSnapShot: any) => {
         const newNotification = {
           key: newNotificationSnapShot.key,
-          ...newNotificationSnapShot.val()
+          ...newNotificationSnapShot.val(),
         };
 
         // set date
@@ -52,7 +52,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
         const { notifications } = this.state;
         // newNotification.date > this.mountedOn ? notifications.unshift(newNotification) : notifications.push(newNotification);
         this.setState({
-          notifications
+          notifications,
         });
       });
   };
@@ -70,7 +70,10 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   render() {
     const { notifications } = this.state;
     const { user, showSearch, avatar = "" } = this.props;
-    const { firstName, lastName } = user;
+    const {
+      firstName,
+      // lastName
+    } = user;
 
     return (
       <header>
@@ -134,7 +137,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
 }
 
 const mapStateToProps = (state: any) => ({
-  user: state.auth.user
+  user: state.auth.user,
 });
 
 export default connect<any, any, any>(mapStateToProps, { signoutUser })(

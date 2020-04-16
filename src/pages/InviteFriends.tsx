@@ -20,7 +20,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
     this.state = {
       inviteSent: false,
       friendEmails: [{ email: "" }],
-      loading: false
+      loading: false,
     };
   }
 
@@ -28,7 +28,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
     const { friendEmails } = this.state;
     friendEmails.push({ email: "" });
     this.setState({
-      friendEmails
+      friendEmails,
     });
   };
 
@@ -39,10 +39,10 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
     axios
       .post("/api/friends/invite", this.state.friendEmails)
-      .then(res => {
+      .then((res) => {
         this.setState({ loading: false, inviteSent: res.data.success });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ loading: false });
         // console.error(err);
         logError(err);
@@ -58,12 +58,12 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
     friendEmails[index].email = e.target.value;
 
     this.setState({
-      friendEmails
+      friendEmails,
     });
   };
 
   render() {
-    const hasProfilePic = false;
+    // const hasProfilePic = false;
     const { user } = this.props.auth;
     const { inviteSent, friendEmails, loading } = this.state;
 
@@ -92,7 +92,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
                     key={index}
                     name={`email${index}`}
                     placeholder="email"
-                    onChange={e => this.onChange(e, index)}
+                    onChange={(e) => this.onChange(e, index)}
                   />
                 ))}
 
@@ -123,7 +123,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 }
 
 const mapStateToProps = (state: any) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(InviteFriends);

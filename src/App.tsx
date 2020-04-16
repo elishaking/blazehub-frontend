@@ -9,7 +9,7 @@ import store from "./store";
 import {
   setAuthToken,
   setCurrentUser,
-  signoutUser
+  signoutUser,
 } from "./actions/authActions";
 
 import PrivateRoute from "./containers/PrivateRoute";
@@ -28,12 +28,12 @@ import Spinner from "./components/Spinner";
 
 class App extends Component<{}, Readonly<any>> {
   state = {
-    loading: true
+    loading: true,
   };
 
-  constructor(props: {}) {
-    super(props);
-  }
+  // constructor(props: {}) {
+  //   super(props);
+  // }
 
   componentDidMount() {
     this.updateAuthToken();
@@ -55,7 +55,7 @@ class App extends Component<{}, Readonly<any>> {
         // Redirect to signin
         window.location.href = "/signin";
       } else {
-        axios.get("/api/users/firebase").then(res => {
+        axios.get("/api/users/firebase").then((res) => {
           app.initializeApp(res.data);
           this.setState({ loading: false });
         });

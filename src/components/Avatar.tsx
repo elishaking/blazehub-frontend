@@ -3,12 +3,12 @@ import React from "react";
 export default function Avatar({
   avatar,
   marginRight = "1em",
-  marginLeft = "0"
+  marginLeft = "0",
 }: any) {
   return (
     <img
       src={avatar}
-      alt="profile picture"
+      alt="profile pic"
       style={{
         width: "40px",
         height: "40px",
@@ -16,7 +16,7 @@ export default function Avatar({
         border: "1px solid #a491c3",
         borderRadius: "100px",
         marginRight,
-        marginLeft
+        marginLeft,
       }}
     />
   );
