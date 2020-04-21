@@ -8,7 +8,7 @@ import {
   faSignOutAlt,
   faUsers,
   faUserFriends,
-  faHamburger,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import "./MainNav.scss";
@@ -63,7 +63,7 @@ function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
           <NavItem
             link="/menu"
             text=""
-            icon={faHamburger}
+            icon={faBars}
             className="hide-wide mobile-add"
           />
         </ul>
