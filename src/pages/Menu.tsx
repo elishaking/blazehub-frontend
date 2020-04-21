@@ -3,20 +3,17 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome,
-  faUserAlt,
-  faComments,
   faBookmark,
   faSignOutAlt,
   faUsers,
   faUserFriends,
-  faHamburger,
 } from "@fortawesome/free-solid-svg-icons";
 
 import AuthNav from "../containers/nav/AuthNav";
 import MainNav from "../containers/nav/MainNav";
 import { AuthState } from "../models/auth";
 import { signoutUser } from "../actions/authActions";
+import NavItem from "../components/NavItem";
 
 interface MenuProps {
   auth: AuthState;
@@ -34,27 +31,20 @@ class Menu extends Component<MenuProps> {
           <MainNav user={user} />
 
           <ul>
-            <li>
-              <Link to="/bookmarks">
-                <FontAwesomeIcon icon={faBookmark} /> <span>Bookmarks</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/find">
-                <FontAwesomeIcon icon={faUsers} /> <span>Find Friends</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/invite">
-                <FontAwesomeIcon icon={faUserFriends} />{" "}
-                <span>Invite Friends</span>
-              </Link>
-            </li>
-            <li className="hide-wide">
-              <Link to="#" onClick={this.props.signoutUser}>
-                <FontAwesomeIcon icon={faSignOutAlt} /> <span>Sign Out</span>
-              </Link>
-            </li>
+            <NavItem link="/bookmarks" text="Bookmarks" icon={faBookmark} />
+            <NavItem link="/find" text="Find Friends" icon={faUsers} />
+            <NavItem
+              link="/invite"
+              text="Invite Friends"
+              icon={faUserFriends}
+            />
+            <NavItem
+              link="#"
+              text="Sign Out"
+              icon={faSignOutAlt}
+              className="hide-wide"
+              onClick={signoutUser}
+            />
           </ul>
         </div>
       </div>

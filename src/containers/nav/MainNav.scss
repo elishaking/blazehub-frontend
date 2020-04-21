@@ -7,37 +7,6 @@
     font-weight: 500;
   }
 
-  ul {
-    list-style: none;
-    width: 100%;
-  }
-
-  li {
-    padding: 1.3em 0;
-  }
-
-  li.mobile-add {
-    display: none;
-  }
-
-  a {
-    text-decoration: none;
-    color: #7c62a9;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    // padding: 0.3em;
-    transition: 0.3s ease-in-out;
-  }
-
-  a:hover {
-    color: #b1a3e1;
-  }
-
-  svg {
-    margin-right: 1em;
-  }
-
   // nav svg {
   //   font-size: 1.3em;
   // }
