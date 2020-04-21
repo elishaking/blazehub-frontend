@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Privacy.scss";
 
 export default class Privacy extends Component {
   render() {
@@ -47,21 +48,24 @@ export default class Privacy extends Component {
                         <h4>When do we collect information?</h4>
                         <p>
                           We collect information from you when you or enter
-                          information on our site.
+                          information on our site/app.
                         </p>
                         <ul>
-                          <li>Register as a witness</li>
-                          <li>Submit a Police Report</li>
+                          <li>Registration</li>
+                          <li>Create Post</li>
+                          <li>Profile Update</li>
+                          <li>Message</li>
                         </ul>
 
                         <h4>How do we use your information? </h4>
                         <p>
                           We may use the information we collect from you when
-                          you register or submit a report in the following ways:
+                          you register in the following ways:
                         </p>
                         <ul>
-                          <li>To create a history of all your reports</li>
-                          <li>To locate where the crime is taking place</li>
+                          <li>
+                            To authenticate your messages/posts/profile update
+                          </li>
                         </ul>
 
                         <h4>How do we protect your information?</h4>
@@ -193,9 +197,6 @@ export default class Privacy extends Component {
                           below.
                         </p>
                         <p>
-                          <a href="https://iwitnez.herokuapp.com/">
-                            https://iwitnez.herokuapp.com/
-                          </a>
                           <br />
                           Plot 255, Kugbo, Abuja Federal Capital Territory
                           500272
@@ -204,7 +205,7 @@ export default class Privacy extends Component {
                           <br />
                           elisha.c.king@gmail.com
                         </p>
-                        <p>Last Edited on 2018-02-09</p>
+                        <p>Last Edited on 2020-04-21</p>
                       </div>
                     </div>
                   </div>
