@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,
   faSignOutAlt,
@@ -14,6 +12,7 @@ import MainNav from "../containers/nav/MainNav";
 import { AuthState } from "../models/auth";
 import { signoutUser } from "../actions/authActions";
 import NavItem from "../components/NavItem";
+import "./Menu.scss";
 
 interface MenuProps {
   auth: AuthState;
@@ -24,7 +23,7 @@ class Menu extends Component<MenuProps> {
   render() {
     const { user } = this.props.auth;
     return (
-      <div className="container">
+      <div className="container menu">
         <AuthNav />
 
         <div className="main">
