@@ -4,3 +4,9 @@
     width: 100%;
   }
 }
+
+@media (min-width: 760px) {
+  .menu .main-nav {
+    display: none;
+  }
+}
