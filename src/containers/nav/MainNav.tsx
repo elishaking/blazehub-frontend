@@ -14,8 +14,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import "./MainNav.scss";
+import { AuthUser } from "../../models/auth";
 
-function MainNav({ user, signoutUser: signoutUserFunc }: any) {
+interface MainNavProps {
+  user: AuthUser;
+  signoutUser: any;
+}
+
+function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
   const { firstName, lastName } = user;
   const signOut = () => signoutUserFunc();
 
