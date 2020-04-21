@@ -30,19 +30,19 @@
       margin-bottom: 0;
     }
 
-    nav svg {
-      font-size: 1.3em;
-    }
+    // nav svg {
+    //   font-size: 1.3em;
+    // }
 
-    a {
-      svg {
-        margin-right: 0;
-      }
+    // a {
+    //   svg {
+    //     margin-right: 0;
+    //   }
 
-      span {
-        display: none;
-      }
-    }
+    //   span {
+    //     display: none;
+    //   }
+    // }
   }
 }
 
@@ -60,9 +60,9 @@
     background-color: #7c62a9;
     box-shadow: 0 0 4px #b1a3e1;
 
-    svg {
-      color: white;
-    }
+    // svg {
+    //   color: white;
+    // }
 
     ul {
       display: flex;
@@ -72,17 +72,17 @@
       /* padding: 0 5vw; */
     }
 
-    li {
-      margin-right: 0;
-      padding: 0;
-    }
+    // li {
+    //   margin-right: 0;
+    //   padding: 0;
+    // }
 
-    li.mobile-remove {
-      display: none;
-    }
+    // li.mobile-remove {
+    //   display: none;
+    // }
 
-    li.mobile-add {
-      display: list-item;
-    }
+    // li.mobile-add {
+    //   display: list-item;
+    // }
   }
 }

@@ -30,12 +30,23 @@ class Menu extends Component<MenuProps> {
           <MainNav user={user} />
 
           <ul>
-            <NavItem link="/bookmarks" text="Bookmarks" icon={faBookmark} />
-            <NavItem link="/find" text="Find Friends" icon={faUsers} />
+            <NavItem
+              link="/bookmarks"
+              text="Bookmarks"
+              icon={faBookmark}
+              nav={false}
+            />
+            <NavItem
+              link="/find"
+              text="Find Friends"
+              icon={faUsers}
+              nav={false}
+            />
             <NavItem
               link="/invite"
               text="Invite Friends"
               icon={faUserFriends}
+              nav={false}
             />
             <NavItem
               link="#"
@@ -43,6 +54,7 @@ class Menu extends Component<MenuProps> {
               icon={faSignOutAlt}
               className="hide-wide"
               onClick={signoutUser}
+              nav={false}
             />
           </ul>
         </div>

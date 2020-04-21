@@ -11,6 +11,7 @@ interface NavItemProps {
   icon: IconDefinition;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  nav?: boolean;
 }
 
 export default function NavItem({
@@ -19,11 +20,13 @@ export default function NavItem({
   icon,
   className,
   onClick,
+  nav = true,
 }: NavItemProps) {
   return (
-    <li className={`nav-item ${className}`}>
+    <li className={`nav-item ${className} ${nav ? "" : "bigger"}`}>
       <Link to={link} onClick={onClick}>
-        <FontAwesomeIcon icon={icon} /> <span>{text}</span>
+        <FontAwesomeIcon className={`${nav ? "nav" : ""}`} icon={icon} />{" "}
+        <span className={`${nav ? "nav" : ""}`}>{text}</span>
       </Link>
     </li>
   );
