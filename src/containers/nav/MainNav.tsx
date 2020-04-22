@@ -1,7 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faUserAlt,
@@ -9,12 +7,20 @@ import {
   faBookmark,
   faSignOutAlt,
   faUsers,
-  faUserFriends
+  faUserFriends,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import "./MainNav.scss";
+import { AuthUser } from "../../models/auth";
+import NavItem from "../../components/NavItem";
 
-function MainNav({ user, signoutUser: signoutUserFunc }: any) {
+interface MainNavProps {
+  user: AuthUser;
+  signoutUser: any;
+}
+
+function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
   const { firstName, lastName } = user;
   const signOut = () => signoutUserFunc();
 
@@ -25,42 +31,41 @@ function MainNav({ user, signoutUser: signoutUserFunc }: any) {
       </header>
       <nav>
         <ul>
-          <li>
-            <Link to="/home">
-              <FontAwesomeIcon icon={faHome} /> <span>Home</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/chat">
-              <FontAwesomeIcon icon={faComments} /> <span>Chat</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile">
-              <FontAwesomeIcon icon={faUserAlt} /> <span>Profile</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/bookmarks">
-              <FontAwesomeIcon icon={faBookmark} /> <span>Bookmarks</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/find">
-              <FontAwesomeIcon icon={faUsers} /> <span>Find Friends</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/invite">
-              <FontAwesomeIcon icon={faUserFriends} />{" "}
-              <span>Invite Friends</span>
-            </Link>
-          </li>
-          <li className="hide-wide">
-            <Link to="#" onClick={signOut}>
-              <FontAwesomeIcon icon={faSignOutAlt} /> <span>Sign Out</span>
-            </Link>
-          </li>
+          <NavItem link="/home" text="Home" icon={faHome} />
+          <NavItem link="/chat" text="Chat" icon={faComments} />
+          <NavItem link="/profile" text="Profile" icon={faUserAlt} />
+          <NavItem
+            link="/bookmarks"
+            text="Bookmarks"
+            icon={faBookmark}
+            className="mobile-remove"
+          />
+          <NavItem
+            link="/find"
+            text="Find Friends"
+            icon={faUsers}
+            className="mobile-remove"
+          />
+          <NavItem
+            link="/invite"
+            text="Invite Friends"
+            icon={faUserFriends}
+            className="mobile-remove"
+          />
+          <NavItem
+            link="#"
+            text="Sign Out"
+            icon={faSignOutAlt}
+            className="hide-wide mobile-remove"
+            onClick={signOut}
+          />
+
+          <NavItem
+            link="/menu"
+            text=""
+            icon={faBars}
+            className="hide-wide mobile-add"
+          />
         </ul>
       </nav>
     </div>

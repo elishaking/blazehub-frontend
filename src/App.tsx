@@ -22,6 +22,8 @@ import Profile from "./pages/Profile";
 import Bookmarks from "./pages/Bookmarks";
 import InviteFriends from "./pages/InviteFriends";
 import Spinner from "./components/Spinner";
+import Menu from "./pages/Menu";
+import Privacy from "./pages/Privacy";
 
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
@@ -73,6 +75,7 @@ class App extends Component<{}, Readonly<any>> {
         <Router>
           <Route exact path="/" component={Landing} />
           <Route exact path="/signin" component={Signin} />
+          <Route exact path="/privacy" component={Privacy} />
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />
           </Switch>
@@ -90,6 +93,9 @@ class App extends Component<{}, Readonly<any>> {
           </Switch>
           <Switch>
             <PrivateRoute exact path="/invite" component={InviteFriends} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/menu" component={Menu} />
           </Switch>
 
           <Switch>
