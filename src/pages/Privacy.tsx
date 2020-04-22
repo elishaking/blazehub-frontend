@@ -1,11 +1,26 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+
 import "./Privacy.scss";
+import Logo from "../components/Logo";
 
 export default class Privacy extends Component {
   render() {
     return (
       <div className="container privacy">
-        <div className="main-panel">
+        <header>
+          <nav>
+            <h1>
+              <Logo style={{ fontSize: "1.3em" }} />
+            </h1>
+
+            <div>
+              <FontAwesomeIcon icon={faHome} />
+            </div>
+          </nav>
+        </header>
+        <div className="main">
           <div className="content">
             <div className="container-fluid">
               <div className="row">
