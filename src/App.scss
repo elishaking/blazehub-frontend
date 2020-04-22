@@ -528,33 +528,33 @@ h3 {
     display: none;
   }
 
-  .landing-bg {
-    background: white;
-  }
-
-  .content {
-    display: block;
-    height: fit-content;
-
-    .left,
-    .right {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .left {
-      margin-left: -5vw;
-      margin-bottom: 7vh;
-      width: 100vw;
-      padding: 2em 5vw;
-    }
-  }
-
-  // .content .right{
-  //   margin-top
+  // .landing-bg {
+  //   background: white;
   // }
+
+  // .content {
+  //   display: block;
+  //   height: fit-content;
+
+  //   .left,
+  //   .right {
+  //     width: 100%;
+  //     display: flex;
+  //     flex-direction: column;
+  //     justify-content: center;
+  //   }
+
+  //   .left {
+  //     margin-left: -5vw;
+  //     margin-bottom: 7vh;
+  //     width: 100vw;
+  //     padding: 2em 5vw;
+  //   }
+  // }
+
+  // // .content .right{
+  // //   margin-top
+  // // }
 
   .hide-wide {
     display: list-item;

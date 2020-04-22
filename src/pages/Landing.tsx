@@ -247,7 +247,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
           <div className="right">
             <div className="inner">
               <div className="welcome">
-                <Logo style={{ fontSize: "1.7em" }} />
+                <Logo style={{ fontSize: "2em" }} />
                 <h1>Join BlazeHub Today</h1>
               </div>
 

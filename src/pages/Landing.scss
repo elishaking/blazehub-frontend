@@ -55,3 +55,33 @@
     box-shadow: 0 0 8px 0 #b1a3e1;
   }
 }
+
+@media (max-width: 1000px) {
+  .landing-bg {
+    background: white;
+  }
+
+  .content {
+    display: block;
+    height: fit-content;
+
+    .left,
+    .right {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left {
+      margin-left: -5vw;
+      margin-bottom: 7vh;
+      width: 100vw;
+      padding: 2em 5vw;
+    }
+  }
+
+  // .content .right{
+  //   margin-top
+  // }
+}
