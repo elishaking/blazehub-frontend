@@ -29,7 +29,7 @@ class Menu extends Component<MenuProps> {
         <div className="main">
           <MainNav user={user} />
 
-          <ul>
+          <ul className="menu-items">
             <NavItem
               link="/bookmarks"
               text="Bookmarks"
