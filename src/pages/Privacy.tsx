@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,9 +16,9 @@ export default class Privacy extends Component {
               <Logo style={{ fontSize: "1.3em" }} />
             </h1>
 
-            <div>
+            <Link to="/">
               <FontAwesomeIcon icon={faHome} />
-            </div>
+            </Link>
           </nav>
         </header>
         <div className="main">
