@@ -53,7 +53,7 @@ class Menu extends Component<MenuProps> {
               text="Sign Out"
               icon={faSignOutAlt}
               className="hide-wide"
-              onClick={signoutUser}
+              onClick={this.props.signoutUser}
               nav={false}
             />
           </ul>
