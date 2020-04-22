@@ -4,6 +4,8 @@ A platform for connecting people: A place to chat, follow interesting conversion
 
 https://blazehub.skyblazar.com
 
+Find the backend repo here: https://github.com/elishaking/blazehub
+
 ### _Under development_
 
 ## Setup
@@ -12,6 +14,13 @@ https://blazehub.skyblazar.com
 
 ```
 yarn install
+```
+
+- Create and `env.local` file in the project root
+- Add the following environment variables to `env.local`
+
+```env
+NODE_ENV=development
 ```
 
 - Finally, run this command in the project root to launch the project:

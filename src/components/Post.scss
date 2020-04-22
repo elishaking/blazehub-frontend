@@ -1,0 +1,30 @@
+.post-img {
+  padding: 1em;
+
+  .img-container {
+    position: relative;
+
+    img {
+      width: 100%;
+      border: 1px solid #f2eff6;
+      border-radius: 17px;
+    }
+
+    .close {
+      display: flex;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 1em;
+      padding: 0.5em;
+      border-radius: 100%;
+      cursor: pointer;
+      background-color: rgba($color: #000, $alpha: 0.5);
+      transition: 0.3s ease-in-out;
+    }
+
+    .close:hover {
+      background-color: rgba($color: #000, $alpha: 0.7);
+    }
+  }
+}
