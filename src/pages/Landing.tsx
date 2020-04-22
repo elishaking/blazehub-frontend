@@ -26,7 +26,7 @@ type LandingErrors = AuthErrors & {
 
 interface LandingState {
   method: string;
-  navLogoColor: string;
+  navLogoColor: string | undefined;
 
   signinEmail: string;
   signinPassword: string;
@@ -62,7 +62,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       loadingSignin: false,
       loadingSignup: false,
 
-      errors: {} as LandingErrors
+      errors: {} as LandingErrors,
     };
   }
 
@@ -88,7 +88,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       this.setState({
         errors: nextProps.auth.errors,
         loadingSignin: false,
-        loadingSignup: false
+        loadingSignup: false,
       });
     }
   }
@@ -106,21 +106,21 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     const newMethod = window.innerWidth > 1550 ? "POST" : "GET";
     if (this.state.method !== newMethod) {
       this.setState({
-        method: newMethod
+        method: newMethod,
       });
     }
 
-    const newLogoColor = window.innerWidth > 1000 ? "#fff" : "";
+    const newLogoColor = window.innerWidth > 1000 ? "#fff" : undefined;
     if (this.state.navLogoColor !== newLogoColor) {
       this.setState({
-        navLogoColor: newLogoColor
+        navLogoColor: newLogoColor,
       });
     }
   };
 
   onChange = (event: any) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     } as any);
   };
 
@@ -132,7 +132,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     if (this.state.method === "POST") {
       const userData = {
         email: this.state.signinEmail,
-        password: this.state.signinPassword
+        password: this.state.signinPassword,
       };
       this.props.signinUser(userData);
     } else {
@@ -150,7 +150,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       lastName: this.state.lastName,
       gender: this.state.gender,
       email: this.state.signupEmail,
-      password: this.state.signupPassword
+      password: this.state.signupPassword,
     };
     this.props.signupUser(userData, this.props.history);
   };
@@ -164,7 +164,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
         <header>
           <nav>
             <h1>
-              <Logo color={navLogoColor} />
+              <Logo color={navLogoColor} style={{ fontSize: "1.3em" }} />
               <span>BlazeHub</span>
             </h1>
 
@@ -247,7 +247,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
           <div className="right">
             <div className="inner">
               <div className="welcome">
-                <Logo style={{ fontSize: "1.7em" }} />
+                <Logo style={{ fontSize: "2em" }} />
                 <h1>Join BlazeHub Today</h1>
               </div>
 
@@ -322,7 +322,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
 }
 
 const mapStateToProps = (state: any) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect<any>(mapStateToProps, { signinUser, signupUser })(

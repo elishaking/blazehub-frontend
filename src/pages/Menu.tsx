@@ -29,7 +29,7 @@ class Menu extends Component<MenuProps> {
         <div className="main">
           <MainNav user={user} />
 
-          <ul>
+          <ul className="menu-items">
             <NavItem
               link="/bookmarks"
               text="Bookmarks"
@@ -53,7 +53,7 @@ class Menu extends Component<MenuProps> {
               text="Sign Out"
               icon={faSignOutAlt}
               className="hide-wide"
-              onClick={signoutUser}
+              onClick={this.props.signoutUser}
               nav={false}
             />
           </ul>

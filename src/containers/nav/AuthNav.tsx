@@ -79,7 +79,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
       <header>
         <nav className="auth-nav">
           <h1 className="logo">
-            <Logo />
+            <Logo style={{ fontSize: "1.5em" }} />
             <span>BlazeHub</span>
             <small>Beta</small>
           </h1>

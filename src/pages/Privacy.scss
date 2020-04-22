@@ -1,12 +1,24 @@
 .privacy {
-  h1,
-  h2,
-  h3,
-  h4 {
-    padding: 1em 0 0.2em 0;
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    svg {
+      font-size: 1.7em;
+    }
   }
 
-  ul {
-    list-style: inside square;
+  .main {
+    h1,
+    h2,
+    h3,
+    h4 {
+      padding: 1em 0 0.2em 0;
+    }
+
+    ul {
+      list-style: inside square;
+    }
   }
 }
