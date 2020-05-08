@@ -11,6 +11,7 @@ import {
   TextAreaFormInput,
 } from "../components/form/TextFormInput";
 import { FeedbackErrors } from "../models/feedback";
+import Spinner from "../components/Spinner";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -18,7 +19,12 @@ interface FeedbackProps extends RouteComponentProps {
 
 class Feedback extends Component<FeedbackProps> {
   state = {
+    loading: false,
     errors: {} as FeedbackErrors,
+
+    email: "",
+    name: "",
+    message: "",
   };
 
   onChange = (
@@ -31,6 +37,16 @@ class Feedback extends Component<FeedbackProps> {
 
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    this.setState({ loading: true });
+
+    // const { name, email, message } = this.state;
+    // const feedbackData = {
+    //   name,
+    //   email,
+    //   message,
+    // };
+    // this.props.sendFeedback(feedbackData);
   };
 
   render() {
@@ -70,6 +86,16 @@ class Feedback extends Component<FeedbackProps> {
                 onChange={this.onChange}
                 rows={5}
               />
+
+              {this.state.loading ? (
+                <Spinner full={false} />
+              ) : (
+                <input
+                  type="submit"
+                  value="Send Feedback"
+                  className="btn-input btn-pri"
+                />
+              )}
             </form>
           </div>
         </div>
