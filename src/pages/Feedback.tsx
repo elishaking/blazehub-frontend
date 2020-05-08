@@ -86,6 +86,7 @@ class Feedback extends Component<FeedbackProps> {
                 placeholder="name"
                 error={errors.name}
                 onChange={this.onChange}
+                value={`${user.firstName} ${user.lastName}`}
               />
 
               <TextFormInput
@@ -94,11 +95,12 @@ class Feedback extends Component<FeedbackProps> {
                 placeholder="email"
                 error={errors.email}
                 onChange={this.onChange}
+                value={user.email}
               />
 
               <TextAreaFormInput
                 name="message"
-                placeholder="message"
+                placeholder="How or where will you like BlazeHub to improve"
                 error={errors.message}
                 onChange={this.onChange}
                 rows={5}

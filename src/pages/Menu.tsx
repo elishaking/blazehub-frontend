@@ -5,6 +5,7 @@ import {
   faSignOutAlt,
   faUsers,
   faUserFriends,
+  faHands,
 } from "@fortawesome/free-solid-svg-icons";
 
 import AuthNav from "../containers/nav/AuthNav";
@@ -46,6 +47,12 @@ class Menu extends Component<MenuProps> {
               link="/invite"
               text="Invite Friends"
               icon={faUserFriends}
+              nav={false}
+            />
+            <NavItem
+              link="/feedback"
+              text="Feedback"
+              icon={faHands}
               nav={false}
             />
             <NavItem
