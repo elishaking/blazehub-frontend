@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import axios from "axios";
 
 import "./Feedback.scss";
 import AuthNav from "../containers/nav/AuthNav";
@@ -14,6 +13,7 @@ import {
 import { FeedbackErrors } from "../models/feedback";
 import Spinner from "../components/Spinner";
 import logError from "../utils/logError";
+import { sendFeedback } from "../actions/feedback";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -50,12 +50,11 @@ class Feedback extends Component<FeedbackProps> {
       message,
     };
 
-    axios
-      .post("/api/feedback/send", feedbackData)
-      .then((res) => {
-        this.setState({ loading: false, feedbackSent: res.data.success });
+    sendFeedback(feedbackData)
+      .then((data: any) => {
+        this.setState({ loading: false, feedbackSent: data.success });
 
-        if (res.data.success)
+        if (data.success)
           setTimeout(() => {
             this.setState({ feedbackSent: false });
           }, 5000);
