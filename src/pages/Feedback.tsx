@@ -44,30 +44,34 @@ class Feedback extends Component<FeedbackProps> {
         <div className="main">
           <MainNav user={user} />
 
-          <form onSubmit={this.onSubmit}>
-            <TextFormInput
-              type="text"
-              name="name"
-              placeholder="name"
-              error={errors.name}
-              onChange={this.onChange}
-            />
+          <div className="form-container">
+            <h1 className="mb-1">Help BlazeHub improve</h1>
+            <form onSubmit={this.onSubmit}>
+              <TextFormInput
+                type="text"
+                name="name"
+                placeholder="name"
+                error={errors.name}
+                onChange={this.onChange}
+              />
 
-            <TextFormInput
-              type="email"
-              name="email"
-              placeholder="email"
-              error={errors.email}
-              onChange={this.onChange}
-            />
+              <TextFormInput
+                type="email"
+                name="email"
+                placeholder="email"
+                error={errors.email}
+                onChange={this.onChange}
+              />
 
-            <TextAreaFormInput
-              name="message"
-              placeholder="message"
-              error={errors.message}
-              onChange={this.onChange}
-            />
-          </form>
+              <TextAreaFormInput
+                name="message"
+                placeholder="message"
+                error={errors.message}
+                onChange={this.onChange}
+                rows={5}
+              />
+            </form>
+          </div>
         </div>
       </div>
     );

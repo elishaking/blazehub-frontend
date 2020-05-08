@@ -23,6 +23,7 @@ interface TextIconFormInputProps extends InputProps {
 
 interface TextAreaFormInputProps extends InputProps {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  rows?: number;
 }
 
 export function TextFormInput({
@@ -31,7 +32,7 @@ export function TextFormInput({
   placeholder,
   onChange,
   error,
-  value
+  value,
 }: TextFormInputProps) {
   return (
     <div className="form-input" data-test="textFormInputComponent">
@@ -55,7 +56,7 @@ export function TextIconFormInput({
   onChange,
   error,
   value,
-  icon
+  icon,
 }: TextIconFormInputProps) {
   return (
     <div
@@ -81,7 +82,8 @@ export function TextAreaFormInput({
   placeholder,
   onChange,
   error,
-  value
+  value,
+  rows = 3,
 }: TextAreaFormInputProps) {
   return (
     <div className="form-input" data-test="textAreaFormInputComponent">
@@ -89,7 +91,7 @@ export function TextAreaFormInput({
         name={name}
         value={value}
         placeholder={placeholder}
-        rows={3}
+        rows={rows}
         style={{ resize: "none" }}
         className={`fill-parent ${error ? "error" : ""}`}
         onChange={onChange}
