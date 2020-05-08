@@ -44,9 +44,10 @@ class Feedback extends Component<FeedbackProps> {
     this.setState({ loading: true });
 
     const { name, email, message } = this.state;
+    const { user } = this.props.auth;
     const feedbackData = {
-      name,
-      email,
+      name: name || `${user.firstName} ${user.lastName}`,
+      email: email || user.email,
       message,
     };
 
@@ -57,7 +58,7 @@ class Feedback extends Component<FeedbackProps> {
         if (data.success)
           setTimeout(() => {
             this.setState({ feedbackSent: false });
-          }, 5000);
+          }, 3000);
       })
       .catch((err) => {
         this.setState({ loading: false });
@@ -67,7 +68,7 @@ class Feedback extends Component<FeedbackProps> {
 
   render() {
     const { user } = this.props.auth;
-    const { errors } = this.state;
+    const { errors, loading, feedbackSent } = this.state;
 
     return (
       <div className="container">
@@ -105,8 +106,10 @@ class Feedback extends Component<FeedbackProps> {
                 rows={5}
               />
 
-              {this.state.loading ? (
+              {loading ? (
                 <Spinner full={false} />
+              ) : feedbackSent ? (
+                <p>Feedback Sent</p>
               ) : (
                 <input
                   type="submit"
