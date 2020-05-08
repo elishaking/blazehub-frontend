@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import "./Feedback.scss";
 import AuthNav from "../containers/nav/AuthNav";
@@ -12,6 +13,7 @@ import {
 } from "../components/form/TextFormInput";
 import { FeedbackErrors } from "../models/feedback";
 import Spinner from "../components/Spinner";
+import logError from "../utils/logError";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -20,6 +22,7 @@ interface FeedbackProps extends RouteComponentProps {
 class Feedback extends Component<FeedbackProps> {
   state = {
     loading: false,
+    feedbackSent: false,
     errors: {} as FeedbackErrors,
 
     email: "",
@@ -40,13 +43,27 @@ class Feedback extends Component<FeedbackProps> {
 
     this.setState({ loading: true });
 
-    // const { name, email, message } = this.state;
-    // const feedbackData = {
-    //   name,
-    //   email,
-    //   message,
-    // };
-    // this.props.sendFeedback(feedbackData);
+    const { name, email, message } = this.state;
+    const feedbackData = {
+      name,
+      email,
+      message,
+    };
+
+    axios
+      .post("/api/feedback/send", feedbackData)
+      .then((res) => {
+        this.setState({ loading: false, feedbackSent: res.data.success });
+
+        if (res.data.success)
+          setTimeout(() => {
+            this.setState({ feedbackSent: false });
+          }, 5000);
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+        logError(err);
+      });
   };
 
   render() {
