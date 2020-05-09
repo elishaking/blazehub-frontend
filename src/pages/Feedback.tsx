@@ -14,6 +14,7 @@ import { FeedbackErrors } from "../models/feedback";
 import Spinner from "../components/Spinner";
 import logError from "../utils/logError";
 import { sendFeedback } from "../actions/feedback";
+import { validateFeedbackInput } from "../validation/feedback";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -41,8 +42,6 @@ class Feedback extends Component<FeedbackProps> {
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    this.setState({ loading: true });
-
     const { name, email, message } = this.state;
     const { user } = this.props.auth;
     const feedbackData = {
@@ -51,19 +50,27 @@ class Feedback extends Component<FeedbackProps> {
       message,
     };
 
-    sendFeedback(feedbackData)
-      .then((data: any) => {
-        this.setState({ loading: false, feedbackSent: data.success });
+    const { isValid, errors } = validateFeedbackInput(feedbackData);
 
-        if (data.success)
-          setTimeout(() => {
-            this.setState({ feedbackSent: false });
-          }, 3000);
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-        logError(err);
-      });
+    this.setState({ errors });
+
+    if (isValid) {
+      this.setState({ loading: true });
+
+      sendFeedback(feedbackData)
+        .then((data: any) => {
+          this.setState({ loading: false, feedbackSent: data.success });
+
+          if (data.success)
+            setTimeout(() => {
+              this.setState({ feedbackSent: false });
+            }, 3000);
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          logError(err);
+        });
+    }
   };
 
   render() {
