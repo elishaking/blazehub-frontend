@@ -9,6 +9,7 @@ import {
   faUsers,
   faUserFriends,
   faBars,
+  faHands,
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import "./MainNav.scss";
@@ -50,6 +51,12 @@ function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
             link="/invite"
             text="Invite Friends"
             icon={faUserFriends}
+            className="mobile-remove"
+          />
+          <NavItem
+            link="/feedback"
+            text="Feedback"
+            icon={faHands}
             className="mobile-remove"
           />
           <NavItem
