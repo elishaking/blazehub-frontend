@@ -13,8 +13,9 @@ import {
 } from "./actions/authActions";
 
 import PrivateRoute from "./containers/PrivateRoute";
-import Landing from "./pages/Landing";
-import Signin from "./pages/Signin";
+import Landing from "./pages/auth/Landing";
+import Signin from "./pages/auth/Signin";
+// import Confirm from './pages/auth/Confirm';
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import FindFriends from "./pages/FindFriends";
@@ -23,7 +24,7 @@ import Bookmarks from "./pages/Bookmarks";
 import InviteFriends from "./pages/InviteFriends";
 import Spinner from "./components/Spinner";
 import Menu from "./pages/Menu";
-import Privacy from "./pages/Privacy";
+import Privacy from "./pages/auth/Privacy";
 import Feedback from "./pages/Feedback";
 
 // upon page reload/refresh, update user authentication token
