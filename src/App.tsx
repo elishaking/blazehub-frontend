@@ -26,6 +26,7 @@ import Spinner from "./components/Spinner";
 import Menu from "./pages/Menu";
 import Privacy from "./pages/auth/Privacy";
 import Feedback from "./pages/Feedback";
+import ResendConfirm from "./pages/auth/ResendConfirm";
 
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
@@ -73,7 +74,10 @@ class App extends Component<{}, Readonly<any>> {
         <Router>
           <Route exact path="/" component={Landing} />
           <Route exact path="/signin" component={Signin} />
-          <Route exact path="/confirm/:token" component={Confirm} />
+          <Switch>
+            <Route exact path="/confirm/resend" component={ResendConfirm} />
+            <Route exact path="/confirm/:token" component={Confirm} />
+          </Switch>
           <Route exact path="/privacy" component={Privacy} />
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />
