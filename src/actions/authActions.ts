@@ -8,12 +8,12 @@ import logError from "../utils/logError";
 
 export const getErrors = (errorData: any) => ({
   type: GET_ERRORS,
-  payload: errorData
+  payload: errorData,
 });
 
 export const setCurrentUser = (userData: any) => ({
   type: SET_CURRENT_USER,
-  payload: userData
+  payload: userData,
 });
 
 // ===ACTION CREATORS===
@@ -25,8 +25,8 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
 ) => {
   await axios
     .post("/api/users/signup", userData)
-    .then(res => history.push("/signin"))
-    .catch(err => {
+    .then((res) => history.push("/signin"))
+    .catch((err) => {
       logError(err);
       if (err.response) dispatch(getErrors(err.response.data));
     });
@@ -37,7 +37,7 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
 export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
   axios
     .post("/api/users/signin", userData)
-    .then(res => {
+    .then((res) => {
       // save token to localStorage to enable global access
       const token: string = res.data.data;
       localStorage.setItem("jwtToken", token);
@@ -51,7 +51,7 @@ export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
       dispatch(setCurrentUser(decodedUserData));
       // window.location.href = "/home";
     })
-    .catch(err => {
+    .catch((err) => {
       logError(err);
       if (err.response) dispatch(getErrors(err.response.data));
     });
@@ -75,4 +75,10 @@ export const setAuthToken = (token: string) => {
     // Delete Auth Header
     delete axios.defaults.headers.common.Authorization;
   }
+};
+
+export const verifyConfirmToken = (token: string) => {
+  return axios.post("/api/users/confirm", {
+    token,
+  });
 };

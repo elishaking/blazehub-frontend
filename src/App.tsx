@@ -15,7 +15,7 @@ import {
 import PrivateRoute from "./containers/PrivateRoute";
 import Landing from "./pages/auth/Landing";
 import Signin from "./pages/auth/Signin";
-// import Confirm from './pages/auth/Confirm';
+import Confirm from "./pages/auth/Confirm";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import FindFriends from "./pages/FindFriends";
@@ -34,10 +34,6 @@ class App extends Component<{}, Readonly<any>> {
   state = {
     loading: true,
   };
-
-  // constructor(props: {}) {
-  //   super(props);
-  // }
 
   componentDidMount() {
     this.updateAuthToken();
@@ -77,6 +73,7 @@ class App extends Component<{}, Readonly<any>> {
         <Router>
           <Route exact path="/" component={Landing} />
           <Route exact path="/signin" component={Signin} />
+          <Route exact path="/confirm/:token" component={Confirm} />
           <Route exact path="/privacy" component={Privacy} />
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />
