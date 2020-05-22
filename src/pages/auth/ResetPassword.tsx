@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, match } from "react-router-dom";
 
-import { resetPassword } from "../../actions/authActions";
+import {
+  confirmPasswordResetUrl,
+  resetPassword,
+} from "../../actions/authActions";
 import Spinner from "../../components/Spinner";
 import { AuthState, ResetPasswordData } from "../../models/auth";
 import "./Landing.scss";
@@ -13,10 +16,13 @@ import { validateResetPasswordInput } from "../../validation/resetPassword";
 
 interface ResetPasswordProps extends RouteComponentProps {
   auth: AuthState;
-  type: "PASSWORD_RESET" | "CONFIRM";
+  match: match<{ token: string }>;
 }
 
 interface ResetPasswordState {
+  loadingConfirm: boolean;
+  confirmSuccessful: boolean;
+  confirmMessage: string;
   loading: boolean;
   password: string;
   confirmPassword: string;
@@ -33,6 +39,9 @@ class ResetPassword extends Component<
     super(props);
 
     this.state = {
+      loadingConfirm: true,
+      confirmSuccessful: false,
+      confirmMessage: "",
       loading: false,
       password: "",
       confirmPassword: "",
@@ -47,6 +56,27 @@ class ResetPassword extends Component<
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/home");
     }
+
+    confirmPasswordResetUrl(this.props.match.params.token)
+      .then((res) => {
+        if (!res.data.success) throw new Error(res.data.message);
+
+        this.setState({
+          loadingConfirm: false,
+          confirmSuccessful: res.data.success,
+          confirmMessage: res.data.message,
+        });
+      })
+      .catch((err) => {
+        logError(err);
+        console.log(err.response);
+
+        this.setState({
+          loadingConfirm: false,
+          confirmSuccessful: false,
+          confirmMessage: err.response.data.data,
+        });
+      });
   }
 
   // after redux store is updated, this life cycle method will be called
@@ -105,65 +135,99 @@ class ResetPassword extends Component<
   };
 
   render() {
-    const { loading, errors, successful, message } = this.state;
+    const {
+      loadingConfirm,
+      confirmSuccessful,
+      confirmMessage,
+      loading,
+      errors,
+      successful,
+      message,
+    } = this.state;
+
+    console.log(this.state);
 
     return (
       <AuthContainer>
         <div className="form-container">
-          {successful ? (
-            <>
-              <h3>Your password has been reset</h3>
-              <br />
-              <button
-                className="btn"
-                onClick={(e) => this.props.history.replace("/signin")}
-              >
-                Sign In
-              </button>
-            </>
-          ) : (
-            <>
-              <h2 className="mb-1">Reset password</h2>
-              <form onSubmit={this.onSubmit}>
-                <TextFormInput
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  error={errors.password}
-                  onChange={this.onChange}
-                />
-                <TextFormInput
-                  type="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="confirm password"
-                  error={errors.confirmPassword}
-                  onChange={this.onChange}
-                />
+          {(() => {
+            if (loadingConfirm)
+              return (
+                <>
+                  <Spinner />
+                  <small>Validating password reset url</small>
+                </>
+              );
 
-                {loading ? (
-                  <Spinner full={false} />
-                ) : (
-                  <>
-                    {successful !== undefined && (
-                      <small
-                        style={{
-                          color: successful ? undefined : "#ca0000",
-                        }}
-                      >
-                        {message || "Something went wrong, please try again"}
-                      </small>
-                    )}
-
-                    <input
-                      type="submit"
-                      value="Reset"
-                      className="btn-input btn-pri"
+            if (confirmSuccessful) {
+              return successful ? (
+                <>
+                  <h3>Your password has been reset</h3>
+                  <br />
+                  <button
+                    className="btn"
+                    onClick={(e) => this.props.history.replace("/signin")}
+                  >
+                    Sign In
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2 className="mb-1">Reset password</h2>
+                  <form onSubmit={this.onSubmit}>
+                    <TextFormInput
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      error={errors.password}
+                      onChange={this.onChange}
                     />
-                  </>
-                )}
-              </form>
-            </>
-          )}
+                    <TextFormInput
+                      type="confirmPassword"
+                      name="confirmPassword"
+                      placeholder="confirm password"
+                      error={errors.confirmPassword}
+                      onChange={this.onChange}
+                    />
+
+                    {loading ? (
+                      <Spinner full={false} />
+                    ) : (
+                      <>
+                        {successful !== undefined && (
+                          <small className="error">
+                            {confirmMessage ||
+                              "Something went wrong, please try again"}
+                          </small>
+                        )}
+
+                        <input
+                          type="submit"
+                          value="Reset"
+                          className="btn-input btn-pri"
+                        />
+                      </>
+                    )}
+                  </form>
+                </>
+              );
+            }
+
+            return (
+              <>
+                <h3 className="error">
+                  {message || "Password reset url is invalid"}
+                </h3>
+                <br />
+                <button
+                  className="btn"
+                  onClick={(e) => this.props.history.push("/password/forgot")}
+                >
+                  Try again
+                </button>
+              </>
+            );
+          })()}
         </div>
       </AuthContainer>
     );

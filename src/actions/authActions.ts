@@ -95,6 +95,11 @@ export const sendPasswordResetUrl = (email: string) => {
   });
 };
 
+export const confirmPasswordResetUrl = (token: string) => {
+  return axios.post("/api/users/password/confirm", {
+    token,
+  });
+};
 export const resetPassword = (password: string) => {
   return axios.post("/api/users/password/reset", {
     password,
