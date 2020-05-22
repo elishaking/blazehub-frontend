@@ -56,7 +56,6 @@ class ResetPassword extends Component<
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/home");
     }
-
     confirmPasswordResetUrl(this.props.match.params.token)
       .then((res) => {
         if (!res.data.success) throw new Error(res.data.message);
@@ -69,7 +68,6 @@ class ResetPassword extends Component<
       })
       .catch((err) => {
         logError(err);
-        console.log(err.response);
 
         this.setState({
           loadingConfirm: false,
@@ -144,8 +142,6 @@ class ResetPassword extends Component<
       successful,
       message,
     } = this.state;
-
-    console.log(this.state);
 
     return (
       <AuthContainer>
