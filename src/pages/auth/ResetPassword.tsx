@@ -3,12 +3,13 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { resetPassword } from "../../actions/authActions";
 import Spinner from "../../components/Spinner";
-import { AuthState } from "../../models/auth";
+import { AuthState, ResetPasswordData } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
 import AuthContainer from "./AuthContainer";
 import { TextFormInput } from "../../components/form/TextFormInput";
 import { connect } from "react-redux";
+import { validateResetPasswordInput } from "../../validation/resetPassword";
 
 interface ResetPasswordProps extends RouteComponentProps {
   auth: AuthState;
@@ -18,9 +19,10 @@ interface ResetPasswordProps extends RouteComponentProps {
 interface ResetPasswordState {
   loading: boolean;
   password: string;
+  confirmPassword: string;
   message: string;
   successful: boolean | undefined;
-  errors: any;
+  errors: ResetPasswordData;
 }
 
 class ResetPassword extends Component<
@@ -33,9 +35,10 @@ class ResetPassword extends Component<
     this.state = {
       loading: false,
       password: "",
+      confirmPassword: "",
       successful: undefined,
       message: "",
-      errors: {},
+      errors: {} as ResetPasswordData,
     };
   }
 
@@ -77,14 +80,32 @@ class ResetPassword extends Component<
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const { password, confirmPassword } = this.state;
+    const { isValid, errors } = validateResetPasswordInput({
+      password,
+      confirmPassword,
+    });
+
+    if (!isValid) return this.setState({ errors });
+
     this.setState({ loading: true });
 
-    resetPassword(this.state.password).catch((err) => logError(err));
+    resetPassword(this.state.password)
+      .then((res) => {
+        this.setState({
+          loading: false,
+          message: res.data.data,
+        });
+      })
+      .catch((err) => {
+        logError(err);
+
+        this.setState({ loading: false });
+      });
   };
 
   render() {
     const { loading, errors, successful, message } = this.state;
-    // console.log(errors);
 
     return (
       <AuthContainer>
