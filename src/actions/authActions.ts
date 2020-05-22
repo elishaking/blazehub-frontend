@@ -94,3 +94,9 @@ export const sendPasswordResetUrl = (email: string) => {
     email,
   });
 };
+
+export const resetPassword = (password: string) => {
+  return axios.post("/api/users/password/reset", {
+    password,
+  });
+};

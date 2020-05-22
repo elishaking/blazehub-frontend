@@ -26,6 +26,7 @@ export default class AuthContainer extends Component {
 
   render() {
     const { navLogoColor } = this.state;
+    const baseUrl = window.location.origin;
     return (
       <div className="container landing-bg">
         <header>
@@ -44,7 +45,7 @@ export default class AuthContainer extends Component {
                 <ul>
                   <li>
                     <img
-                      src="../assets/img/connect.svg"
+                      src={`${baseUrl}/assets/img/connect.svg`}
                       alt="Connection"
                       srcSet=""
                     />
@@ -52,7 +53,7 @@ export default class AuthContainer extends Component {
                   </li>
                   <li>
                     <img
-                      src="../assets/img/converse.svg"
+                      src={`${baseUrl}/assets/img/converse.svg`}
                       alt="Conversation"
                       srcSet=""
                     />
@@ -60,7 +61,7 @@ export default class AuthContainer extends Component {
                   </li>
                   <li>
                     <img
-                      src="../assets/img/commune.svg"
+                      src={`${baseUrl}/assets/img/commune.svg`}
                       alt="Community"
                       srcSet=""
                     />

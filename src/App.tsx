@@ -28,6 +28,7 @@ import Privacy from "./pages/auth/Privacy";
 import Feedback from "./pages/Feedback";
 import ResendConfirm from "./pages/auth/ResendConfirm";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
@@ -80,6 +81,11 @@ class App extends Component<{}, Readonly<any>> {
             <Route exact path="/confirm/:token" component={Confirm} />
           </Switch>
           <Route exact path="/password/forgot" component={ForgotPassword} />
+          <Route
+            exact
+            path="/password/reset/:token"
+            component={ResetPassword}
+          />
           <Route exact path="/privacy" component={Privacy} />
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />
