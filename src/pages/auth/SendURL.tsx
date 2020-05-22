@@ -11,6 +11,7 @@ import "./Landing.scss";
 import logError from "../../utils/logError";
 import AuthContainer from "./AuthContainer";
 import { TextFormInput } from "../../components/form/TextFormInput";
+import { throws } from "assert";
 
 interface SendURLProps extends RouteComponentProps {
   auth: AuthState;
@@ -125,7 +126,11 @@ export default class SendURL extends Component<
             </>
           ) : (
             <>
-              <h1 className="mb-1">Resend Confirmation URL</h1>
+              <h2 className="mb-1">
+                {this.props.type === "CONFIRM"
+                  ? "Resend confirmation URL"
+                  : "Send password reset URL"}
+              </h2>
               <form onSubmit={this.onSubmit}>
                 <TextFormInput
                   type="email"

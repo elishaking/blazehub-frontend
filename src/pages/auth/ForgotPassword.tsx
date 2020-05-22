@@ -27,7 +27,6 @@ class ResendConfirm extends Component<ResendProps> {
     }
   }
 
-  /** @param {boolean} isAuthenticated */
   redirectIfAuthenticated = (isAuthenticated: boolean) => {
     // redirect authenticated user to home-page
     if (isAuthenticated) {
@@ -37,7 +36,9 @@ class ResendConfirm extends Component<ResendProps> {
   };
 
   render() {
-    return <SendURL auth={this.props.auth} type="CONFIRM" {...this.props} />;
+    return (
+      <SendURL auth={this.props.auth} type="PASSWORD_RESET" {...this.props} />
+    );
   }
 }
 
