@@ -84,7 +84,7 @@ export const verifyConfirmToken = (token: string) => {
 };
 
 export const resendConfirmationUrl = (email: string) => {
-  return axios.post("/api/users/confirm/resend", {
+  return axios.post("/api/users/resend", {
     email,
   });
 };

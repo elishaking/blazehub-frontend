@@ -17,6 +17,8 @@ interface ResendProps extends RouteComponentProps {
 interface ResendState {
   loading: boolean;
   email: string;
+  message: string;
+  successful: boolean | undefined;
   errors: any;
 }
 
@@ -27,6 +29,8 @@ class ResendConfirm extends Component<ResendProps, Readonly<ResendState>> {
     this.state = {
       loading: false,
       email: "",
+      successful: undefined,
+      message: "",
       errors: {},
     };
   }
@@ -73,38 +77,78 @@ class ResendConfirm extends Component<ResendProps, Readonly<ResendState>> {
 
     resendConfirmationUrl(this.state.email)
       .then((res) => {
-        this.setState({ loading: false });
+        this.setState({
+          loading: false,
+          successful: true,
+          message: res.data.data,
+        });
       })
       .catch((err) => {
         logError(err);
 
-        this.setState({ loading: false });
+        this.setState({
+          loading: false,
+          successful: false,
+          message: err.response.data.data,
+        });
       });
   };
 
   render() {
-    const { loading, errors } = this.state;
+    const { loading, errors, successful, message } = this.state;
     // console.log(errors);
 
     return (
       <AuthContainer>
         <div className="form-container">
-          <h1 className="mb-1">Resend Confirmation URL</h1>
-          <form onSubmit={this.onSubmit}>
-            <TextFormInput
-              type="email"
-              name="email"
-              placeholder="email"
-              error={errors.signinEmail}
-              onChange={this.onChange}
-            />
+          {successful ? (
+            <>
+              <h3>Sent, Check your email to proceed</h3>
+              <br />
+              <button
+                className="btn"
+                onClick={(e) => this.props.history.replace("/signin")}
+              >
+                Sign In
+              </button>
+            </>
+          ) : (
+            <>
+              <h1 className="mb-1">Resend Confirmation URL</h1>
+              <form onSubmit={this.onSubmit}>
+                <TextFormInput
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  error={errors.signinEmail}
+                  onChange={this.onChange}
+                />
 
-            {loading ? (
-              <Spinner full={false} />
-            ) : (
-              <input type="submit" value="Send" className="btn-input btn-pri" />
-            )}
-          </form>
+                {loading ? (
+                  <Spinner full={false} />
+                ) : (
+                  <>
+                    {successful !== undefined && (
+                      <small
+                        style={{
+                          color: successful ? undefined : "#ca0000",
+                        }}
+                      >
+                        {message}
+                      </small>
+                    )}
+
+                    <input
+                      type="submit"
+                      value="Send"
+                      className="btn-input btn-pri"
+                      disabled
+                    />
+                  </>
+                )}
+              </form>
+            </>
+          )}
         </div>
       </AuthContainer>
     );
