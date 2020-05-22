@@ -11,7 +11,6 @@ import "./Landing.scss";
 import logError from "../../utils/logError";
 import AuthContainer from "./AuthContainer";
 import { TextFormInput } from "../../components/form/TextFormInput";
-import { throws } from "assert";
 
 interface SendURLProps extends RouteComponentProps {
   auth: AuthState;
@@ -150,7 +149,7 @@ export default class SendURL extends Component<
                           color: successful ? undefined : "#ca0000",
                         }}
                       >
-                        {message}
+                        {message || "Something went wrong, please try again"}
                       </small>
                     )}
 

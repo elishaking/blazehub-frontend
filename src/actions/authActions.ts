@@ -90,7 +90,7 @@ export const resendConfirmationUrl = (email: string) => {
 };
 
 export const sendPasswordResetUrl = (email: string) => {
-  return axios.post("/api/users/password/reset", {
+  return axios.post("/api/users/password/forgot", {
     email,
   });
 };
