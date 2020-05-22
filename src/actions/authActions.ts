@@ -88,3 +88,9 @@ export const resendConfirmationUrl = (email: string) => {
     email,
   });
 };
+
+export const sendPasswordResetUrl = (email: string) => {
+  return axios.post("/api/users/password/reset", {
+    email,
+  });
+};
