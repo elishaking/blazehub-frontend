@@ -10,11 +10,11 @@ import {
   TextFormInput,
   TextAreaFormInput,
 } from "../components/form/TextFormInput";
-import { FeedbackErrors } from "../models/feedback";
 import Spinner from "../components/Spinner";
 import logError from "../utils/logError";
 import { sendFeedback } from "../actions/feedback";
 import { validateFeedbackInput } from "../validation/feedback";
+import { FeedbackData } from "../models/feedback";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -24,7 +24,7 @@ class Feedback extends Component<FeedbackProps> {
   state = {
     loading: false,
     feedbackSent: false,
-    errors: {} as FeedbackErrors,
+    errors: {} as FeedbackData,
 
     email: "",
     name: "",

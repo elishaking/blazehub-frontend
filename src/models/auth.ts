@@ -20,3 +20,8 @@ export interface AuthState {
   user: AuthUser;
   errors: AuthErrors;
 }
+
+export interface ResetPasswordData {
+  password: string;
+  confirmPassword: string;
+}

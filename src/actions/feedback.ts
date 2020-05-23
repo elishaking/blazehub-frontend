@@ -1,10 +1,10 @@
 // import axios from "axios";
 import app from "firebase/app";
 import "firebase/database";
-import { Feedback } from "../models/feedback";
+import { FeedbackData } from "../models/feedback";
 import logError from "../utils/logError";
 
-export const sendFeedback = async (feedbackData: Feedback) => {
+export const sendFeedback = async (feedbackData: FeedbackData) => {
   try {
     await app.database().ref("feedback").push(feedbackData);
   } catch (err) {

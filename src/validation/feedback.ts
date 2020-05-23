@@ -1,10 +1,10 @@
-import { Feedback, FeedbackErrors } from "../models/feedback";
+import { FeedbackData } from "../models/feedback";
 
 /**
  * Validate feedback input
  */
-export const validateFeedbackInput = (formData: Feedback) => {
-  const errors: FeedbackErrors = {} as FeedbackErrors;
+export const validateFeedbackInput = (formData: FeedbackData) => {
+  const errors = {} as FeedbackData;
 
   if (formData.name === "") errors.name = "Your name is required";
   else if (formData.name.length < 5 || formData.name.length > 30)
@@ -13,6 +13,7 @@ export const validateFeedbackInput = (formData: Feedback) => {
   if (formData.email === "") errors.email = "Your email is required";
   else if (
     !new RegExp(
+      // eslint-disable-next-line no-useless-escape
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     ).test(formData.email)
   )

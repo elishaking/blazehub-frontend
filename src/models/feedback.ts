@@ -1,7 +1,5 @@
-export interface Feedback {
+export interface FeedbackData {
   name: string;
   email: string;
   message: string;
 }
-
-export interface FeedbackErrors extends Feedback {}

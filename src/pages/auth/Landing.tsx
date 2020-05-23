@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
-import { signinUser, signupUser } from "../actions/authActions";
-import Spinner from "../components/Spinner";
-import { TextFormInput } from "../components/form/TextFormInput";
-import { UserSigninData, UserSignupData } from "../models/user";
-import { AuthState, AuthErrors } from "../models/auth";
-import Logo from "../components/Logo";
+import { signinUser, signupUser } from "../../actions/authActions";
+import Spinner from "../../components/Spinner";
+import { TextFormInput } from "../../components/form/TextFormInput";
+import { UserSigninData, UserSignupData } from "../../models/user";
+import { AuthState, AuthErrors } from "../../models/auth";
+import Logo from "../../components/Logo";
 import "./Landing.scss";
 
 interface LandingProps extends RouteComponentProps {

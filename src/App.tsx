@@ -13,8 +13,9 @@ import {
 } from "./actions/authActions";
 
 import PrivateRoute from "./containers/PrivateRoute";
-import Landing from "./pages/Landing";
-import Signin from "./pages/Signin";
+import Landing from "./pages/auth/Landing";
+import Signin from "./pages/auth/Signin";
+import Confirm from "./pages/auth/Confirm";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import FindFriends from "./pages/FindFriends";
@@ -23,8 +24,11 @@ import Bookmarks from "./pages/Bookmarks";
 import InviteFriends from "./pages/InviteFriends";
 import Spinner from "./components/Spinner";
 import Menu from "./pages/Menu";
-import Privacy from "./pages/Privacy";
+import Privacy from "./pages/auth/Privacy";
 import Feedback from "./pages/Feedback";
+import ResendConfirm from "./pages/auth/ResendConfirm";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
@@ -33,10 +37,6 @@ class App extends Component<{}, Readonly<any>> {
   state = {
     loading: true,
   };
-
-  // constructor(props: {}) {
-  //   super(props);
-  // }
 
   componentDidMount() {
     this.updateAuthToken();
@@ -76,6 +76,16 @@ class App extends Component<{}, Readonly<any>> {
         <Router>
           <Route exact path="/" component={Landing} />
           <Route exact path="/signin" component={Signin} />
+          <Switch>
+            <Route exact path="/confirm/resend" component={ResendConfirm} />
+            <Route exact path="/confirm/:token" component={Confirm} />
+          </Switch>
+          <Route exact path="/password/forgot" component={ForgotPassword} />
+          <Route
+            exact
+            path="/password/reset/:token"
+            component={ResetPassword}
+          />
           <Route exact path="/privacy" component={Privacy} />
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import { signinUser } from "../actions/authActions";
-import Spinner from "../components/Spinner";
-import { TextFormInput } from "../components/form/TextFormInput";
-import { UserSigninData } from "../models/user";
-import { AuthState } from "../models/auth";
+import { signinUser } from "../../actions/authActions";
+import Spinner from "../../components/Spinner";
+import { TextFormInput } from "../../components/form/TextFormInput";
+import { UserSigninData } from "../../models/user";
+import { AuthState } from "../../models/auth";
 
 interface SigninProps extends RouteComponentProps {
   auth: AuthState;
@@ -20,7 +20,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
       email: "",
       password: "",
       errors: {},
-      loading: false
+      loading: false,
     };
   }
 
@@ -35,7 +35,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
     if (nextProps.auth.errors) {
       this.setState({
         errors: nextProps.auth.errors,
-        loading: false
+        loading: false,
       });
     }
   }
@@ -52,7 +52,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
   /**  @param {React.ChangeEvent<HTMLInputElement>} event */
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -64,7 +64,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
 
     const userData = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
     this.props.signinUser(userData);
   };
@@ -119,7 +119,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
 }
 
 const mapStateToProps = (state: any) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect<any>(mapStateToProps, { signinUser })(Signin);

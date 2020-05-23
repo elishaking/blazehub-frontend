@@ -17,8 +17,17 @@ import * as Sentry from "@sentry/browser";
 //   messagingSenderId: firebaseKeys.FIREBASE_MESSEGING_SENDER_ID,
 // });
 
-const BASE_URL = "https://blazehub-bk.herokuapp.com";
-axios.defaults.baseURL = BASE_URL;
+if (process.env.NODE_ENV !== "development") {
+  const BASE_URL = "https://blazehub-bk.herokuapp.com";
+  axios.defaults.baseURL = BASE_URL;
+}
+
+if (process.env.NODE_ENV === "development") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React, {
+    trackAllPureComponents: true,
+  });
+}
 
 Sentry.init({
   dsn: "https://8f9df8cc348a417199281b5eb31e341c@sentry.io/4173378",
