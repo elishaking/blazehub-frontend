@@ -103,9 +103,9 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
           </div>
         ) : (
           <div>
-            <h1 style={{ color: successful ? undefined : "#ca0000" }}>
+            <h2 style={{ color: successful ? undefined : "#ca0000" }}>
               {message}
-            </h1>
+            </h2>
             <br></br>
             {successful ? (
               <button className="btn" onClick={(e) => this.navigate("/signin")}>
