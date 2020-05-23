@@ -118,10 +118,11 @@ class ResetPassword extends Component<
 
     this.setState({ loading: true });
 
-    resetPassword(this.state.password)
+    resetPassword(this.props.match.params.token, this.state.password)
       .then((res) => {
         this.setState({
           loading: false,
+          successful: true,
           message: res.data.data,
         });
       })
@@ -179,7 +180,7 @@ class ResetPassword extends Component<
                       onChange={this.onChange}
                     />
                     <TextFormInput
-                      type="confirmPassword"
+                      type="password"
                       name="confirmPassword"
                       placeholder="confirm password"
                       error={errors.confirmPassword}

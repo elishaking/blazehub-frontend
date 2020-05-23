@@ -100,8 +100,9 @@ export const confirmPasswordResetUrl = (token: string) => {
     token,
   });
 };
-export const resetPassword = (password: string) => {
+export const resetPassword = (token: string, password: string) => {
   return axios.post("/api/users/password/reset", {
+    token,
     password,
   });
 };
