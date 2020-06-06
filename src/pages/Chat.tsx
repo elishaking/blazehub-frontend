@@ -300,7 +300,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
     const friendKeys = Object.keys(friends);
 
     return (
-      <div className="container">
+      <div className="container chat-page">
         <AuthNav history={this.props.history} avatar={avatar} />
 
         <div className="main">

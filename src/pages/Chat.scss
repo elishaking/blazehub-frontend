@@ -1,3 +1,32 @@
+.chat-page {
+  @media (max-width: 1400px) {
+    .main-nav {
+      flex: 0;
+
+      header {
+        display: none;
+      }
+
+      nav {
+        margin-bottom: 0;
+      }
+    }
+
+    .nav-item {
+      a {
+        svg.nav {
+          margin-right: 0;
+          font-size: 1.3em;
+        }
+
+        span.nav {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 .chat-space {
   border: 1px solid #ede0ff;
   border-radius: 5px;
