@@ -86,7 +86,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
 
     if (nextProps.auth.errors) {
       this.setState({
-        errors: nextProps.auth.errors,
+        errors: nextProps.auth.errors.data,
         loadingSignin: false,
         loadingSignup: false,
       });
