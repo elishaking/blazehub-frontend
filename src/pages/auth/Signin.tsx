@@ -34,7 +34,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
 
     if (nextProps.auth.errors) {
       this.setState({
-        errors: nextProps.auth.errors,
+        errors: nextProps.auth.errors.data,
         loading: false,
       });
     }
