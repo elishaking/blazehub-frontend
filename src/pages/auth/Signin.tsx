@@ -20,6 +20,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
       email: "",
       password: "",
       errors: {},
+      error: "",
       loading: false,
     };
   }
@@ -33,10 +34,17 @@ class Signin extends Component<SigninProps, Readonly<any>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
-      this.setState({
-        errors: nextProps.auth.errors.data,
-        loading: false,
-      });
+      if (nextProps.auth.errors.data) {
+        this.setState({
+          errors: nextProps.auth.errors.data,
+          loading: false,
+        });
+      } else {
+        this.setState({
+          loading: false,
+          error: "Something went wrong, check your network",
+        });
+      }
     }
   }
 
@@ -70,7 +78,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
   };
 
   render() {
-    const { errors } = this.state;
+    const { error, errors } = this.state;
     return (
       <div className="container">
         <header>
@@ -84,6 +92,8 @@ class Signin extends Component<SigninProps, Readonly<any>> {
 
         <div className="content block">
           <div className="form-container">
+            {error && <h3 className="error-h3">{error}</h3>}
+
             <h1 className="mb-1">Sign In to BlazeHub</h1>
             <form onSubmit={this.onSubmit}>
               <TextFormInput
