@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { signinUser } from "../../actions/authActions";
 import Spinner from "../../components/Spinner";
@@ -87,6 +87,10 @@ class Signin extends Component<SigninProps, Readonly<any>> {
               <img src={`./assets/img/logo-pri.svg`} alt="Logo" srcSet="" />{" "}
               <span>BlazeHub</span>
             </h1>
+
+            <Link to="/" className="btn">
+              Sign up
+            </Link>
           </nav>
         </header>
 
