@@ -27,8 +27,12 @@
   }
 }
 
-.chat-space {
+.chats {
   border: 1px solid #ede0ff;
+}
+
+.chat-space {
+  // border: 1px solid #ede0ff;
   border-radius: 5px;
 
   header {
@@ -100,7 +104,12 @@
   .chat {
     display: flex;
     // align-items: center;
-    margin: 0.5em;
+    margin: 0.7em;
+
+    img {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.06),
+        0 4px 6px -2px rgba(0, 0, 0, 0.58);
+    }
 
     div {
       position: relative;
