@@ -68,7 +68,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: "" });
 
     const userData = {
       email: this.state.email,
