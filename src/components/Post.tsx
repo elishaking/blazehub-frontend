@@ -265,15 +265,15 @@ class Post extends Component<PostProps, Readonly<any>> {
     now /= 1000;
     date /= 1000;
 
-    // console.log(date);
-    // console.log(now - date);
-    // console.log(new Date(now))
-    // console.log(new Date(date))
+    if (now - date > 3600) {
+      const hours = Math.floor((now - date) / 60 / 60);
+      return `${hours} hr${hours > 1 ? "s" : ""} ago`;
+    }
 
-    if (now - date > 3600)
-      return `${Math.floor((now - date) / 60 / 60)} hrs ago`;
-
-    if (now - date > 60) return `${Math.floor((now - date) / 60)} mins ago`;
+    if (now - date > 60) {
+      const mins = Math.floor((now - date) / 60);
+      return `${mins} min${mins > 1 ? "s" : ""} ago`;
+    }
 
     return "now";
   };
