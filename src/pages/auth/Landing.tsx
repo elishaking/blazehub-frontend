@@ -41,6 +41,7 @@ interface LandingState {
   loadingSignup: boolean;
 
   errors: LandingErrors;
+  error: string;
 }
 
 class Landing extends Component<LandingProps, Readonly<LandingState>> {
@@ -63,6 +64,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       loadingSignup: false,
 
       errors: {} as LandingErrors,
+      error: "",
     };
   }
 
@@ -85,11 +87,19 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
-      this.setState({
-        errors: nextProps.auth.errors,
-        loadingSignin: false,
-        loadingSignup: false,
-      });
+      if (nextProps.auth.errors.data) {
+        this.setState({
+          errors: nextProps.auth.errors.data,
+          loadingSignin: false,
+          loadingSignup: false,
+        });
+      } else {
+        this.setState({
+          loadingSignin: false,
+          loadingSignup: false,
+          error: "Something went wrong, check your network",
+        });
+      }
     }
   }
 
@@ -127,7 +137,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   onSubmitSignin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loadingSignin: true });
+    this.setState({ loadingSignin: true, error: "" });
 
     if (this.state.method === "POST") {
       const userData = {
@@ -143,7 +153,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   onSubmitSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loadingSignup: true });
+    this.setState({ loadingSignup: true, error: "" });
 
     const userData = {
       firstName: this.state.firstName,
@@ -156,7 +166,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   };
 
   render() {
-    const { errors, navLogoColor } = this.state;
+    const { error, errors, navLogoColor } = this.state;
     // console.log(errors);
 
     return (
@@ -246,6 +256,8 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
 
           <div className="right">
             <div className="inner">
+              {error && <h3 className="error-h3">{error}</h3>}
+
               <div className="welcome">
                 <Logo style={{ fontSize: "2em" }} />
                 <h1>Join BlazeHub Today</h1>

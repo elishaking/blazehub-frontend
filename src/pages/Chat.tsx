@@ -34,7 +34,7 @@ interface ChatProps extends RouteComponentProps {
 
 const SLIDE_IN = {
   display: "block",
-  transform: "translateX(0)"
+  transform: "translateX(0)",
 };
 
 class Chat extends Component<ChatProps, Readonly<any>> {
@@ -56,7 +56,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
       loadingChat: false,
       slideInStyle: {},
       chatsHeight: 300,
-      avatar: ""
+      avatar: "",
     };
 
     this.userKey = this.getUserKey(props.auth.user.email);
@@ -71,7 +71,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
     if (profile.avatar) {
       this.setState({
         // loadingAvatar: false,
-        avatar: profile.avatar
+        avatar: profile.avatar,
       });
     } else {
       this.props.getProfilePic(auth.user.id, "avatar");
@@ -91,7 +91,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
     ) {
       this.setState({
         // loadingAvatar: false,
-        avatar: nextProps.profile.avatar
+        avatar: nextProps.profile.avatar,
       });
     }
 
@@ -118,14 +118,14 @@ class Chat extends Component<ChatProps, Readonly<any>> {
         // update UI with new friends
         this.setState({
           friends,
-          loading: false
+          loading: false,
         });
       } else if (
         JSON.stringify(friends) !== JSON.stringify(this.state.friends)
       ) {
         this.setState({
           friends,
-          loading: false
+          loading: false,
         });
       } else {
         this.setState({ loading: false });
@@ -149,7 +149,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
         // this.pageSmootScroll(chatMessagesDiv, chatMessagesDiv.scrollHeight);
         chatMessagesDiv.scrollTo({
           behavior: "smooth",
-          top: chatMessagesDiv.scrollHeight - chatMessagesDiv.clientHeight
+          top: chatMessagesDiv.scrollHeight - chatMessagesDiv.clientHeight,
         });
         if (chats[currentChatKey][newMessageKey].user.key !== this.userKey)
           this.notificationSound.play();
@@ -181,13 +181,13 @@ class Chat extends Component<ChatProps, Readonly<any>> {
    * @param {any[]} a
    * @param {any[]} b
    */
-  arrayDiff = (a: any[], b: any[]) => a.filter(val => b.indexOf(val) < 0);
+  arrayDiff = (a: any[], b: any[]) => a.filter((val) => b.indexOf(val) < 0);
 
   setChatsHeight = () => {
     // console
     const K = window.innerWidth > window.innerHeight ? 0.03 : 0.1;
     this.setState({
-      chatsHeight: window.innerHeight - (170 + K * window.innerWidth)
+      chatsHeight: window.innerHeight - (170 + K * window.innerWidth),
     });
   };
 
@@ -198,7 +198,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -220,18 +220,18 @@ class Chat extends Component<ChatProps, Readonly<any>> {
         currentFriendKey: key,
         currentChatKey: this.getChatKey(key),
         loadingChat: true,
-        chatTitle: this.state.friends[key].name
+        chatTitle: this.state.friends[key].name,
       },
       () => {
         this.chatRef
           .child(this.state.currentChatKey)
-          .once("value", chatSnapShot => {
+          .once("value", (chatSnapShot) => {
             const { chats } = this.state;
             chats[this.state.currentChatKey] = chatSnapShot.val() || {};
             this.setState(
               {
                 loadingChat: false,
-                chats
+                chats,
               },
               () => {
                 const chatMessagesDiv = document.getElementById(
@@ -240,7 +240,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                 chatMessagesDiv.scrollTo({
                   behavior: "auto",
                   top:
-                    chatMessagesDiv.scrollHeight - chatMessagesDiv.clientHeight
+                    chatMessagesDiv.scrollHeight - chatMessagesDiv.clientHeight,
                 });
               }
             );
@@ -259,14 +259,14 @@ class Chat extends Component<ChatProps, Readonly<any>> {
         // todo: add user url (from profile: auto-generate if not manually set by user)
         user: {
           name: `${user.firstName}`,
-          key: this.userKey
-        }
+          key: this.userKey,
+        },
       };
 
       this.setState({ messageText: "" });
       // event.target.value = "";
 
-      this.chatRef.child(currentChatKey).push(newMessage, err => {
+      this.chatRef.child(currentChatKey).push(newMessage, (err) => {
         if (err) {
           // console.error(err);
         }
@@ -278,7 +278,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
 
   toggleFriends = () => {
     this.setState({
-      slideInStyle: this.state.slideInStyle === SLIDE_IN ? {} : SLIDE_IN
+      slideInStyle: this.state.slideInStyle === SLIDE_IN ? {} : SLIDE_IN,
     });
   };
 
@@ -295,12 +295,12 @@ class Chat extends Component<ChatProps, Readonly<any>> {
       currentChatKey,
       chats,
       loadingChat,
-      messageText
+      messageText,
     } = this.state;
     const friendKeys = Object.keys(friends);
 
     return (
-      <div className="container">
+      <div className="container chat-page">
         <AuthNav history={this.props.history} avatar={avatar} />
 
         <div className="main">
@@ -346,12 +346,20 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                         .toLocaleTimeString()
                         .split(":");
                       const meridiem = timeString[2].split(" ")[1];
-                      const time = `${timeString[0]}:${
-                        timeString[1]
-                      } ${meridiem || ""}`;
-                      const prevMessageKey = messageKeys[idx - 1];
+                      const time = `${timeString[0]}:${timeString[1]} ${
+                        meridiem || ""
+                      }`;
+                      const prevMessageKey =
+                        idx === 0 ? messageKey : messageKeys[idx - 1];
 
-                      if (message.user.key === this.userKey)
+                      const currentChat = chats[currentChatKey][prevMessageKey];
+                      const currentUserKey =
+                        (currentChat.user && currentChat.user.key) ||
+                        currentChat.userID;
+                      const messageUserKey: string =
+                        (message.userID && message.userID) || message.user.key;
+
+                      if (messageUserKey === this.userKey)
                         return (
                           <div
                             key={messageKey}
@@ -359,10 +367,9 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                             style={{
                               marginTop:
                                 prevMessageKey &&
-                                chats[currentChatKey][prevMessageKey].user
-                                  .key !== message.user.key
+                                currentUserKey !== messageUserKey
                                   ? "1.3em"
-                                  : "0.5em"
+                                  : "0.5em",
                             }}
                           >
                             {avatar ? (
@@ -387,10 +394,9 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                             style={{
                               marginTop:
                                 prevMessageKey &&
-                                chats[currentChatKey][prevMessageKey].user
-                                  .key !== message.user.key
+                                currentUserKey !== messageUserKey
                                   ? "1.3em"
-                                  : "0.5em"
+                                  : "0.5em",
                             }}
                           >
                             {friends[currentFriendKey] &&
@@ -440,7 +446,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
             {loading ? (
               <Spinner />
             ) : (
-              friendKeys.map(friendKey => {
+              friendKeys.map((friendKey) => {
                 const friend = friends[friendKey];
                 // console.log(friend);
 
@@ -448,7 +454,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                   <div key={friendKey}>
                     <div
                       className="friend"
-                      onClick={e => this.openChat(friendKey)}
+                      onClick={(e) => this.openChat(friendKey)}
                     >
                       {friend.avatar ? (
                         <Avatar avatar={friend.avatar} />
@@ -480,11 +486,11 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
   profile: state.profile,
   friends: state.friends,
-  chats: state.chats
+  chats: state.chats,
 });
 
 export default connect<any>(mapStateToProps, {
   getProfilePic,
   getFriends,
-  listenForNewChats
+  listenForNewChats,
 })(Chat);
