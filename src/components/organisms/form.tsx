@@ -10,10 +10,6 @@ const Wrapper = styled.form`
   .form-input {
     margin-bottom: 1em;
   }
-
-  button[type="submit"] {
-    margin-top: 1em;
-  }
 `;
 
 export const Form = ({

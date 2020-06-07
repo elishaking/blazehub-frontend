@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { signinUser, signupUser } from "../../actions/authActions";
 import Spinner from "../../components/Spinner";
-import { TextFormInput } from "../../components/molecules";
+import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
@@ -164,7 +164,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       email: this.state.signupEmail,
       password: this.state.signupPassword,
     };
-    this.props.signupUser(userData, this.props.history);
+    // this.props.signupUser(userData, this.props.history);
   };
 
   render() {
@@ -316,7 +316,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                   <option value="female">Female</option>
                   <option value="other">Other</option>
                 </Select>
-                {this.state.loadingSignup ? (
+                {/* {this.state.loadingSignup ? (
                   <Spinner full={false} />
                 ) : (
                   // <input
@@ -325,7 +325,13 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                   //   className="btn-input btn-pri"
                   // />
                   <Button type="submit">Sign Up</Button>
-                )}
+                )} */}
+                <CompositeButton
+                  kind="primary"
+                  loading={this.state.loadingSignup}
+                >
+                  Sign Up
+                </CompositeButton>
               </Form>
             </div>
           </div>
