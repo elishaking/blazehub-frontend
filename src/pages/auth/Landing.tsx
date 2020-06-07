@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { signinUser, signupUser } from "../../actions/authActions";
 import Spinner from "../../components/Spinner";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { TextFormInput } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";

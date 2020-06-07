@@ -1,2 +1,2 @@
 export { Button, OutlineButton } from "./button";
-export { TextFormInput } from "./input";
+export { Input } from "./input";
