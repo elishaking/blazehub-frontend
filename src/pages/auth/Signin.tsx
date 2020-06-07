@@ -6,7 +6,7 @@ import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData } from "../../models/user";
 import { AuthState } from "../../models/auth";
 import { Form } from "../../components/organisms/form";
-import { Button } from "../../components/atoms";
+import { Button, FlatButton } from "../../components/atoms";
 
 interface SigninProps extends RouteComponentProps {
   auth: AuthState;
@@ -116,18 +116,16 @@ class Signin extends Component<SigninProps, Readonly<any>> {
                 error={errors.signinPassword}
                 onChange={this.onChange}
               />
-              {/* {this.state.loading ? (
-                <Spinner full={false} />
-              ) : (
-                <input
-                  type="submit"
-                  value="Sign In"
-                  className="btn-input btn-pri"
-                />
-              )} */}
+
               <CompositeButton type="submit" loading={this.state.loading}>
                 Sign In
               </CompositeButton>
+
+              <FlatButton
+                onClick={() => this.props.history.push("/password/forgot")}
+              >
+                Forgot Password?
+              </FlatButton>
             </Form>
           </div>
         </div>
