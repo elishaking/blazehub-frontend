@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { RouteComponentProps, Link } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { signinUser } from "../../actions/authActions";
-import Spinner from "../../components/Spinner";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData } from "../../models/user";
 import { AuthState } from "../../models/auth";
+import { Form } from "../../components/organisms/form";
+import { Button } from "../../components/atoms";
 
 interface SigninProps extends RouteComponentProps {
   auth: AuthState;
@@ -88,9 +89,9 @@ class Signin extends Component<SigninProps, Readonly<any>> {
               <span>BlazeHub</span>
             </h1>
 
-            <Link to="/" className="btn">
+            <Button onClick={() => this.props.history.push("/")}>
               Sign up
-            </Link>
+            </Button>
           </nav>
         </header>
 
@@ -99,7 +100,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
             {error && <h3 className="error-h3">{error}</h3>}
 
             <h1 className="mb-1">Sign In to BlazeHub</h1>
-            <form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit}>
               <TextFormInput
                 type="email"
                 name="email"
@@ -115,7 +116,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
                 error={errors.signinPassword}
                 onChange={this.onChange}
               />
-              {this.state.loading ? (
+              {/* {this.state.loading ? (
                 <Spinner full={false} />
               ) : (
                 <input
@@ -123,8 +124,11 @@ class Signin extends Component<SigninProps, Readonly<any>> {
                   value="Sign In"
                   className="btn-input btn-pri"
                 />
-              )}
-            </form>
+              )} */}
+              <CompositeButton type="submit" loading={this.state.loading}>
+                Sign In
+              </CompositeButton>
+            </Form>
           </div>
         </div>
       </div>
