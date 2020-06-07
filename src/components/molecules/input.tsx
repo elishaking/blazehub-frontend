@@ -31,7 +31,7 @@ export const TextFormInput = ({
   ...rest
 }: Omit<TextFormInputProps, "ref" | "as">) => {
   return (
-    <Wrapper error={error}>
+    <Wrapper error={error} className="form-input">
       <Input {...rest} />
       {error && <small>{error}</small>}
     </Wrapper>

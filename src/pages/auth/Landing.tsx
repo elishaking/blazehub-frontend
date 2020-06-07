@@ -10,6 +10,7 @@ import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
 import "./Landing.scss";
 import { Button, OutlineButton } from "../../components/atoms";
+import { Form } from "../../components/organisms/form";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
@@ -265,58 +266,56 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                 <h1>Join BlazeHub Today</h1>
               </div>
 
-              <form onSubmit={this.onSubmitSignup}>
-                <div>
-                  <div className="name">
-                    <TextFormInput
-                      type="text"
-                      name="firstName"
-                      // id="firstName"
-                      placeholder="first name"
-                      onChange={this.onChange}
-                      error={errors.firstName}
-                    />
-
-                    <TextFormInput
-                      type="text"
-                      name="lastName"
-                      placeholder="last name"
-                      onChange={this.onChange}
-                      error={errors.lastName}
-                    />
-                  </div>
-
+              <Form onSubmit={this.onSubmitSignup}>
+                <div className="name">
                   <TextFormInput
-                    type="email"
-                    name="signupEmail"
-                    placeholder="email"
+                    type="text"
+                    name="firstName"
+                    // id="firstName"
+                    placeholder="first name"
                     onChange={this.onChange}
-                    error={errors.email}
+                    error={errors.firstName}
                   />
 
                   <TextFormInput
-                    type="password"
-                    name="signupPassword"
-                    // id="password"
-                    placeholder="password"
+                    type="text"
+                    name="lastName"
+                    placeholder="last name"
                     onChange={this.onChange}
-                    error={errors.password}
+                    error={errors.lastName}
                   />
-
-                  <select
-                    name="gender"
-                    id="gender"
-                    className="fill-parent"
-                    onChange={this.onChange}
-                  >
-                    <option hidden disabled selected value="other">
-                      gender
-                    </option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
                 </div>
+
+                <TextFormInput
+                  type="email"
+                  name="signupEmail"
+                  placeholder="email"
+                  onChange={this.onChange}
+                  error={errors.email}
+                />
+
+                <TextFormInput
+                  type="password"
+                  name="signupPassword"
+                  // id="password"
+                  placeholder="password"
+                  onChange={this.onChange}
+                  error={errors.password}
+                />
+
+                <select
+                  name="gender"
+                  id="gender"
+                  className="fill-parent"
+                  onChange={this.onChange}
+                >
+                  <option hidden disabled selected value="other">
+                    gender
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
                 {this.state.loadingSignup ? (
                   <Spinner full={false} />
                 ) : (
@@ -327,7 +326,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                   // />
                   <Button type="submit">Sign Up</Button>
                 )}
-              </form>
+              </Form>
             </div>
           </div>
         </div>

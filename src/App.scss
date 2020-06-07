@@ -99,24 +99,6 @@ select {
   margin-bottom: 1em;
 }
 
-.form-input {
-  margin-bottom: 1em;
-  display: flex;
-  flex-direction: column;
-
-  small {
-    color: red;
-  }
-
-  .error {
-    border: 1px solid red;
-  }
-
-  .error:focus {
-    box-shadow: 0 0 8px 0 rgb(255, 149, 149);
-  }
-}
-
 .inner {
   position: relative;
   bottom: 10%;
