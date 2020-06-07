@@ -253,14 +253,12 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
 
           <div className="right">
             <div className="inner">
-              {error && <h3 className="error-h3">{error}</h3>}
-
               <div className="welcome">
                 <Logo style={{ fontSize: "2em" }} />
                 <h1>Join BlazeHub Today</h1>
               </div>
 
-              <Form onSubmit={this.onSubmitSignup}>
+              <Form onSubmit={this.onSubmitSignup} error={error}>
                 <div className="name">
                   <TextFormInput
                     type="text"

@@ -97,10 +97,8 @@ class Signin extends Component<SigninProps, Readonly<any>> {
 
         <div className="content block">
           <div className="form-container">
-            {error && <h3 className="error-h3">{error}</h3>}
-
             <h1 className="mb-1">Sign In to BlazeHub</h1>
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit} error={error}>
               <TextFormInput
                 type="email"
                 name="email"
