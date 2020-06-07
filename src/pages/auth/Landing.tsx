@@ -9,6 +9,7 @@ import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
 import "./Landing.scss";
+import { Button, OutlineButton } from "../../components/atoms";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
@@ -207,11 +208,12 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                     {this.state.loadingSignin ? (
                       <Spinner full={false} padding={false} />
                     ) : (
-                      <input
-                        type="submit"
-                        value="Sign In"
-                        className="btn-input"
-                      />
+                      // <input
+                      //   type="submit"
+                      //   value="Sign In"
+                      //   className="btn-input"
+                      // />
+                      <OutlineButton type="submit">Sign In</OutlineButton>
                     )}
                   </div>
                 </div>
@@ -318,11 +320,12 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                 {this.state.loadingSignup ? (
                   <Spinner full={false} />
                 ) : (
-                  <input
-                    type="submit"
-                    value="Sign Up"
-                    className="btn-input btn-pri"
-                  />
+                  // <input
+                  //   type="submit"
+                  //   value="Sign Up"
+                  //   className="btn-input btn-pri"
+                  // />
+                  <Button type="submit">Sign Up</Button>
                 )}
               </form>
             </div>
