@@ -4,7 +4,7 @@ interface ButtonProps {}
 
 const commonStyle = css`
   cursor: pointer;
-  padding: 0.7em 2em;
+  padding: 1em 2em;
   border-radius: 10px;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
