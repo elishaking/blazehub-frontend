@@ -1,5 +1,6 @@
 import React, { HTMLProps } from "react";
 import styled, { css } from "styled-components";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Input } from "../atoms";
 
@@ -33,7 +34,18 @@ export const TextFormInput = ({
   return (
     <Wrapper error={error} className="form-input">
       <Input {...rest} />
-      {error && <small>{error}</small>}
+      <AnimatePresence>
+        {error && (
+          <motion.small
+            initial={{ opacity: 0, fontSize: "0em" }}
+            animate={{ opacity: 1, fontSize: "0.8em" }}
+            exit={{ opacity: 0, fontSize: "0em" }}
+            transition={{ duration: 0.3 }}
+          >
+            {error}
+          </motion.small>
+        )}
+      </AnimatePresence>
     </Wrapper>
   );
 };
