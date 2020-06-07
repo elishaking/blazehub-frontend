@@ -9,7 +9,7 @@ import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
 import "./Landing.scss";
-import { Button, OutlineButton } from "../../components/atoms";
+import { Button, OutlineButton, Select } from "../../components/atoms";
 import { Form } from "../../components/organisms/form";
 
 interface LandingProps extends RouteComponentProps {
@@ -303,7 +303,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                   error={errors.password}
                 />
 
-                <select
+                <Select
                   name="gender"
                   id="gender"
                   className="fill-parent"
@@ -315,7 +315,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="other">Other</option>
-                </select>
+                </Select>
                 {this.state.loadingSignup ? (
                   <Spinner full={false} />
                 ) : (
