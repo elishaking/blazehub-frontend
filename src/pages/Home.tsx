@@ -19,6 +19,7 @@ import { AuthState } from "../models/auth";
 import "./Home.scss";
 import IconButton from "../components/Button";
 import logError from "../utils/logError";
+import { CloseIcon } from "../components/atoms";
 
 interface HomeState {
   postText: string;
@@ -49,7 +50,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
       postText: "",
       postImgDataUrl: "",
       notifications: [],
-      loadingNotifications: true
+      loadingNotifications: true,
     };
 
     // this.setupFirebase();
@@ -135,7 +136,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
       text: postText,
       isBookmarked: false,
       date: 1e15 - Date.now(),
-      imageUrl: postImgDataUrl !== ""
+      imageUrl: postImgDataUrl !== "",
       // likes: { name: "likes" },
       // comments: { name: "comments" },
       // shares: { name: "shares" }
@@ -146,14 +147,14 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
         if (newPost.imageUrl)
           this.postImagesRef.child(post.key).set(postImgDataUrl);
       })
-      .catch(err => {
+      .catch((err) => {
         // console.log(err)
         logError(err);
       });
 
     this.setState({
       postText: "",
-      postImgDataUrl: ""
+      postImgDataUrl: "",
     });
   };
 
@@ -163,7 +164,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
    */
   onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -204,41 +205,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                     <div className="img-container">
                       <img src={postImgDataUrl} alt="Post" />
                       <div className="close" onClick={this.removeImage}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="1em"
-                          height="1em"
-                          viewBox="0 0 35.086 35.086"
-                        >
-                          <g
-                            id="Group_11"
-                            data-name="Group 11"
-                            transform="translate(-2725.457 -148.457)"
-                          >
-                            <line
-                              id="Line_1"
-                              data-name="Line 1"
-                              x2="28.015"
-                              y2="28.015"
-                              transform="translate(2728.993 151.993)"
-                              fill="none"
-                              stroke="#fff"
-                              strokeLinecap="round"
-                              strokeWidth="5"
-                            />
-                            <line
-                              id="Line_2"
-                              data-name="Line 2"
-                              x1="28.015"
-                              y2="28.015"
-                              transform="translate(2728.993 151.993)"
-                              fill="none"
-                              stroke="#fff"
-                              strokeLinecap="round"
-                              strokeWidth="5"
-                            />
-                          </g>
-                        </svg>
+                        <CloseIcon />
                       </div>
                     </div>
                   )}
@@ -287,7 +254,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
 
 const mapStateToProps = (state: any) => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
 });
 
 export default connect<any>(mapStateToProps, { getProfilePic })(Home);
