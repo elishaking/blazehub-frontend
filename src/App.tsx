@@ -29,6 +29,7 @@ import Feedback from "./pages/Feedback";
 import ResendConfirm from "./pages/auth/ResendConfirm";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import { Center, OutlineButton } from "./components/atoms";
 
 // upon page reload/refresh, update user authentication token
 // updateAuthToken();
@@ -36,6 +37,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 class App extends Component<{}, Readonly<any>> {
   state = {
     loading: true,
+    error: true,
   };
 
   componentDidMount() {
@@ -58,10 +60,15 @@ class App extends Component<{}, Readonly<any>> {
         // Redirect to signin
         window.location.href = "/signin";
       } else {
-        axios.get("/api/users/firebase").then((res) => {
-          app.initializeApp(res.data);
-          this.setState({ loading: false });
-        });
+        axios
+          .get("/api/users/firebase")
+          .then((res) => {
+            app.initializeApp(res.data);
+            this.setState({ loading: false, error: false });
+          })
+          .catch((err) => {
+            this.setState({ loading: false, error: true });
+          });
       }
     } else {
       this.setState({ loading: false });
@@ -69,9 +76,25 @@ class App extends Component<{}, Readonly<any>> {
   };
 
   render() {
-    return this.state.loading ? (
-      <Spinner />
-    ) : (
+    if (this.state.loading) return <Spinner />;
+
+    if (this.state.error)
+      return (
+        <Center direction="column">
+          <div>
+            <h3>Something went wrong, please check your connection</h3>
+          </div>
+
+          <br />
+          <br />
+
+          <OutlineButton onClick={() => window.history.go()}>
+            Retry
+          </OutlineButton>
+        </Center>
+      );
+
+    return (
       <Provider store={store}>
         <Router>
           <Route exact path="/" component={Landing} />
