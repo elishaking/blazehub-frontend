@@ -109,11 +109,18 @@ export default class SendURL extends Component<
       .catch((err) => {
         logError(err);
 
+        if (err.response?.data?.data)
+          return this.setState({
+            loading: false,
+            successful: false,
+            errors: err.response.data.data,
+          });
+
         this.setState({
           loading: false,
           successful: false,
           error:
-            err.response?.data?.data ||
+            err.response?.data?.message ||
             "Something went wrong, check your connection",
         });
       });
@@ -138,11 +145,16 @@ export default class SendURL extends Component<
             </>
           ) : (
             <>
-              <h2 className="mb-1">
+              <h2 className="mb-1" style={{ marginBottom: "0.1em" }}>
                 {this.props.type === "CONFIRM"
-                  ? "Resend confirmation link"
+                  ? "Please confirm your account"
                   : "Reset Password"}
               </h2>
+              {this.props.type === "CONFIRM" && (
+                <p style={{ marginBottom: "1.3em", fontSize: "0.8em" }}>
+                  Enter your email to receive a confirmation link
+                </p>
+              )}
               <Form onSubmit={this.onSubmit} error={error} message={message}>
                 <TextFormInput
                   type="email"

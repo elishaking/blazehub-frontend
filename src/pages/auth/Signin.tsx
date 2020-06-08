@@ -13,7 +13,16 @@ interface SigninProps extends RouteComponentProps {
   signinUser: (userData: UserSigninData) => (dispatch: any) => void;
 }
 
-class Signin extends Component<SigninProps, Readonly<any>> {
+interface SigninState {
+  email: string;
+  password: string;
+  errors: any;
+  error: string;
+  loading: boolean;
+  [key: string]: any;
+}
+
+class Signin extends Component<SigninProps, Readonly<SigninState>> {
   constructor(props: SigninProps) {
     super(props);
 
@@ -35,6 +44,9 @@ class Signin extends Component<SigninProps, Readonly<any>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
+      if (nextProps.auth.errors.statusCode === 403)
+        this.props.history.push("/confirm/resend");
+
       if (nextProps.auth.errors.data) {
         this.setState({
           errors: nextProps.auth.errors.data,

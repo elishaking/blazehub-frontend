@@ -99,7 +99,6 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
             }}
           >
             <Spinner />
-            <small>Verifying confirmation url</small>
           </div>
         ) : (
           <div>
