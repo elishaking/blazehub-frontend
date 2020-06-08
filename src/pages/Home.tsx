@@ -17,9 +17,9 @@ import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
 import "./Home.scss";
-import IconButton from "../components/Button";
+import { IconButton } from "../components/molecules";
 import logError from "../utils/logError";
-import { CloseIcon } from "../components/atoms";
+import { CloseIcon, Button } from "../components/atoms";
 
 interface HomeState {
   postText: string;
@@ -227,13 +227,13 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
 
                     <IconButton icon={faSmile} onClick={this.selectEmoticon} />
                   </div>
-                  <button
+                  <Button
                     className="btn"
                     onClick={this.createPost}
                     data-test="createPostBtn"
                   >
                     Post
-                  </button>
+                  </Button>
                 </div>
               </div>
             </header>

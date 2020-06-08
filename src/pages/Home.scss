@@ -23,6 +23,9 @@
 }
 
 .icon-btns {
+  display: flex;
+  align-items: center;
+
   button {
     background: none;
     border: none;
@@ -38,7 +41,8 @@
     position: relative;
 
     input {
-      width: 2em;
+      width: 100%;
+      height: 100%;
       position: absolute;
       left: 0;
       visibility: hidden;
