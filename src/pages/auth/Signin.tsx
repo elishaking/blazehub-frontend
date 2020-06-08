@@ -1,18 +1,28 @@
 import React, { Component } from "react";
-import { RouteComponentProps, Link } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { signinUser } from "../../actions/authActions";
-import Spinner from "../../components/Spinner";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData } from "../../models/user";
 import { AuthState } from "../../models/auth";
+import { Form } from "../../components/organisms/form";
+import { Button, FlatButton } from "../../components/atoms";
 
 interface SigninProps extends RouteComponentProps {
   auth: AuthState;
   signinUser: (userData: UserSigninData) => (dispatch: any) => void;
 }
 
-class Signin extends Component<SigninProps, Readonly<any>> {
+interface SigninState {
+  email: string;
+  password: string;
+  errors: any;
+  error: string;
+  loading: boolean;
+  [key: string]: any;
+}
+
+class Signin extends Component<SigninProps, Readonly<SigninState>> {
   constructor(props: SigninProps) {
     super(props);
 
@@ -34,6 +44,9 @@ class Signin extends Component<SigninProps, Readonly<any>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
+      if (nextProps.auth.errors.statusCode === 403)
+        this.props.history.push("/confirm/resend");
+
       if (nextProps.auth.errors.data) {
         this.setState({
           errors: nextProps.auth.errors.data,
@@ -42,7 +55,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
       } else {
         this.setState({
           loading: false,
-          error: "Something went wrong, check your network",
+          error: "Something went wrong, check your connection",
         });
       }
     }
@@ -88,18 +101,16 @@ class Signin extends Component<SigninProps, Readonly<any>> {
               <span>BlazeHub</span>
             </h1>
 
-            <Link to="/" className="btn">
+            <Button onClick={() => this.props.history.push("/")}>
               Sign up
-            </Link>
+            </Button>
           </nav>
         </header>
 
         <div className="content block">
           <div className="form-container">
-            {error && <h3 className="error-h3">{error}</h3>}
-
             <h1 className="mb-1">Sign In to BlazeHub</h1>
-            <form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit} error={error}>
               <TextFormInput
                 type="email"
                 name="email"
@@ -115,16 +126,17 @@ class Signin extends Component<SigninProps, Readonly<any>> {
                 error={errors.signinPassword}
                 onChange={this.onChange}
               />
-              {this.state.loading ? (
-                <Spinner full={false} />
-              ) : (
-                <input
-                  type="submit"
-                  value="Sign In"
-                  className="btn-input btn-pri"
-                />
-              )}
-            </form>
+
+              <CompositeButton type="submit" loading={this.state.loading}>
+                Sign In
+              </CompositeButton>
+
+              <FlatButton
+                onClick={() => this.props.history.push("/password/forgot")}
+              >
+                Forgot Password?
+              </FlatButton>
+            </Form>
           </div>
         </div>
       </div>

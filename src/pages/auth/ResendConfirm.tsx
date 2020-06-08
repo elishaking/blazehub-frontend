@@ -37,7 +37,7 @@ class ResendConfirm extends Component<ResendProps> {
   };
 
   render() {
-    return <SendURL auth={this.props.auth} type="CONFIRM" {...this.props} />;
+    return <SendURL type="CONFIRM" {...this.props} />;
   }
 }
 
