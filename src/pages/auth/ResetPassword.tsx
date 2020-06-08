@@ -76,7 +76,9 @@ class ResetPassword extends Component<
         this.setState({
           loadingConfirm: false,
           confirmSuccessful: false,
-          confirmMessage: err.response.data.data,
+          confirmMessage:
+            err.response?.data?.data ||
+            "Something went wrong, Please check your connection",
         });
       });
   }
@@ -206,7 +208,7 @@ class ResetPassword extends Component<
             return (
               <>
                 <ErrorMessage style={{ margin: "1.3em 0" }}>
-                  {message || "Password reset link is invalid"}
+                  {confirmMessage || "Password reset link is invalid"}
                 </ErrorMessage>
                 <Button
                   onClick={() => this.props.history.push("/password/forgot")}
