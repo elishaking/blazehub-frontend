@@ -1,14 +1,18 @@
 import React, { Component } from "react";
+import { useHistory } from "react-router-dom";
 import Logo from "../../components/Logo";
+import { Button } from "../../components/atoms";
 
 export default class AuthContainer extends Component {
   state = {
     navLogoColor: "#fff",
   };
+  history: any;
 
   componentDidMount() {
     this.resize();
     window.addEventListener("resize", this.resize);
+    this.history = useHistory();
   }
 
   componentWillUnmount() {
@@ -35,6 +39,8 @@ export default class AuthContainer extends Component {
               <Logo color={navLogoColor} style={{ fontSize: "1.3em" }} />
               <span>BlazeHub</span>
             </h1>
+
+            <Button onClick={() => this.history.push("/")}>Sign in</Button>
           </nav>
         </header>
 
