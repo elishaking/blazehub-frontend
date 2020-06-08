@@ -1,0 +1,1 @@
+- [ ] Create sign in button in all the auth pages

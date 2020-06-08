@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
 import { signinUser, signupUser } from "../../actions/authActions";
-import Spinner from "../../components/Spinner";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
 import "./Landing.scss";
+import { Select } from "../../components/atoms";
+import { Form } from "../../components/organisms/form";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
@@ -97,7 +98,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
         this.setState({
           loadingSignin: false,
           loadingSignup: false,
-          error: "Something went wrong, check your network",
+          error: "Something went wrong, check your connection",
         });
       }
     }
@@ -203,17 +204,13 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                     />
                   </div>
 
-                  <div>
-                    {this.state.loadingSignin ? (
-                      <Spinner full={false} padding={false} />
-                    ) : (
-                      <input
-                        type="submit"
-                        value="Sign In"
-                        className="btn-input"
-                      />
-                    )}
-                  </div>
+                  <CompositeButton
+                    kind="outline"
+                    type="submit"
+                    loading={this.state.loadingSignin}
+                  >
+                    Sign In
+                  </CompositeButton>
                 </div>
               </form>
             </div>
@@ -256,75 +253,70 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
 
           <div className="right">
             <div className="inner">
-              {error && <h3 className="error-h3">{error}</h3>}
-
               <div className="welcome">
                 <Logo style={{ fontSize: "2em" }} />
                 <h1>Join BlazeHub Today</h1>
               </div>
 
-              <form onSubmit={this.onSubmitSignup}>
-                <div>
-                  <div className="name">
-                    <TextFormInput
-                      type="text"
-                      name="firstName"
-                      // id="firstName"
-                      placeholder="first name"
-                      onChange={this.onChange}
-                      error={errors.firstName}
-                    />
-
-                    <TextFormInput
-                      type="text"
-                      name="lastName"
-                      placeholder="last name"
-                      onChange={this.onChange}
-                      error={errors.lastName}
-                    />
-                  </div>
-
+              <Form onSubmit={this.onSubmitSignup} error={error}>
+                <div className="name">
                   <TextFormInput
-                    type="email"
-                    name="signupEmail"
-                    placeholder="email"
+                    type="text"
+                    name="firstName"
+                    // id="firstName"
+                    placeholder="first name"
                     onChange={this.onChange}
-                    error={errors.email}
+                    error={errors.firstName}
                   />
 
                   <TextFormInput
-                    type="password"
-                    name="signupPassword"
-                    // id="password"
-                    placeholder="password"
+                    type="text"
+                    name="lastName"
+                    placeholder="last name"
                     onChange={this.onChange}
-                    error={errors.password}
+                    error={errors.lastName}
                   />
-
-                  <select
-                    name="gender"
-                    id="gender"
-                    className="fill-parent"
-                    onChange={this.onChange}
-                  >
-                    <option hidden disabled selected value="other">
-                      gender
-                    </option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
                 </div>
-                {this.state.loadingSignup ? (
-                  <Spinner full={false} />
-                ) : (
-                  <input
-                    type="submit"
-                    value="Sign Up"
-                    className="btn-input btn-pri"
-                  />
-                )}
-              </form>
+
+                <TextFormInput
+                  type="email"
+                  name="signupEmail"
+                  placeholder="email"
+                  onChange={this.onChange}
+                  error={errors.email}
+                />
+
+                <TextFormInput
+                  type="password"
+                  name="signupPassword"
+                  // id="password"
+                  placeholder="password"
+                  onChange={this.onChange}
+                  error={errors.password}
+                />
+
+                <Select
+                  name="gender"
+                  id="gender"
+                  className="fill-parent"
+                  onChange={this.onChange}
+                >
+                  <option hidden disabled selected value="other">
+                    gender
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </Select>
+
+                <CompositeButton
+                  kind="primary"
+                  loading={this.state.loadingSignup}
+                  type="submit"
+                >
+                  Sign Up
+                </CompositeButton>
+              </Form>
             </div>
           </div>
         </div>

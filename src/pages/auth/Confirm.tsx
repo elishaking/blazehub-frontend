@@ -7,7 +7,8 @@ import Spinner from "../../components/Spinner";
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
-import AuthContainer from "./AuthContainer";
+import { AuthContainer } from "./AuthContainer";
+import { Button, SuccessMessage, ErrorMessage } from "../../components/atoms";
 
 interface ConfirmProps extends RouteComponentProps {
   auth: AuthState;
@@ -99,25 +100,21 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
             }}
           >
             <Spinner />
-            <small>Verifying confirmation url</small>
           </div>
         ) : (
           <div>
-            <h2 style={{ color: successful ? undefined : "#ca0000" }}>
-              {message}
-            </h2>
-            <br></br>
             {successful ? (
-              <button className="btn" onClick={(e) => this.navigate("/signin")}>
-                Sign In
-              </button>
+              <SuccessMessage>{message}</SuccessMessage>
             ) : (
-              <button
-                className="btn"
-                onClick={(e) => this.navigate("/confirm/resend")}
-              >
+              <ErrorMessage>{message}</ErrorMessage>
+            )}
+            <br />
+            {successful ? (
+              <Button onClick={() => this.navigate("/signin")}>Sign In</Button>
+            ) : (
+              <Button onClick={() => this.navigate("/confirm/resend")}>
                 Resend URL
-              </button>
+              </Button>
             )}
           </div>
         )}

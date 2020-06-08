@@ -1,4 +1,5 @@
 import { FeedbackData } from "../models/feedback";
+import { isEmailValid } from "./email";
 
 /**
  * Validate feedback input
@@ -11,12 +12,7 @@ export const validateFeedbackInput = (formData: FeedbackData) => {
     errors.name = "Your name should be between 5-30 characters";
 
   if (formData.email === "") errors.email = "Your email is required";
-  else if (
-    !new RegExp(
-      // eslint-disable-next-line no-useless-escape
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    ).test(formData.email)
-  )
+  else if (!isEmailValid(formData.email))
     errors.email = "Please enter a valid email";
   else if (formData.email.length < 5 || formData.email.length > 30)
     errors.email = "Your email should be between 5-30 characters";

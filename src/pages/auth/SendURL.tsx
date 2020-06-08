@@ -5,12 +5,15 @@ import {
   resendConfirmationUrl,
   sendPasswordResetUrl,
 } from "../../actions/authActions";
-import Spinner from "../../components/Spinner";
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
-import AuthContainer from "./AuthContainer";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { AuthContainer } from "./AuthContainer";
+import { TextFormInput } from "../../components/molecules";
+import { CompositeButton } from "../../components/molecules";
+import { Form } from "../../components/organisms/form";
+import { Button, SuccessMessage } from "../../components/atoms";
+import { isEmailValid } from "../../validation/email";
 
 interface SendURLProps extends RouteComponentProps {
   auth: AuthState;
@@ -23,6 +26,7 @@ interface SendURLState {
   message: string;
   successful: boolean | undefined;
   errors: any;
+  error: string;
 }
 
 export default class SendURL extends Component<
@@ -38,6 +42,7 @@ export default class SendURL extends Component<
       successful: undefined,
       message: "",
       errors: {},
+      error: "",
     };
   }
 
@@ -79,7 +84,14 @@ export default class SendURL extends Component<
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loading: true });
+    const { email } = this.state;
+    if (!email)
+      return this.setState({ errors: { email: "Your email is required" } });
+
+    if (!isEmailValid(email))
+      return this.setState({ errors: { email: "Please enter a valid email" } });
+
+    this.setState({ loading: true, error: "", message: "" });
 
     const apiMethod =
       this.props.type === "CONFIRM"
@@ -97,16 +109,25 @@ export default class SendURL extends Component<
       .catch((err) => {
         logError(err);
 
+        if (err.response?.data?.data)
+          return this.setState({
+            loading: false,
+            successful: false,
+            errors: err.response.data.data,
+          });
+
         this.setState({
           loading: false,
           successful: false,
-          message: err.response.data.data,
+          error:
+            err.response?.data?.message ||
+            "Something went wrong, check your connection",
         });
       });
   };
 
   render() {
-    const { loading, errors, successful, message } = this.state;
+    const { loading, errors, successful, message, error } = this.state;
     // console.log(errors);
 
     return (
@@ -114,53 +135,37 @@ export default class SendURL extends Component<
         <div className="form-container">
           {successful ? (
             <>
-              <h3>Sent, Check your email to proceed</h3>
+              <SuccessMessage style={{ margin: "1.3em 0" }}>
+                Sent <strong>reset link</strong>, Check your email to proceed
+              </SuccessMessage>
               <br />
-              <button
-                className="btn"
-                onClick={(e) => this.props.history.replace("/signin")}
-              >
+              <Button onClick={() => this.props.history.replace("/signin")}>
                 Sign In
-              </button>
+              </Button>
             </>
           ) : (
             <>
-              <h2 className="mb-1">
+              <h2 className="mb-1" style={{ marginBottom: "0.1em" }}>
                 {this.props.type === "CONFIRM"
-                  ? "Resend confirmation URL"
-                  : "Send password reset URL"}
+                  ? "Please confirm your account"
+                  : "Reset Password"}
               </h2>
-              <form onSubmit={this.onSubmit}>
+              {this.props.type === "CONFIRM" && (
+                <p style={{ marginBottom: "1.3em", fontSize: "0.8em" }}>
+                  Enter your email to receive a confirmation link
+                </p>
+              )}
+              <Form onSubmit={this.onSubmit} error={error} message={message}>
                 <TextFormInput
                   type="email"
                   name="email"
                   placeholder="email"
-                  error={errors.signinEmail}
+                  error={errors.email}
                   onChange={this.onChange}
                 />
 
-                {loading ? (
-                  <Spinner full={false} />
-                ) : (
-                  <>
-                    {successful !== undefined && (
-                      <small
-                        style={{
-                          color: successful ? undefined : "#ca0000",
-                        }}
-                      >
-                        {message || "Something went wrong, please try again"}
-                      </small>
-                    )}
-
-                    <input
-                      type="submit"
-                      value="Send"
-                      className="btn-input btn-pri"
-                    />
-                  </>
-                )}
-              </form>
+                <CompositeButton loading={loading}>Send</CompositeButton>
+              </Form>
             </>
           )}
         </div>

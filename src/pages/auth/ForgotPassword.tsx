@@ -36,9 +36,7 @@ class ResendConfirm extends Component<ResendProps> {
   };
 
   render() {
-    return (
-      <SendURL auth={this.props.auth} type="PASSWORD_RESET" {...this.props} />
-    );
+    return <SendURL type="PASSWORD_RESET" {...this.props} />;
   }
 }
 
