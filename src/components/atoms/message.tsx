@@ -19,7 +19,7 @@ export const ErrorMessage = styled.h3`
 export const SuccessMessage = styled.h3`
   ${commonStyle};
 
-  color: rgb(167, 44, 44);
-  background-color: rgba(255, 0, 0, 0.3);
-  border: 1px solid rgb(167, 44, 44);
+  color: #4caf50;
+  background-color: #8ce46a5c;
+  border: 1px solid #4caf50;
 `;

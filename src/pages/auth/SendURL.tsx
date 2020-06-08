@@ -12,6 +12,8 @@ import AuthContainer from "./AuthContainer";
 import { TextFormInput } from "../../components/molecules";
 import { CompositeButton } from "../../components/molecules";
 import { Form } from "../../components/organisms/form";
+import { Button, SuccessMessage } from "../../components/atoms";
+import { isEmailValid } from "../../validation/email";
 
 interface SendURLProps extends RouteComponentProps {
   auth: AuthState;
@@ -82,6 +84,13 @@ export default class SendURL extends Component<
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const { email } = this.state;
+    if (!email)
+      return this.setState({ errors: { email: "Your email is required" } });
+
+    if (!isEmailValid(email))
+      return this.setState({ errors: { email: "Please enter a valid email" } });
+
     this.setState({ loading: true, error: "", message: "" });
 
     const apiMethod =
@@ -119,28 +128,27 @@ export default class SendURL extends Component<
         <div className="form-container">
           {successful ? (
             <>
-              <h3>Sent, Check your email to proceed</h3>
+              <SuccessMessage style={{ margin: "1.3em 0" }}>
+                Sent, Check your email to proceed
+              </SuccessMessage>
               <br />
-              <button
-                className="btn"
-                onClick={(e) => this.props.history.replace("/signin")}
-              >
+              <Button onClick={() => this.props.history.replace("/signin")}>
                 Sign In
-              </button>
+              </Button>
             </>
           ) : (
             <>
               <h2 className="mb-1">
                 {this.props.type === "CONFIRM"
-                  ? "Resend confirmation URL"
-                  : "Send password reset URL"}
+                  ? "Resend confirmation link"
+                  : "Reset Password"}
               </h2>
               <Form onSubmit={this.onSubmit} error={error} message={message}>
                 <TextFormInput
                   type="email"
                   name="email"
                   placeholder="email"
-                  error={errors.signinEmail}
+                  error={errors.email}
                   onChange={this.onChange}
                 />
 
