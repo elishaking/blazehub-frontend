@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-interface ButtonProps {}
+// interface ButtonProps {}
 
 const commonStyle = css`
   cursor: pointer;

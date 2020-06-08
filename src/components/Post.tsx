@@ -275,7 +275,7 @@ class Post extends Component<PostProps, Readonly<any>> {
       return `${mins} min${mins > 1 ? "s" : ""} ago`;
     }
 
-    console.log(Math.abs(now - date));
+    // console.log(Math.abs(now - date));
 
     return "now";
   };

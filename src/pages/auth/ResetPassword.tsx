@@ -152,7 +152,7 @@ class ResetPassword extends Component<
       loading,
       errors,
       successful,
-      message,
+      // message,
       error,
     } = this.state;
 
