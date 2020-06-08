@@ -5,12 +5,13 @@ import {
   resendConfirmationUrl,
   sendPasswordResetUrl,
 } from "../../actions/authActions";
-import Spinner from "../../components/Spinner";
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
 import AuthContainer from "./AuthContainer";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { TextFormInput } from "../../components/molecules";
+import { CompositeButton } from "../../components/molecules";
+import { Form } from "../../components/organisms/form";
 
 interface SendURLProps extends RouteComponentProps {
   auth: AuthState;
@@ -23,6 +24,7 @@ interface SendURLState {
   message: string;
   successful: boolean | undefined;
   errors: any;
+  error: string;
 }
 
 export default class SendURL extends Component<
@@ -38,6 +40,7 @@ export default class SendURL extends Component<
       successful: undefined,
       message: "",
       errors: {},
+      error: "",
     };
   }
 
@@ -79,7 +82,7 @@ export default class SendURL extends Component<
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: "", message: "" });
 
     const apiMethod =
       this.props.type === "CONFIRM"
@@ -100,13 +103,15 @@ export default class SendURL extends Component<
         this.setState({
           loading: false,
           successful: false,
-          message: err.response.data.data,
+          error:
+            err.response?.data?.data ||
+            "Something went wrong, check your connection",
         });
       });
   };
 
   render() {
-    const { loading, errors, successful, message } = this.state;
+    const { loading, errors, successful, message, error } = this.state;
     // console.log(errors);
 
     return (
@@ -130,7 +135,7 @@ export default class SendURL extends Component<
                   ? "Resend confirmation URL"
                   : "Send password reset URL"}
               </h2>
-              <form onSubmit={this.onSubmit}>
+              <Form onSubmit={this.onSubmit} error={error} message={message}>
                 <TextFormInput
                   type="email"
                   name="email"
@@ -139,28 +144,8 @@ export default class SendURL extends Component<
                   onChange={this.onChange}
                 />
 
-                {loading ? (
-                  <Spinner full={false} />
-                ) : (
-                  <>
-                    {successful !== undefined && (
-                      <small
-                        style={{
-                          color: successful ? undefined : "#ca0000",
-                        }}
-                      >
-                        {message || "Something went wrong, please try again"}
-                      </small>
-                    )}
-
-                    <input
-                      type="submit"
-                      value="Send"
-                      className="btn-input btn-pri"
-                    />
-                  </>
-                )}
-              </form>
+                <CompositeButton loading={loading}>Send</CompositeButton>
+              </Form>
             </>
           )}
         </div>

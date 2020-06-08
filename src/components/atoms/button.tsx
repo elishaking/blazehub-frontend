@@ -19,7 +19,7 @@ const commonStyle = css`
 `;
 
 export const Button = styled.button`
-  ${commonStyle}
+  ${commonStyle};
 
   background: #7c62a9;
   color: white;
@@ -28,7 +28,7 @@ export const Button = styled.button`
 `;
 
 export const OutlineButton = styled.button`
-  ${commonStyle}
+  ${commonStyle};
 
   background: white;
   color: #7c62a9;
@@ -36,7 +36,7 @@ export const OutlineButton = styled.button`
 `;
 
 export const FlatButton = styled.button`
-  ${commonStyle}
+  ${commonStyle};
 
   background: rgba(204, 204, 204, 0);
   padding: 1em 0;

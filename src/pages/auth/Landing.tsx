@@ -98,7 +98,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
         this.setState({
           loadingSignin: false,
           loadingSignup: false,
-          error: "Something went wrong, check your network",
+          error: "Something went wrong, check your connection",
         });
       }
     }

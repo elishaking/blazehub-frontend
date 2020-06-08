@@ -43,7 +43,7 @@ class Signin extends Component<SigninProps, Readonly<any>> {
       } else {
         this.setState({
           loading: false,
-          error: "Something went wrong, check your network",
+          error: "Something went wrong, check your connection",
         });
       }
     }
