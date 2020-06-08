@@ -9,7 +9,7 @@ import Spinner from "../../components/Spinner";
 import { AuthState, ResetPasswordData } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
-import AuthContainer from "./AuthContainer";
+import { AuthContainer } from "./AuthContainer";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { connect } from "react-redux";
 import { validateResetPasswordInput } from "../../validation/resetPassword";

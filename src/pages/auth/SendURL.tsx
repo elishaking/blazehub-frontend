@@ -8,7 +8,7 @@ import {
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
-import AuthContainer from "./AuthContainer";
+import { AuthContainer } from "./AuthContainer";
 import { TextFormInput } from "../../components/molecules";
 import { CompositeButton } from "../../components/molecules";
 import { Form } from "../../components/organisms/form";

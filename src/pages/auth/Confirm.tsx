@@ -7,7 +7,7 @@ import Spinner from "../../components/Spinner";
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
-import AuthContainer from "./AuthContainer";
+import { AuthContainer } from "./AuthContainer";
 import { Button, SuccessMessage, ErrorMessage } from "../../components/atoms";
 
 interface ConfirmProps extends RouteComponentProps {
