@@ -129,7 +129,7 @@ export default class SendURL extends Component<
           {successful ? (
             <>
               <SuccessMessage style={{ margin: "1.3em 0" }}>
-                Sent, Check your email to proceed
+                Sent <strong>reset link</strong>, Check your email to proceed
               </SuccessMessage>
               <br />
               <Button onClick={() => this.props.history.replace("/signin")}>

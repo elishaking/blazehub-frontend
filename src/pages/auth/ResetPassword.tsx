@@ -10,9 +10,11 @@ import { AuthState, ResetPasswordData } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";
 import AuthContainer from "./AuthContainer";
-import { TextFormInput } from "../../components/form/TextFormInput";
+import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { connect } from "react-redux";
 import { validateResetPasswordInput } from "../../validation/resetPassword";
+import { SuccessMessage, Button, ErrorMessage } from "../../components/atoms";
+import { Form } from "../../components/organisms/form";
 
 interface ResetPasswordProps extends RouteComponentProps {
   auth: AuthState;
@@ -29,6 +31,7 @@ interface ResetPasswordState {
   message: string;
   successful: boolean | undefined;
   errors: ResetPasswordData;
+  error: string;
 }
 
 class ResetPassword extends Component<
@@ -48,14 +51,15 @@ class ResetPassword extends Component<
       successful: undefined,
       message: "",
       errors: {} as ResetPasswordData,
+      error: "",
     };
   }
 
   componentDidMount() {
     // if user is already authenticated, redirect to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/home");
-    }
+    if (this.props.auth.isAuthenticated)
+      return this.props.history.push("/home");
+
     confirmPasswordResetUrl(this.props.match.params.token)
       .then((res) => {
         if (!res.data.success) throw new Error(res.data.message);
@@ -116,7 +120,7 @@ class ResetPassword extends Component<
 
     if (!isValid) return this.setState({ errors });
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: "" });
 
     resetPassword(this.props.match.params.token, this.state.password)
       .then((res) => {
@@ -129,7 +133,12 @@ class ResetPassword extends Component<
       .catch((err) => {
         logError(err);
 
-        this.setState({ loading: false });
+        this.setState({
+          loading: false,
+          error:
+            err.response?.data?.data ||
+            "Something went wrong, Please check your connection",
+        });
       });
   };
 
@@ -142,6 +151,7 @@ class ResetPassword extends Component<
       errors,
       successful,
       message,
+      error,
     } = this.state;
 
     return (
@@ -152,26 +162,26 @@ class ResetPassword extends Component<
               return (
                 <>
                   <Spinner />
-                  <small>Validating password reset url</small>
                 </>
               );
 
             if (confirmSuccessful) {
               return successful ? (
                 <>
-                  <h3>Your password has been reset</h3>
+                  <SuccessMessage style={{ margin: "1.3em 0" }}>
+                    Your password has been <strong>reset</strong>
+                  </SuccessMessage>
                   <br />
-                  <button
-                    className="btn"
+                  <Button
                     onClick={(e) => this.props.history.replace("/signin")}
                   >
                     Sign In
-                  </button>
+                  </Button>
                 </>
               ) : (
                 <>
                   <h2 className="mb-1">Reset password</h2>
-                  <form onSubmit={this.onSubmit}>
+                  <Form onSubmit={this.onSubmit} error={error}>
                     <TextFormInput
                       type="password"
                       name="password"
@@ -187,41 +197,22 @@ class ResetPassword extends Component<
                       onChange={this.onChange}
                     />
 
-                    {loading ? (
-                      <Spinner full={false} />
-                    ) : (
-                      <>
-                        {successful !== undefined && (
-                          <small className="error">
-                            {confirmMessage ||
-                              "Something went wrong, please try again"}
-                          </small>
-                        )}
-
-                        <input
-                          type="submit"
-                          value="Reset"
-                          className="btn-input btn-pri"
-                        />
-                      </>
-                    )}
-                  </form>
+                    <CompositeButton loading={loading}>Reset</CompositeButton>
+                  </Form>
                 </>
               );
             }
 
             return (
               <>
-                <h3 className="error">
-                  {message || "Password reset url is invalid"}
-                </h3>
-                <br />
-                <button
-                  className="btn"
-                  onClick={(e) => this.props.history.push("/password/forgot")}
+                <ErrorMessage style={{ margin: "1.3em 0" }}>
+                  {message || "Password reset link is invalid"}
+                </ErrorMessage>
+                <Button
+                  onClick={() => this.props.history.push("/password/forgot")}
                 >
                   Try again
-                </button>
+                </Button>
               </>
             );
           })()}
