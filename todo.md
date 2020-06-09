@@ -1,1 +1,2 @@
-- [ ] Create sign in button in all the auth pages
+- [x] Create sign in button in all the auth pages
+- [ ] Style open post images - like and comment card
