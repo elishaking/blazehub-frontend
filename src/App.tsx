@@ -71,7 +71,7 @@ class App extends Component<{}, Readonly<any>> {
           });
       }
     } else {
-      this.setState({ loading: false });
+      this.setState({ loading: false, error: false });
     }
   };
 

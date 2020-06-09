@@ -28,8 +28,8 @@ const iconInputStyle = css`
 
   svg {
     position: absolute;
-    top: 0.8em;
-    left: 0.8em;
+    top: 1em;
+    left: 1em;
     color: #b1a3e1;
   }
 `;
@@ -39,12 +39,12 @@ const Wrapper = styled.div<Pick<TextFormInputProps, "icon" | "error">>`
     ${(props) => props.error && errorStyle}
   }
 
+  ${(props) => props.icon && iconInputStyle}
+
   small {
     display: block;
     color: red;
   }
-
-  ${(props) => props.icon && iconInputStyle}
 `;
 
 export const TextFormInput = ({
@@ -53,7 +53,7 @@ export const TextFormInput = ({
   ...rest
 }: Omit<TextFormInputProps, "ref" | "as">) => {
   return (
-    <Wrapper error={error} className="form-input">
+    <Wrapper error={error} icon={icon} className="form-input">
       {icon && <FontAwesomeIcon icon={icon} className="icon" />}
       <Input {...rest} />
       <AnimatePresence>
