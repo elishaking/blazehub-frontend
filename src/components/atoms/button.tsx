@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 
 const commonStyle = css`
   cursor: pointer;
-  padding: 1em 2em;
+  padding: 0.8em 1.7em;
   border-radius: 10px;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
