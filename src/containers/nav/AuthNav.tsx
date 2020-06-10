@@ -5,13 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faUserCircle,
-  faBell,
+  // faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { signoutUser } from "../../actions/authActions";
 import Avatar from "../../components/Avatar";
 import "./AuthNav.scss";
 import Logo from "../../components/Logo";
 import { TextFormInput } from "../../components/molecules";
+import { OutlineButton } from "../../components/atoms";
 
 interface AuthNavProps extends RouteComponentProps {
   showSearch: boolean;
@@ -68,7 +69,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
   };
 
   render() {
-    const { notifications } = this.state;
+    // const { notifications } = this.state;
     const { user, showSearch, avatar = "" } = this.props;
     const {
       firstName,
@@ -106,20 +107,15 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
             &nbsp;&nbsp;&nbsp;
             {/* <span>{`${firstName} ${lastName}`}</span> */}
             <span>{`${firstName}`}</span>
-            <div id="notifications" onClick={this.openNotifications}>
+            {/* <div id="notifications" onClick={this.openNotifications}>
               <FontAwesomeIcon icon={faBell} className="icon" />
               {notifications.length > 0 && (
                 <div>
                   <small>{notifications.length}</small>
                 </div>
               )}
-            </div>
-            <input
-              type="button"
-              value="Sign Out"
-              className="btn-input"
-              onClick={this.signOut}
-            />
+            </div> */}
+            <OutlineButton onClick={this.signOut}>Sign Out</OutlineButton>
           </div>
         </nav>
 

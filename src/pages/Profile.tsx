@@ -31,6 +31,7 @@ import { resizeImage } from "../utils/resizeImage";
 import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
+import { Button } from "../components/atoms";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 interface Params {
@@ -480,9 +481,9 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                     </div>
                   )}
                   {!this.otherUser && (
-                    <button className="btn" onClick={this.toggleEditProfile}>
+                    <Button className="btn" onClick={this.toggleEditProfile}>
                       Edit Profile
-                    </button>
+                    </Button>
                   )}
                 </div>
 
@@ -501,9 +502,9 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                     ))}
 
                   {!this.otherUser && (
-                    <button className="btn" onClick={this.findFriends}>
+                    <Button className="btn" onClick={this.findFriends}>
                       Find Friends
-                    </button>
+                    </Button>
                   )}
                 </div>
 
@@ -523,7 +524,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                   } */}
 
                   {!this.otherUser && (
-                    <button className="btn">Add Photo</button>
+                    <Button className="btn">Add Photo</Button>
                   )}
                 </div>
               </div>
