@@ -26,16 +26,7 @@ const Wrapper = styled.span`
       display: inline-block;
     }
 
-    /* span.text {
-      font-size: 1.3em;
-    }
-
-    .spinner {
-      font-size: 1.3em;
-    } */
-
     svg:not(.spinner) {
-      /* font-size: 1.7em; */
       fill: white;
       margin-right: 0.7em;
     }
