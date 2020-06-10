@@ -87,7 +87,8 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   componentWillReceiveProps(nextProps: any) {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
-    if (nextProps.auth.errors) {
+    if (nextProps.auth.errors.success === false) {
+      console.log(nextProps.auth.errors);
       if (nextProps.auth.errors.data) {
         this.setState({
           errors: nextProps.auth.errors.data,
@@ -109,7 +110,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     // redirect authenticated user to home-page
     if (isAuthenticated) {
       // this.props.history.push('/home');
-      window.location.href = "/signin";
+      window.location.href = "/home";
     }
   };
 
