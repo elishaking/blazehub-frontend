@@ -16,6 +16,7 @@ import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import Avatar from "../components/Avatar";
 import { AuthState } from "../models/auth";
+import { CompositeButton } from "../components/molecules";
 
 interface FindFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -36,7 +37,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
 
     this.state = {
       users: {},
-      loading: true
+      loading: true,
     };
 
     this.userKey = this.getUserKey(this.props.auth.user.email);
@@ -47,19 +48,19 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
       this.props.getFriends(this.userKey);
     }
 
-    axios.get("/api/users").then(res => {
+    axios.get("/api/users").then((res) => {
       const users = res.data.data;
       delete users.blazebot;
       delete users[this.userKey];
 
       const friendKeys = Object.keys(this.props.friends);
-      Object.keys(users).forEach(userKey => {
+      Object.keys(users).forEach((userKey) => {
         if (friendKeys.indexOf(userKey) !== -1) delete users[userKey];
       });
       // if (Object.keys(users).length == 2) users = {}
       this.setState({
         users,
-        loading: false
+        loading: false,
       });
     });
   }
@@ -68,12 +69,12 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
     const friendKeys = Object.keys(nextProps.friends);
     const { users } = this.state;
 
-    Object.keys(users).forEach(userKey => {
+    Object.keys(users).forEach((userKey) => {
       if (friendKeys.indexOf(userKey) !== -1) delete users[userKey];
     });
     // if (Object.keys(users).length == 2) users = {}
 
-    const userAvatarPromises = Object.keys(users).map(userKey =>
+    const userAvatarPromises = Object.keys(users).map((userKey) =>
       app
         .database()
         .ref("profile-photos")
@@ -82,7 +83,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
         .once("value")
     );
 
-    Promise.all(userAvatarPromises).then(userAvatarSnapShots => {
+    Promise.all(userAvatarPromises).then((userAvatarSnapShots) => {
       userAvatarSnapShots.forEach((userAvatarSnapShot: any) => {
         if (userAvatarSnapShot.exists()) {
           users[
@@ -93,7 +94,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
     });
 
     this.setState({
-      users
+      users,
     });
   }
 
@@ -105,12 +106,12 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
     const { users } = this.state;
     users[friendKey].adding = true;
     this.setState({
-      users
+      users,
     });
 
     const newFriend = users[friendKey];
     const friendData = {
-      name: `${newFriend.firstName} ${newFriend.lastName}`
+      name: `${newFriend.firstName} ${newFriend.lastName}`,
     };
     this.props.addFriend(this.userKey, friendKey, friendData);
   };
@@ -156,7 +157,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
                           {currentUser.firstName} {currentUser.lastName}
                         </p>
                       </div>
-                      {currentUser.adding ? (
+                      {/* {currentUser.adding ? (
                         <Spinner full={false} />
                       ) : (
                         <button
@@ -167,7 +168,10 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
                         >
                           <FontAwesomeIcon icon={faUserPlus} /> Add Friend
                         </button>
-                      )}
+                      )} */}
+                      <CompositeButton icon={faUserPlus}>
+                        Add Friend
+                      </CompositeButton>
                     </div>
                     {idx !== arr.length - 1 && <hr />}
                   </div>
@@ -183,7 +187,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
 
 const mapStateToProps = (state: any) => ({
   auth: state.auth,
-  friends: state.friends
+  friends: state.friends,
 });
 
 export default connect<any>(mapStateToProps, { getFriends, addFriend })(
