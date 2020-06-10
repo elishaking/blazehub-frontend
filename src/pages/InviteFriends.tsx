@@ -5,7 +5,6 @@ import axios from "axios";
 
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
-import Spinner from "../components/Spinner";
 import { AuthState } from "../models/auth";
 import logError from "../utils/logError";
 import { Button } from "../components/atoms";
@@ -90,13 +89,13 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
             </div>
           ) : (
             <div className="invite-friends">
+              <h3>Invite your friends</h3>
+
               <Form
                 className="add-friend"
                 onSubmit={this.inviteFriends}
                 error={error}
               >
-                <h3>Invite your friends</h3>
-
                 {friendEmails.map((_: any, index: number) => (
                   <TextFormInput
                     type="email"
