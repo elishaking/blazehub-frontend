@@ -6,15 +6,13 @@ import "./Feedback.scss";
 import AuthNav from "../containers/nav/AuthNav";
 import MainNav from "../containers/nav/MainNav";
 import { AuthState } from "../models/auth";
-import {
-  TextFormInput,
-  TextAreaFormInput,
-} from "../components/form/TextFormInput";
-import Spinner from "../components/Spinner";
+import { TextAreaFormInput } from "../components/form/TextFormInput";
+import { TextFormInput, CompositeButton } from "../components/molecules";
 import logError from "../utils/logError";
 import { sendFeedback } from "../actions/feedback";
 import { validateFeedbackInput } from "../validation/feedback";
 import { FeedbackData } from "../models/feedback";
+import { Form } from "../components/organisms/form";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -86,13 +84,13 @@ class Feedback extends Component<FeedbackProps> {
 
           <div className="form-container">
             <h1 className="mb-1">Help BlazeHub improve</h1>
-            <form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit}>
               <TextFormInput
                 type="text"
                 name="name"
                 placeholder="name"
                 error={errors.name}
-                onChange={this.onChange}
+                onChange={this.onChange as any}
                 value={`${user.firstName} ${user.lastName}`}
               />
 
@@ -101,7 +99,7 @@ class Feedback extends Component<FeedbackProps> {
                 name="email"
                 placeholder="email"
                 error={errors.email}
-                onChange={this.onChange}
+                onChange={this.onChange as any}
                 value={user.email}
               />
 
@@ -113,18 +111,14 @@ class Feedback extends Component<FeedbackProps> {
                 rows={5}
               />
 
-              {loading ? (
-                <Spinner full={false} />
-              ) : feedbackSent ? (
+              {feedbackSent ? (
                 <p>Feedback Sent</p>
               ) : (
-                <input
-                  type="submit"
-                  value="Send Feedback"
-                  className="btn-input btn-pri"
-                />
+                <CompositeButton loading={loading}>
+                  Send Feedback
+                </CompositeButton>
               )}
-            </form>
+            </Form>
           </div>
         </div>
       </div>
