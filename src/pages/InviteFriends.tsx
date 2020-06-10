@@ -8,6 +8,9 @@ import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import { AuthState } from "../models/auth";
 import logError from "../utils/logError";
+import { Button } from "../components/atoms";
+import { Form } from "../components/organisms/form";
+import { TextFormInput, CompositeButton } from "../components/molecules";
 
 interface InviteFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -21,6 +24,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
       inviteSent: false,
       friendEmails: [{ email: "" }],
       loading: false,
+      error: "",
     };
   }
 
@@ -35,7 +39,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
   inviteFriends = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: "" });
 
     axios
       .post("/api/friends/invite", this.state.friendEmails)
@@ -43,7 +47,10 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
         this.setState({ loading: false, inviteSent: res.data.success });
       })
       .catch((err) => {
-        this.setState({ loading: false });
+        this.setState({
+          loading: false,
+          error: "Please check your connection",
+        });
         // console.error(err);
         logError(err);
       });
@@ -65,7 +72,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
   render() {
     // const hasProfilePic = false;
     const { user } = this.props.auth;
-    const { inviteSent, friendEmails, loading } = this.state;
+    const { inviteSent, friendEmails, loading, error } = this.state;
 
     return (
       <div className="container">
@@ -83,24 +90,28 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
             </div>
           ) : (
             <div className="invite-friends">
-              <form className="add-friend" onSubmit={this.inviteFriends}>
+              <Form
+                className="add-friend"
+                onSubmit={this.inviteFriends}
+                error={error}
+              >
                 <h3>Invite your friends</h3>
 
                 {friendEmails.map((_: any, index: number) => (
-                  <input
+                  <TextFormInput
                     type="email"
                     key={index}
                     name={`email${index}`}
                     placeholder="email"
-                    onChange={(e) => this.onChange(e, index)}
+                    onChange={(e) => this.onChange(e as any, index)}
                   />
                 ))}
 
-                <button type="button" className="btn" onClick={this.addField}>
-                  Add Input
-                </button>
+                <Button type="button" className="btn" onClick={this.addField}>
+                  Add Email
+                </Button>
 
-                {loading ? (
+                {/* {loading ? (
                   <div style={{ textAlign: "end" }}>
                     <Spinner full={false} />
                   </div>
@@ -112,8 +123,13 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
                   >
                     Invite
                   </button>
-                )}
-              </form>
+                )} */}
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <CompositeButton loading={loading}>
+                    Invite {friendEmails.length > 1 && <span>All</span>}
+                  </CompositeButton>
+                </div>
+              </Form>
             </div>
           )}
         </div>
