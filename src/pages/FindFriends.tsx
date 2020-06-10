@@ -172,7 +172,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
                       <CompositeButton
                         icon={faUserPlus}
                         loading={currentUser.adding}
-                        onClick={(e) => {
+                        onClick={() => {
                           this.addFriend(userKey);
                         }}
                       >
