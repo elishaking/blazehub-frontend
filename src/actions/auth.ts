@@ -30,7 +30,7 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
   dispatch: any
 ) => {
   await axios
-    .post("/api/users/signup", userData)
+    .post("/auth/signup", userData)
     .then((res) => history.push("/signin"))
     .catch((err) => {
       logError(err);
@@ -89,30 +89,30 @@ export const setAuthToken = (token: string) => {
 };
 
 export const verifyConfirmToken = (token: string) => {
-  return axios.post("/api/users/confirm", {
+  return axios.post("/auth/confirm", {
     token,
   });
 };
 
 export const resendConfirmationUrl = (email: string) => {
-  return axios.post("/api/users/resend", {
+  return axios.post("/auth/confirm/resend", {
     email,
   });
 };
 
 export const sendPasswordResetUrl = (email: string) => {
-  return axios.post("/api/users/password/forgot", {
+  return axios.post("/auth/password/forgot", {
     email,
   });
 };
 
 export const confirmPasswordResetUrl = (token: string) => {
-  return axios.post("/api/users/password/confirm", {
+  return axios.post("/auth/password/confirm", {
     token,
   });
 };
 export const resetPassword = (token: string, password: string) => {
-  return axios.post("/api/users/password/reset", {
+  return axios.post("/auth/password/reset", {
     token,
     password,
   });
