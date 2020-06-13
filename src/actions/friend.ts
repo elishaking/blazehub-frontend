@@ -29,20 +29,20 @@ export const getFriends = (userId: string) => async (dispatch: any) => {
     dispatch(setFriends(friends));
 
     const friendsWithAvatars: any = {};
-    const avatarPromises = Object.keys(friends).map((friendKey) =>
+    const avatarPromises = Object.keys(friends).map((friendId) =>
       app
         .database()
         .ref("profile-photos")
-        .child(friendKey)
+        .child(friendId)
         .child("avatar-small")
         .once("value")
     );
 
     const avatarSnapShots = await Promise.all(avatarPromises);
     avatarSnapShots.forEach((avatarSnapShot: any) => {
-      const friendKey = avatarSnapShot.ref.parent.key;
-      friendsWithAvatars[friendKey] = {
-        name: friends[friendKey].name,
+      const friendId = avatarSnapShot.ref.parent.key;
+      friendsWithAvatars[friendId] = {
+        name: friends[friendId].name,
         avatar: avatarSnapShot.exists() ? avatarSnapShot.val() : "",
       };
     });
@@ -55,15 +55,12 @@ export const getFriends = (userId: string) => async (dispatch: any) => {
 
 // @action-type ADD_FRIEND
 // @description add new friend
-export const addFriend = (
-  userId: string,
-  friendKey: string,
-  friendData: Friend
-) => async (dispatch: any) => {
+export const addFriend = (friendId: string, friendData: Friend) => async (
+  dispatch: any
+) => {
   await axios
-    .post("/api/friends/add", {
-      userId,
-      friendKey,
+    .post("friends/add", {
+      friendId,
       friend: friendData,
     })
     .then((res) => dispatch(setFriend(res.data.data)))

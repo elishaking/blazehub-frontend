@@ -66,7 +66,7 @@ describe("friend action creators", () => {
         });
       });
 
-      await store.dispatch(addFriend("", "", {} as Friend));
+      await store.dispatch(addFriend("", {} as Friend));
       const newState = store.getState();
       expect(newState.friends).toEqual({
         ...friends,
