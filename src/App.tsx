@@ -57,7 +57,7 @@ class App extends Component<{}, Readonly<any>> {
         window.location.href = "/signin";
       } else {
         axios
-          .get("/api/users/firebase")
+          .get("/firebase/config")
           .then((res) => {
             app.initializeApp(res.data);
             this.setState({ loading: false, error: false });

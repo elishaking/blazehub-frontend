@@ -3,6 +3,12 @@ import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import { UserSigninData, UserSignupData } from "../models/user";
 import logError from "../utils/logError";
+import { AuthUser } from "../models/auth";
+
+interface UserSigninResponse {
+  accessToken: string;
+  user: AuthUser;
+}
 
 // ===ACTIONS===
 
@@ -36,20 +42,25 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
 // @description sign-in/authenticate user
 export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
   axios
-    .post("/api/users/signin", userData)
+    .post("/auth/signin", userData)
     .then((res) => {
       // save token to localStorage to enable global access
-      const token: string = res.data.data;
-      localStorage.setItem("jwtToken", token);
+      const { accessToken, user }: UserSigninResponse = res.data;
+      localStorage.setItem("jwtToken", accessToken);
 
       // add token to axios Authorization Header
-      setAuthToken(token);
+      setAuthToken(accessToken);
 
       // get user data from jwt-token
-      const decodedUserData = jwt_decode(token);
+      const decodedUserData: any = jwt_decode(accessToken);
 
-      dispatch(setCurrentUser(decodedUserData));
-      // window.location.href = "/home";
+      dispatch(
+        setCurrentUser({
+          ...decodedUserData,
+          ...user,
+        })
+      );
+      window.location.href = "/home";
     })
     .catch((err) => {
       logError(err);
@@ -70,7 +81,7 @@ export const signoutUser = () => (dispatch: any) => {
 export const setAuthToken = (token: string) => {
   if (token) {
     // Apply token to every request
-    axios.defaults.headers.common.Authorization = token;
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
     // Delete Auth Header
     delete axios.defaults.headers.common.Authorization;

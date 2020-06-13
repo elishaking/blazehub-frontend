@@ -10,7 +10,8 @@ interface FormProps extends HTMLProps<HTMLFormElement> {
 }
 
 const Wrapper = styled.form`
-  .form-input {
+  .form-input,
+  select {
     margin-bottom: 1.3em;
   }
 `;
