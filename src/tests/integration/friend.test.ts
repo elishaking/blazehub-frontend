@@ -1,6 +1,6 @@
 import moxios from "moxios";
 import { firebaseMock } from "../utils/mocks";
-import { getFriends, addFriend } from "../../actions/friendActions";
+import { getFriends, addFriend } from "../../actions/friend";
 import { testStore } from "../utils/testUtils";
 import app from "firebase/app";
 import { Friend } from "../../models/friend";

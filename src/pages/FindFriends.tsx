@@ -8,7 +8,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { getFriends, addFriend } from "../actions/friendActions";
+import { getFriends, addFriend } from "../actions/friend";
 import { Friends, Friend } from "../models/friend";
 
 import MainNav from "../containers/nav/MainNav";

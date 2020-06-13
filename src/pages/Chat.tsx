@@ -7,7 +7,7 @@ import app from "firebase/app";
 import "firebase/database";
 // import axios from 'axios';
 
-import { getFriends } from "../actions/friendActions";
+import { getFriends } from "../actions/friend";
 import { listenForNewChats } from "../actions/chatActions";
 import { getProfilePic } from "../actions/profileActions";
 

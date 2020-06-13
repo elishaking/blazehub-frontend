@@ -23,7 +23,7 @@ import {
   TextAreaFormInput,
 } from "../components/form/TextFormInput";
 import { DateFormInput } from "../components/form/DateFormInput";
-import { getFriends } from "../actions/friendActions";
+import { getFriends } from "../actions/friend";
 import { getProfilePic, updateProfilePic } from "../actions/profileActions";
 import Posts from "../containers/Posts";
 
