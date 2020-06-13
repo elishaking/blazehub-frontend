@@ -9,70 +9,65 @@ import logError from "../utils/logError";
 
 export const setFriends = (friendsData: Friends) => ({
   type: SET_FRIENDS,
-  payload: friendsData
+  payload: friendsData,
 });
 
 export const setFriend = (friendData: Friend) => ({
   type: ADD_FRIEND,
-  payload: friendData
+  payload: friendData,
 });
 
 // ===ACTION CREATORS===
 
 // @action-type SET_FRIENDS
 // @description get user friends
-export const getFriends = (userKey: string) => async (dispatch: any) => {
-  await axios
-    .post("/api/friends", { userKey })
-    .then(async res => {
-      const friends = res.data.data;
-      dispatch(setFriends(friends));
+export const getFriends = (userId: string) => async (dispatch: any) => {
+  try {
+    const res = await axios.get(`/friends/${userId}`);
 
-      const friendsWithAvatars: any = {};
-      const avatarPromises = Object.keys(friends).map(friendKey =>
-        app
-          .database()
-          .ref("profile-photos")
-          .child(friendKey)
-          .child("avatar-small")
-          .once("value")
-      );
+    const friends = res.data;
+    dispatch(setFriends(friends));
 
-      await Promise.all(avatarPromises)
-        .then(avatarSnapShots => {
-          avatarSnapShots.forEach((avatarSnapShot: any) => {
-            const friendKey = avatarSnapShot.ref.parent.key;
-            friendsWithAvatars[friendKey] = {
-              name: friends[friendKey].name,
-              avatar: avatarSnapShot.exists() ? avatarSnapShot.val() : ""
-            };
-          });
+    const friendsWithAvatars: any = {};
+    const avatarPromises = Object.keys(friends).map((friendKey) =>
+      app
+        .database()
+        .ref("profile-photos")
+        .child(friendKey)
+        .child("avatar-small")
+        .once("value")
+    );
 
-          dispatch(setFriends(friendsWithAvatars));
-        })
-        .catch(err => logError(err));
-    })
-    .catch(err => {
-      // console.error(err)
-      logError(err);
+    const avatarSnapShots = await Promise.all(avatarPromises);
+    avatarSnapShots.forEach((avatarSnapShot: any) => {
+      const friendKey = avatarSnapShot.ref.parent.key;
+      friendsWithAvatars[friendKey] = {
+        name: friends[friendKey].name,
+        avatar: avatarSnapShot.exists() ? avatarSnapShot.val() : "",
+      };
     });
+
+    dispatch(setFriends(friendsWithAvatars));
+  } catch (err) {
+    logError(err);
+  }
 };
 
 // @action-type ADD_FRIEND
 // @description add new friend
 export const addFriend = (
-  userKey: string,
+  userId: string,
   friendKey: string,
   friendData: Friend
 ) => async (dispatch: any) => {
   await axios
     .post("/api/friends/add", {
-      userKey,
+      userId,
       friendKey,
-      friend: friendData
+      friend: friendData,
     })
-    .then(res => dispatch(setFriend(res.data.data)))
-    .catch(err => {
+    .then((res) => dispatch(setFriend(res.data.data)))
+    .catch((err) => {
       // console.error(err)
       logError(err);
     });
