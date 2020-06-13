@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
-import { signinUser, signupUser } from "../../actions/authActions";
+import { signinUser, signupUser } from "../../actions/auth";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";

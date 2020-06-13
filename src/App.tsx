@@ -6,11 +6,7 @@ import axios from "axios";
 import app from "firebase/app";
 import "./App.scss";
 import store from "./store";
-import {
-  setAuthToken,
-  setCurrentUser,
-  signoutUser,
-} from "./actions/authActions";
+import { setAuthToken, setCurrentUser, signoutUser } from "./actions/auth";
 
 import PrivateRoute from "./containers/PrivateRoute";
 import Landing from "./pages/auth/Landing";

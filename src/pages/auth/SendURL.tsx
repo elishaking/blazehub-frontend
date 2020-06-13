@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import {
   resendConfirmationUrl,
   sendPasswordResetUrl,
-} from "../../actions/authActions";
+} from "../../actions/auth";
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";
 import logError from "../../utils/logError";

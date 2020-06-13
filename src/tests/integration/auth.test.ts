@@ -1,6 +1,6 @@
 import moxios from "moxios";
 import { testStore } from "../utils/testUtils";
-import { signupUser } from "../../actions/authActions";
+import { signupUser } from "../../actions/auth";
 import { initialState as initialAuthState } from "../../reducers/authReducer";
 import { UserSignupData } from "../../models/user";
 
@@ -14,9 +14,9 @@ describe("auth action creators", () => {
   });
 
   describe("signupUser action creator", () => {
-    it("should not update store for unsuccessful sign-up", async done => {
+    it("should not update store for unsuccessful sign-up", async (done) => {
       const userData = {
-        name: "King"
+        name: "King",
       };
       const store = testStore();
 
@@ -24,7 +24,7 @@ describe("auth action creators", () => {
         const req = moxios.requests.mostRecent();
         req.respondWith({
           status: 201,
-          response: userData
+          response: userData,
         });
       });
 
@@ -36,9 +36,9 @@ describe("auth action creators", () => {
       done();
     });
 
-    it("should update store correctly (with errors)", async done => {
+    it("should update store correctly (with errors)", async (done) => {
       const expectedErrorState = {
-        name: "name is required"
+        name: "name is required",
       };
       const store = testStore();
 
@@ -46,7 +46,7 @@ describe("auth action creators", () => {
         const req = moxios.requests.mostRecent();
         req.respondWith({
           status: 400,
-          response: expectedErrorState
+          response: expectedErrorState,
         });
       });
 

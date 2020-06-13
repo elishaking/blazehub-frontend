@@ -11,7 +11,7 @@ import {
   faBars,
   faHands,
 } from "@fortawesome/free-solid-svg-icons";
-import { signoutUser } from "../../actions/authActions";
+import { signoutUser } from "../../actions/auth";
 import "./MainNav.scss";
 import { AuthUser } from "../../models/auth";
 import NavItem from "../../components/NavItem";

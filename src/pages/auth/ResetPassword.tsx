@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { RouteComponentProps, match } from "react-router-dom";
 
-import {
-  confirmPasswordResetUrl,
-  resetPassword,
-} from "../../actions/authActions";
+import { confirmPasswordResetUrl, resetPassword } from "../../actions/auth";
 import Spinner from "../../components/Spinner";
 import { AuthState, ResetPasswordData } from "../../models/auth";
 import "./Landing.scss";

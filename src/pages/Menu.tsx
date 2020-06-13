@@ -11,7 +11,7 @@ import {
 import AuthNav from "../containers/nav/AuthNav";
 import MainNav from "../containers/nav/MainNav";
 import { AuthState } from "../models/auth";
-import { signoutUser } from "../actions/authActions";
+import { signoutUser } from "../actions/auth";
 import NavItem from "../components/NavItem";
 import "./Menu.scss";
 
