@@ -1,6 +1,6 @@
 import { UserSignupData } from "../models/user";
 import { isEmailValid } from "./email";
-import { LandingErrors } from "../models/auth";
+import { AuthErrors } from "../models/auth";
 
 const requiredFieldMessage = (field: string) => `Your ${field} is required`;
 
@@ -8,7 +8,7 @@ const limitFieldMessage = (field: string, min = 5, max = 100) =>
   `Your ${field} should be between ${min}-${max} letters`;
 
 export const validateSignupInput = (formData: UserSignupData) => {
-  const errors = {} as LandingErrors;
+  const errors = {} as AuthErrors;
 
   if (formData.email === "") errors.email = requiredFieldMessage("email");
   else if (!isEmailValid(formData.email))

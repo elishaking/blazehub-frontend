@@ -5,12 +5,12 @@ import { RouteComponentProps } from "react-router-dom";
 import { signinUser, signupUser } from "../../actions/auth";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
-import { AuthState, LandingErrors } from "../../models/auth";
+import { AuthState, AuthErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
 import "./Landing.scss";
 import { Select } from "../../components/atoms";
 import { Form } from "../../components/organisms/form";
-import { validateSignupInput } from "../../validation";
+import { validateSignupInput, validateSigninInput } from "../../validation";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
@@ -37,7 +37,7 @@ interface LandingState {
   loadingSignin: boolean;
   loadingSignup: boolean;
 
-  errors: LandingErrors;
+  errors: AuthErrors;
   error: string;
 }
 
@@ -60,7 +60,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       loadingSignin: false,
       loadingSignup: false,
 
-      errors: {} as LandingErrors,
+      errors: {} as AuthErrors,
       error: "",
     };
   }
@@ -137,13 +137,23 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   onSubmitSignin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loadingSignin: true, error: "" });
+    this.setState({ error: "" });
 
     if (this.state.method === "POST") {
       const userData = {
         email: this.state.signinEmail,
         password: this.state.signinPassword,
       };
+
+      const { isValid, errors } = validateSigninInput(userData);
+
+      if (!isValid)
+        return this.setState({
+          errors,
+        });
+
+      this.setState({ loadingSignup: true });
+
       this.props.signinUser(userData);
     } else {
       this.props.history.push("/signin");

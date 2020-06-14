@@ -12,6 +12,8 @@ export interface AuthErrors {
   lastName: string;
   email: string;
   password: string;
+  signinEmail: string;
+  signinPassword: string;
 }
 
 export interface AuthState {
@@ -24,8 +26,3 @@ export interface ResetPasswordData {
   password: string;
   confirmPassword: string;
 }
-
-export type LandingErrors = AuthErrors & {
-  signinEmail: string;
-  signinPassword: string;
-};
