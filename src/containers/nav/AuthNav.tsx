@@ -7,7 +7,7 @@ import {
   faUserCircle,
   // faBell,
 } from "@fortawesome/free-solid-svg-icons";
-import { signoutUser } from "../../actions/authActions";
+import { signoutUser } from "../../actions/auth";
 import Avatar from "../../components/Avatar";
 import "./AuthNav.scss";
 import Logo from "../../components/Logo";

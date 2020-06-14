@@ -4,8 +4,7 @@ export interface AuthUser {
   lastName: string;
   email: string;
   username: string;
-  iat: number;
-  exp: number;
+  confirmed: boolean;
 }
 
 export interface AuthErrors {
@@ -13,6 +12,8 @@ export interface AuthErrors {
   lastName: string;
   email: string;
   password: string;
+  signinEmail: string;
+  signinPassword: string;
 }
 
 export interface AuthState {

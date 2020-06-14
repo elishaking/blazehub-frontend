@@ -7,7 +7,7 @@ export const initializeApp = (obj: any) => {
   if (app.apps.length > 0) {
     obj.setupFirebase();
   } else {
-    axios.get("/api/users/firebase").then(res => {
+    axios.get("/firebase/config").then((res) => {
       app.initializeApp(res.data);
       obj.setupFirebase();
     });
@@ -20,17 +20,14 @@ export const updateUsername = () => {
     .database()
     .ref("users")
     .once("value")
-    .then(usersSnapShot => {
+    .then((usersSnapShot) => {
       const users = usersSnapShot.val();
-      Object.keys(users).forEach(userKey => {
+      Object.keys(users).forEach((userKey) => {
         const newUsername = `${users[userKey].firstName.replace(
           / /g,
           ""
         )}.${users[userKey].lastName.replace(/ /g, "")}`.toLowerCase();
-        usersSnapShot
-          .child(userKey)
-          .child("username")
-          .ref.set(newUsername);
+        usersSnapShot.child(userKey).child("username").ref.set(newUsername);
       });
       // console.log(usersSnapShot.val());
     });
@@ -40,10 +37,10 @@ export const updatePostLikeKeys = () => {
   const db = app.database();
   db.ref("posts")
     .once("value")
-    .then(postsSnapshot => {
+    .then((postsSnapshot) => {
       const posts = postsSnapshot.val();
 
-      Object.keys(posts).forEach(postKey => {
+      Object.keys(posts).forEach((postKey) => {
         const postLikes = posts[postKey].likes;
 
         if (postLikes) {
@@ -51,7 +48,7 @@ export const updatePostLikeKeys = () => {
             firebase.database.DataSnapshot
           >[] = [];
 
-          Object.keys(postLikes).forEach(postLikeKey => {
+          Object.keys(postLikes).forEach((postLikeKey) => {
             postlikeUsersPromises.push(
               db
                 .ref("users")
@@ -62,10 +59,10 @@ export const updatePostLikeKeys = () => {
             );
           });
 
-          Promise.all(postlikeUsersPromises).then(snapshots => {
+          Promise.all(postlikeUsersPromises).then((snapshots) => {
             const newPostLikes: { [key: string]: any } = {};
-            snapshots.forEach(snapshot => {
-              snapshot.forEach(user => {
+            snapshots.forEach((snapshot) => {
+              snapshot.forEach((user) => {
                 newPostLikes[user.key as string] =
                   postLikes[user.val().firstName];
               });
@@ -75,7 +72,7 @@ export const updatePostLikeKeys = () => {
               .child(postKey)
               .child("likes")
               .set(newPostLikes)
-              .then(v => {
+              .then((v) => {
                 // console.log(v);
                 // console.log("done");
               });
@@ -88,18 +85,15 @@ export const updatePostLikeKeys = () => {
 // Profile
 export const createSmallAvatar = () => {
   const profileRef = app.database().ref("profile-photos");
-  profileRef.once("value").then(p => {
+  profileRef.once("value").then((p) => {
     const pp = p.val();
 
-    Object.keys(pp).forEach(key => {
+    Object.keys(pp).forEach((key) => {
       const mime = pp[key].avatar.match(
         /data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
       );
-      resizeImage(pp[key].avatar, "image/jpeg", 50).then(sm => {
-        profileRef
-          .child(key)
-          .child("avatar-small")
-          .set(sm);
+      resizeImage(pp[key].avatar, "image/jpeg", 50).then((sm) => {
+        profileRef.child(key).child("avatar-small").set(sm);
       });
     });
   });
@@ -110,20 +104,17 @@ export const createProfileForExistingUser = () => {
     .database()
     .ref("users")
     .once("value")
-    .then(usersSnapShot => {
+    .then((usersSnapShot) => {
       const users = usersSnapShot.val();
       const userKeys = Object.keys(users);
 
-      userKeys.forEach(userKey => {
-        const userProfileRef = app
-          .database()
-          .ref("profiles")
-          .child(userKey);
+      userKeys.forEach((userKey) => {
+        const userProfileRef = app.database().ref("profiles").child(userKey);
 
         userProfileRef
           .child("username")
           .once("value")
-          .then(usernameSnapShot => {
+          .then((usernameSnapShot) => {
             usernameSnapShot.ref.set(
               `${users[userKey].firstName.replace(/ /g, "")}.${users[
                 userKey
@@ -134,7 +125,7 @@ export const createProfileForExistingUser = () => {
         userProfileRef
           .child("name")
           .once("value")
-          .then(nameSnapShot => {
+          .then((nameSnapShot) => {
             if (nameSnapShot.exists()) return;
 
             nameSnapShot.ref.set(

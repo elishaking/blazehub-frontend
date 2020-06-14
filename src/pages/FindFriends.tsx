@@ -8,7 +8,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { getFriends, addFriend } from "../actions/friendActions";
+import { getFriends, addFriend } from "../actions/friend";
 import { Friends, Friend } from "../models/friend";
 
 import MainNav from "../containers/nav/MainNav";
@@ -21,16 +21,15 @@ import { CompositeButton } from "../components/molecules";
 interface FindFriendsProps extends RouteComponentProps {
   auth: AuthState;
   friends: Friends;
-  getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
+  getFriends: () => (dispatch: any) => Promise<void>;
   addFriend: (
-    userKey: string,
-    friendKey: string,
+    friendId: string,
     friendData: Friend
   ) => (dispatch: any) => Promise<void>;
 }
 
 class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
-  userKey: string;
+  userId: string;
 
   constructor(props: FindFriendsProps) {
     super(props);
@@ -40,22 +39,22 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
       loading: true,
     };
 
-    this.userKey = this.getUserKey(this.props.auth.user.email);
+    this.userId = this.getUserKey(this.props.auth.user.email);
   }
 
   componentDidMount() {
     if (Object.keys(this.props.friends).length === 0) {
-      this.props.getFriends(this.userKey);
+      this.props.getFriends();
     }
 
-    axios.get("/api/users").then((res) => {
-      const users = res.data.data;
+    axios.get("/friends/new").then((res) => {
+      const users = res.data;
       delete users.blazebot;
-      delete users[this.userKey];
+      delete users[this.userId];
 
-      const friendKeys = Object.keys(this.props.friends);
-      Object.keys(users).forEach((userKey) => {
-        if (friendKeys.indexOf(userKey) !== -1) delete users[userKey];
+      const friendIds = Object.keys(this.props.friends);
+      Object.keys(users).forEach((userId) => {
+        if (friendIds.indexOf(userId) !== -1) delete users[userId];
       });
       // if (Object.keys(users).length == 2) users = {}
       this.setState({
@@ -66,19 +65,19 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    const friendKeys = Object.keys(nextProps.friends);
+    const friendIds = Object.keys(nextProps.friends);
     const { users } = this.state;
 
-    Object.keys(users).forEach((userKey) => {
-      if (friendKeys.indexOf(userKey) !== -1) delete users[userKey];
+    Object.keys(users).forEach((userId) => {
+      if (friendIds.indexOf(userId) !== -1) delete users[userId];
     });
     // if (Object.keys(users).length == 2) users = {}
 
-    const userAvatarPromises = Object.keys(users).map((userKey) =>
+    const userAvatarPromises = Object.keys(users).map((userId) =>
       app
         .database()
         .ref("profile-photos")
-        .child(userKey)
+        .child(userId)
         .child("avatar-small")
         .once("value")
     );
@@ -102,24 +101,24 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
   getUserKey = (userEmail: string) =>
     userEmail.replace(/\./g, "~").replace(/@/g, "~~");
 
-  addFriend = (friendKey: string) => {
+  addFriend = (friendId: string) => {
     const { users } = this.state;
-    users[friendKey].adding = true;
+    users[friendId].adding = true;
     this.setState({
       users,
     });
 
-    const newFriend = users[friendKey];
+    const newFriend = users[friendId];
     const friendData = {
       name: `${newFriend.firstName} ${newFriend.lastName}`,
     };
-    this.props.addFriend(this.userKey, friendKey, friendData);
+    this.props.addFriend(friendId, friendData);
   };
 
   render() {
     const { users, loading } = this.state;
     const { user } = this.props.auth;
-    const userKeys = Object.keys(users);
+    const userIds = Object.keys(users);
 
     return (
       <div className="container">
@@ -131,15 +130,15 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
           <div className="friends-main">
             {loading ? (
               <Spinner />
-            ) : userKeys.length === 0 ? (
+            ) : userIds.length === 0 ? (
               <div style={{ textAlign: "center", padding: "1em 0" }}>
                 <h3 style={{ fontWeight: 500 }}>No friends to add</h3>
               </div>
             ) : (
-              userKeys.map((userKey, idx, arr) => {
-                const currentUser = users[userKey];
+              userIds.map((userId, idx, arr) => {
+                const currentUser = users[userId];
                 return (
-                  <div className="friend-container" key={userKey}>
+                  <div className="friend-container" key={userId}>
                     <div className="friend-main">
                       <div className="friend-inner">
                         {currentUser.avatar ? (
@@ -163,7 +162,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
                         <button
                           className="btn"
                           onClick={e => {
-                            this.addFriend(userKey);
+                            this.addFriend(userId);
                           }}
                         >
                           <FontAwesomeIcon icon={faUserPlus} /> Add Friend
@@ -173,7 +172,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
                         icon={faUserPlus}
                         loading={currentUser.adding}
                         onClick={() => {
-                          this.addFriend(userKey);
+                          this.addFriend(userId);
                         }}
                       >
                         Add Friend

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import { signinUser } from "../../actions/authActions";
+import { signinUser } from "../../actions/auth";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData } from "../../models/user";
 import { AuthState } from "../../models/auth";
 import { Form } from "../../components/organisms/form";
 import { Button, FlatButton } from "../../components/atoms";
+import { validateSigninInput } from "../../validation";
 
 interface SigninProps extends RouteComponentProps {
   auth: AuthState;
@@ -14,8 +15,8 @@ interface SigninProps extends RouteComponentProps {
 }
 
 interface SigninState {
-  email: string;
-  password: string;
+  signinEmail: string;
+  signinPassword: string;
   errors: any;
   error: string;
   loading: boolean;
@@ -27,8 +28,8 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
     super(props);
 
     this.state = {
-      email: "",
-      password: "",
+      signinEmail: "",
+      signinPassword: "",
       errors: {},
       error: "",
       loading: false,
@@ -81,12 +82,22 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loading: true, error: "" });
+    this.setState({ error: "" });
 
     const userData = {
-      email: this.state.email,
-      password: this.state.password,
+      email: this.state.signinEmail,
+      password: this.state.signinPassword,
     };
+
+    const { isValid, errors } = validateSigninInput(userData);
+
+    if (!isValid)
+      return this.setState({
+        errors,
+      });
+
+    this.setState({ loadingSignup: true });
+
     this.props.signinUser(userData);
   };
 
@@ -113,7 +124,7 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
             <Form onSubmit={this.onSubmit} error={error}>
               <TextFormInput
                 type="email"
-                name="email"
+                name="signinEmail"
                 placeholder="email"
                 error={errors.signinEmail}
                 onChange={this.onChange}
@@ -121,7 +132,7 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
 
               <TextFormInput
                 type="password"
-                name="password"
+                name="signinPassword"
                 placeholder="password"
                 error={errors.signinPassword}
                 onChange={this.onChange}

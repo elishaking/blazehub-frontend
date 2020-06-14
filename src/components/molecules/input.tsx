@@ -37,6 +37,7 @@ const iconInputStyle = css`
 const Wrapper = styled.div<Pick<TextFormInputProps, "icon" | "error">>`
   ${Input} {
     ${(props) => props.error && errorStyle}
+    margin-bottom: 0.1em;
   }
 
   ${(props) => props.icon && iconInputStyle}
@@ -44,6 +45,7 @@ const Wrapper = styled.div<Pick<TextFormInputProps, "icon" | "error">>`
   small {
     display: block;
     color: red;
+    margin-left: 0.3em;
   }
 `;
 

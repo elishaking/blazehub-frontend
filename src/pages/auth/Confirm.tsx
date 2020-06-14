@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
 
-import { verifyConfirmToken } from "../../actions/authActions";
+import { verifyConfirmToken } from "../../actions/auth";
 import Spinner from "../../components/Spinner";
 import { AuthState } from "../../models/auth";
 import "./Landing.scss";

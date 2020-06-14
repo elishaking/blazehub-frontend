@@ -3,6 +3,12 @@ import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import { UserSigninData, UserSignupData } from "../models/user";
 import logError from "../utils/logError";
+import { AuthUser } from "../models/auth";
+
+interface UserSigninResponse {
+  accessToken: string;
+  user: AuthUser;
+}
 
 // ===ACTIONS===
 
@@ -24,7 +30,7 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
   dispatch: any
 ) => {
   await axios
-    .post("/api/users/signup", userData)
+    .post("/auth/signup", userData)
     .then((res) => history.push("/signin"))
     .catch((err) => {
       logError(err);
@@ -36,20 +42,25 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
 // @description sign-in/authenticate user
 export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
   axios
-    .post("/api/users/signin", userData)
+    .post("/auth/signin", userData)
     .then((res) => {
       // save token to localStorage to enable global access
-      const token: string = res.data.data;
-      localStorage.setItem("jwtToken", token);
+      const { accessToken, user }: UserSigninResponse = res.data;
+      localStorage.setItem("jwtToken", accessToken);
 
       // add token to axios Authorization Header
-      setAuthToken(token);
+      setAuthToken(accessToken);
 
       // get user data from jwt-token
-      const decodedUserData = jwt_decode(token);
+      const decodedUserData: any = jwt_decode(accessToken);
 
-      dispatch(setCurrentUser(decodedUserData));
-      // window.location.href = "/home";
+      dispatch(
+        setCurrentUser({
+          ...decodedUserData,
+          ...user,
+        })
+      );
+      window.location.href = "/home";
     })
     .catch((err) => {
       logError(err);
@@ -70,7 +81,7 @@ export const signoutUser = () => (dispatch: any) => {
 export const setAuthToken = (token: string) => {
   if (token) {
     // Apply token to every request
-    axios.defaults.headers.common.Authorization = token;
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
     // Delete Auth Header
     delete axios.defaults.headers.common.Authorization;
@@ -78,30 +89,30 @@ export const setAuthToken = (token: string) => {
 };
 
 export const verifyConfirmToken = (token: string) => {
-  return axios.post("/api/users/confirm", {
+  return axios.post("/auth/confirm", {
     token,
   });
 };
 
 export const resendConfirmationUrl = (email: string) => {
-  return axios.post("/api/users/resend", {
+  return axios.post("/auth/confirm/resend", {
     email,
   });
 };
 
 export const sendPasswordResetUrl = (email: string) => {
-  return axios.post("/api/users/password/forgot", {
+  return axios.post("/auth/password/forgot", {
     email,
   });
 };
 
 export const confirmPasswordResetUrl = (token: string) => {
-  return axios.post("/api/users/password/confirm", {
+  return axios.post("/auth/password/confirm", {
     token,
   });
 };
 export const resetPassword = (token: string, password: string) => {
-  return axios.post("/api/users/password/reset", {
+  return axios.post("/auth/password/reset", {
     token,
     password,
   });
