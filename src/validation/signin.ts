@@ -1,11 +1,6 @@
 import { UserSigninData } from "../models/user";
-import { isEmailValid } from "./email";
+import { isEmailValid, requiredFieldMessage, limitFieldMessage } from "./utils";
 import { AuthErrors } from "../models/auth";
-
-const requiredFieldMessage = (field: string) => `Your ${field} is required`;
-
-const limitFieldMessage = (field: string, min = 5, max = 100) =>
-  `Your ${field} should be between ${min}-${max} letters`;
 
 export const validateSigninInput = (formData: UserSigninData) => {
   const errors = {} as AuthErrors;

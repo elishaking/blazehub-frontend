@@ -13,7 +13,7 @@ import { TextFormInput } from "../../components/molecules";
 import { CompositeButton } from "../../components/molecules";
 import { Form } from "../../components/organisms/form";
 import { Button, SuccessMessage } from "../../components/atoms";
-import { isEmailValid } from "../../validation/email";
+import { isEmailValid } from "../../validation/utils";
 
 interface SendURLProps extends RouteComponentProps {
   auth: AuthState;

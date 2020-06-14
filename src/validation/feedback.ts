@@ -1,5 +1,5 @@
 import { FeedbackData } from "../models/feedback";
-import { isEmailValid } from "./email";
+import { isEmailValid } from "./utils";
 
 /**
  * Validate feedback input
