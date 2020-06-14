@@ -21,7 +21,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
     this.state = {
       inviteSent: false,
-      friendEmails: [{ email: "" }],
+      friendEmails: [""],
       loading: false,
       error: "",
     };
@@ -29,7 +29,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
   addField = () => {
     const { friendEmails } = this.state;
-    friendEmails.push({ email: "" });
+    friendEmails.push("");
     this.setState({
       friendEmails,
     });
@@ -40,15 +40,22 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
     this.setState({ loading: true, error: "" });
 
+    // return console.log(this.state.friendEmails);
+
     axios
-      .post("/api/friends/invite", this.state.friendEmails)
+      .post("/friends/invite", {
+        emails: this.state.friendEmails,
+      })
       .then((res) => {
-        this.setState({ loading: false, inviteSent: res.data.success });
+        this.setState({ loading: false, friendEmails: [""], inviteSent: true });
       })
       .catch((err) => {
         this.setState({
           loading: false,
-          error: "Please check your connection",
+          error:
+            err.response.status === 500
+              ? "Something went wrong"
+              : "Please check your connection",
         });
         // console.error(err);
         logError(err);
@@ -61,7 +68,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { friendEmails } = this.state;
-    friendEmails[index].email = e.target.value;
+    friendEmails[index] = e.target.value;
 
     this.setState({
       friendEmails,
@@ -82,10 +89,8 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
           {inviteSent ? (
             <div className="invite-friends">
-              <h3 style={{ margin: "0.7em 0 1em 0" }}>Invite has been sent</h3>
-              <button className="btn" onClick={this.inviteMore}>
-                Invite More
-              </button>
+              <h3 style={{ margin: "0.7em 0 em 0" }}>Invitation sent</h3>
+              <Button onClick={this.inviteMore}>Invite More</Button>
             </div>
           ) : (
             <div className="invite-friends">
@@ -102,7 +107,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
                     key={index}
                     name={`email${index}`}
                     placeholder="email"
-                    onChange={(e) => this.onChange(e as any, index)}
+                    onChange={(e: any) => this.onChange(e, index)}
                   />
                 ))}
 
