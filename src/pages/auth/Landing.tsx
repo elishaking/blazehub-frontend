@@ -5,11 +5,12 @@ import { RouteComponentProps } from "react-router-dom";
 import { signinUser, signupUser } from "../../actions/auth";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
-import { AuthState, AuthErrors } from "../../models/auth";
+import { AuthState, LandingErrors } from "../../models/auth";
 import Logo from "../../components/Logo";
 import "./Landing.scss";
 import { Select } from "../../components/atoms";
 import { Form } from "../../components/organisms/form";
+import { validateSignupInput } from "../../validation";
 
 interface LandingProps extends RouteComponentProps {
   auth: AuthState;
@@ -19,11 +20,6 @@ interface LandingProps extends RouteComponentProps {
     history: any
   ) => (dispatch: any) => Promise<void>;
 }
-
-type LandingErrors = AuthErrors & {
-  signinEmail: string;
-  signinPassword: string;
-};
 
 interface LandingState {
   method: string;
@@ -88,7 +84,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors.success === false) {
-      console.log(nextProps.auth.errors);
+      // console.log(nextProps.auth.errors);
       if (nextProps.auth.errors.data) {
         this.setState({
           errors: nextProps.auth.errors.data,
@@ -157,7 +153,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   onSubmitSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({ loadingSignup: true, error: "" });
+    this.setState({ error: "" });
 
     const userData = {
       firstName: this.state.firstName,
@@ -166,6 +162,15 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       email: this.state.signupEmail,
       password: this.state.signupPassword,
     };
+
+    const { isValid, errors } = validateSignupInput(userData);
+
+    if (!isValid)
+      return this.setState({
+        errors,
+      });
+
+    this.setState({ loadingSignup: true });
     this.props.signupUser(userData, this.props.history);
   };
 

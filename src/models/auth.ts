@@ -24,3 +24,8 @@ export interface ResetPasswordData {
   password: string;
   confirmPassword: string;
 }
+
+export type LandingErrors = AuthErrors & {
+  signinEmail: string;
+  signinPassword: string;
+};
