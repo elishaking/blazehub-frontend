@@ -39,7 +39,7 @@ describe("friend action creators", () => {
         });
       });
 
-      await store.dispatch(getFriends(""));
+      await store.dispatch(getFriends());
       const newState = store.getState();
       expect(newState.friends).toEqual(friends);
 

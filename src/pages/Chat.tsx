@@ -24,7 +24,7 @@ import { AuthState } from "../models/auth";
 interface ChatProps extends RouteComponentProps {
   profile: any;
   auth: AuthState;
-  getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
+  getFriends: () => (dispatch: any) => Promise<void>;
   getProfilePic: (
     userKey: string,
     key: string
@@ -60,7 +60,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
     };
 
     this.userKey = this.getUserKey(props.auth.user.email);
-    this.props.getFriends(this.userKey);
+    this.props.getFriends();
     this.notificationSound = new Audio(notificationSound);
   }
 

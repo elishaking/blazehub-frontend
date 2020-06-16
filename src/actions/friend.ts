@@ -21,9 +21,9 @@ export const setFriend = (friendData: Friend) => ({
 
 // @action-type SET_FRIENDS
 // @description get user friends
-export const getFriends = (userId: string) => async (dispatch: any) => {
+export const getFriends = () => async (dispatch: any) => {
   try {
-    const res = await axios.get(`/friends/${userId}`);
+    const res = await axios.get("/friends");
 
     const friends = res.data;
     dispatch(setFriends(friends));
