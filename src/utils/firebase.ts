@@ -22,12 +22,12 @@ export const updateUsername = () => {
     .once("value")
     .then((usersSnapShot) => {
       const users = usersSnapShot.val();
-      Object.keys(users).forEach((userKey) => {
-        const newUsername = `${users[userKey].firstName.replace(
+      Object.keys(users).forEach((userId) => {
+        const newUsername = `${users[userId].firstName.replace(
           / /g,
           ""
-        )}.${users[userKey].lastName.replace(/ /g, "")}`.toLowerCase();
-        usersSnapShot.child(userKey).child("username").ref.set(newUsername);
+        )}.${users[userId].lastName.replace(/ /g, "")}`.toLowerCase();
+        usersSnapShot.child(userId).child("username").ref.set(newUsername);
       });
       // console.log(usersSnapShot.val());
     });
@@ -106,18 +106,18 @@ export const createProfileForExistingUser = () => {
     .once("value")
     .then((usersSnapShot) => {
       const users = usersSnapShot.val();
-      const userKeys = Object.keys(users);
+      const userIds = Object.keys(users);
 
-      userKeys.forEach((userKey) => {
-        const userProfileRef = app.database().ref("profiles").child(userKey);
+      userIds.forEach((userId) => {
+        const userProfileRef = app.database().ref("profiles").child(userId);
 
         userProfileRef
           .child("username")
           .once("value")
           .then((usernameSnapShot) => {
             usernameSnapShot.ref.set(
-              `${users[userKey].firstName.replace(/ /g, "")}.${users[
-                userKey
+              `${users[userId].firstName.replace(/ /g, "")}.${users[
+                userId
               ].lastName.replace(/ /g, "")}`.toLowerCase()
             );
           });
@@ -129,7 +129,7 @@ export const createProfileForExistingUser = () => {
             if (nameSnapShot.exists()) return;
 
             nameSnapShot.ref.set(
-              `${users[userKey].firstName} ${users[userKey].lastName}`
+              `${users[userId].firstName} ${users[userId].lastName}`
             );
           });
       });

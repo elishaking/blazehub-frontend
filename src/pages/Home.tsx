@@ -33,7 +33,7 @@ interface HomeProps {
   auth: AuthState;
   profile: any;
   getProfilePic: (
-    userKey: string,
+    userId: string,
     key: string
   ) => (dispatch: any) => Promise<void>;
 }

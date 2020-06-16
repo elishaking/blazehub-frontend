@@ -43,13 +43,13 @@ interface ProfileProps extends RouteComponentProps {
   auth: AuthState;
   friends: Friends;
   profile: any;
-  getFriends: (userKey: string) => (dispatch: any) => Promise<void>;
+  getFriends: () => (dispatch: any) => Promise<void>;
   getProfilePic: (
-    userKey: string,
+    userId: string,
     key: string
   ) => (dispatch: any) => Promise<void>;
   updateProfilePic: (
-    userKey: string,
+    userId: string,
     key: string,
     dataUrl: string,
     dataUrlSmall?: string
@@ -191,7 +191,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
     const friendKeys = Object.keys(friends);
     friendKeys.length === 0
-      ? this.props.getFriends(user.id)
+      ? this.props.getFriends()
       : this.setFriends(friendKeys, friends);
 
     const avatar = profile.avatar;
