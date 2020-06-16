@@ -26,7 +26,7 @@ interface ChatProps extends RouteComponentProps {
   auth: AuthState;
   getFriends: () => (dispatch: any) => Promise<void>;
   getProfilePic: (
-    userKey: string,
+    userId: string,
     key: string
   ) => (dispatch: any) => Promise<void>;
   listenForNewChats: (chatKeys: string[]) => (dispatch: any) => void;
@@ -38,7 +38,7 @@ const SLIDE_IN = {
 };
 
 class Chat extends Component<ChatProps, Readonly<any>> {
-  userKey: string;
+  userId: string;
   notificationSound: HTMLAudioElement;
   chatRef = app.database().ref("chats");
 
@@ -59,7 +59,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
       avatar: "",
     };
 
-    this.userKey = this.getUserKey(props.auth.user.email);
+    this.userId = this.getUserKey(props.auth.user.email);
     this.props.getFriends();
     this.notificationSound = new Audio(notificationSound);
   }
@@ -151,7 +151,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
           behavior: "smooth",
           top: chatMessagesDiv.scrollHeight - chatMessagesDiv.clientHeight,
         });
-        if (chats[currentChatKey][newMessageKey].user.key !== this.userKey)
+        if (chats[currentChatKey][newMessageKey].user.key !== this.userId)
           this.notificationSound.play();
       });
     } else {
@@ -207,8 +207,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
     userEmail.replace(/\./g, "~").replace(/@/g, "~~");
 
   /** @param {string} friendKey */
-  getChatKey = (friendKey: string) =>
-    [this.userKey, friendKey].sort().join("_");
+  getChatKey = (friendKey: string) => [this.userId, friendKey].sort().join("_");
 
   openChat = (key: string) => {
     this.toggleFriends();
@@ -259,7 +258,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
         // todo: add user url (from profile: auto-generate if not manually set by user)
         user: {
           name: `${user.firstName}`,
-          key: this.userKey,
+          key: this.userId,
         },
       };
 
@@ -359,7 +358,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                       const messageUserKey: string =
                         (message.userID && message.userID) || message.user.key;
 
-                      if (messageUserKey === this.userKey)
+                      if (messageUserKey === this.userId)
                         return (
                           <div
                             key={messageKey}

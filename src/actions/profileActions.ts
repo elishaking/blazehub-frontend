@@ -9,43 +9,40 @@ import logError from "../utils/logError";
  */
 const setProfilePic = (key: string, dataUrl: string) => ({
   type: SET_PROFILE_PIC,
-  payload: { key, dataUrl }
+  payload: { key, dataUrl },
 });
 
 /**
- * @param {string} userKey
+ * @param {string} userId
  * @param {string} key
  */
-export const getProfilePic = (userKey: string, key: string) => async (
+export const getProfilePic = (userId: string, key: string) => async (
   dispatch: any
 ) => {
   await app
     .database()
     .ref("profile-photos")
-    .child(userKey)
+    .child(userId)
     .child(key)
     .once("value")
-    .then(picSnapShot => {
+    .then((picSnapShot) => {
       dispatch(setProfilePic(key, picSnapShot.val()));
     })
-    .catch(err => logError(err));
+    .catch((err) => logError(err));
 };
 
 /**
- * @param {string} userKey
+ * @param {string} userId
  * @param {string} key
  * @param {string} dataUrl
  */
 export const updateProfilePic = (
-  userKey: string,
+  userId: string,
   key: string,
   dataUrl: string,
   dataUrlSmall = ""
 ) => async (dispatch: any) => {
-  const profileRef = app
-    .database()
-    .ref("profile-photos")
-    .child(userKey);
+  const profileRef = app.database().ref("profile-photos").child(userId);
 
   await profileRef
     .child(key)
@@ -56,7 +53,7 @@ export const updateProfilePic = (
           .child("avatar-small")
           .set(dataUrlSmall)
           .then(() => dispatch(setProfilePic(key, dataUrl)))
-          .catch(err => {
+          .catch((err) => {
             // console.log(err)
             logError(err);
           });
@@ -64,7 +61,7 @@ export const updateProfilePic = (
         dispatch(setProfilePic(key, dataUrl));
       }
     })
-    .catch(err => {
+    .catch((err) => {
       // console.log(err)
       logError(err);
     });

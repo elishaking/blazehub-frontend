@@ -45,11 +45,11 @@ interface ProfileProps extends RouteComponentProps {
   profile: any;
   getFriends: () => (dispatch: any) => Promise<void>;
   getProfilePic: (
-    userKey: string,
+    userId: string,
     key: string
   ) => (dispatch: any) => Promise<void>;
   updateProfilePic: (
-    userKey: string,
+    userId: string,
     key: string,
     dataUrl: string,
     dataUrlSmall?: string
