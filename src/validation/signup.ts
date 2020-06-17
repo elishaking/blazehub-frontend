@@ -3,21 +3,21 @@ import { isEmailValid, requiredFieldMessage, limitFieldMessage } from "./utils";
 import { AuthErrors } from "../models/auth";
 
 export const validateSignupInput = (formData: UserSignupData) => {
-  const errors = {} as AuthErrors;
+  const errors: AuthErrors = {};
 
   if (formData.email === "") errors.email = requiredFieldMessage("email");
   else if (!isEmailValid(formData.email))
     errors.email = "Your email is invalid";
 
   if (formData.firstName === "")
-    errors.firstName = requiredFieldMessage("firstName");
+    errors.firstName = requiredFieldMessage("first name");
   else if (formData.firstName.length < 2 || formData.firstName.length > 100)
-    errors.firstName = limitFieldMessage("firstName");
+    errors.firstName = limitFieldMessage("first name");
 
   if (formData.lastName === "")
-    errors.lastName = requiredFieldMessage("lastName");
+    errors.lastName = requiredFieldMessage("last name");
   else if (formData.lastName.length < 2 || formData.lastName.length > 100)
-    errors.lastName = limitFieldMessage("lastName");
+    errors.lastName = limitFieldMessage("last name");
 
   if (formData.password === "")
     errors.password = requiredFieldMessage("password");

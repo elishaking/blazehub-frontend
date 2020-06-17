@@ -3,7 +3,7 @@ import { isEmailValid, requiredFieldMessage, limitFieldMessage } from "./utils";
 import { AuthErrors } from "../models/auth";
 
 export const validateSigninInput = (formData: UserSigninData) => {
-  const errors = {} as AuthErrors;
+  const errors: AuthErrors = {};
 
   if (formData.email === "") errors.signinEmail = requiredFieldMessage("email");
   else if (!isEmailValid(formData.email))
