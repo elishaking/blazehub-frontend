@@ -157,7 +157,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
           errors,
         });
 
-      this.setState({ loadingSignin: true, errors: {} as AuthErrors });
+      this.setState({ loadingSignin: true, errors: {} });
       this.props.signinUser(userData);
     } else {
       this.props.history.push("/signin");
