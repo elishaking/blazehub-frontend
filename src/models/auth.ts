@@ -19,7 +19,7 @@ export interface AuthErrors {
 export interface AuthState {
   isAuthenticated: boolean;
   user: AuthUser;
-  errors: AuthErrors;
+  errors?: AuthErrors;
 }
 
 export interface ResetPasswordData {
