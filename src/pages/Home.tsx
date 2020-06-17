@@ -8,7 +8,7 @@ import "firebase/database";
 // import { initializeApp, updateUsername, updatePostLikeKeys } from '../utils/firebase';
 
 // import { signoutUser } from "../actions/authActions";
-import { getProfilePic } from "../actions/profileActions";
+import { getProfilePic } from "../actions/profile";
 
 import { resizeImage } from "../utils/resizeImage";
 

@@ -9,7 +9,7 @@ import "firebase/database";
 
 import { getFriends } from "../actions/friend";
 import { listenForNewChats } from "../actions/chatActions";
-import { getProfilePic } from "../actions/profileActions";
+import { getProfilePic } from "../actions/profile";
 
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";

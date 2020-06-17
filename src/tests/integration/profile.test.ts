@@ -1,5 +1,5 @@
 import { testStore } from "../utils/testUtils";
-import { getProfilePic, updateProfilePic } from "../../actions/profileActions";
+import { getProfilePic, updateProfilePic } from "../../actions/profile";
 import { initialState as initialProfileState } from "../../reducers/profile";
 import app from "firebase/app";
 import { firebaseMock } from "../utils/mocks";
