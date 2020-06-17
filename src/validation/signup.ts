@@ -11,18 +11,18 @@ export const validateSignupInput = (formData: UserSignupData) => {
 
   if (formData.firstName === "")
     errors.firstName = requiredFieldMessage("firstName");
-  else if (formData.firstName.length < 5 || formData.firstName.length > 100)
+  else if (formData.firstName.length < 2 || formData.firstName.length > 100)
     errors.firstName = limitFieldMessage("firstName");
 
   if (formData.lastName === "")
     errors.lastName = requiredFieldMessage("lastName");
-  else if (formData.lastName.length < 5 || formData.lastName.length > 100)
+  else if (formData.lastName.length < 2 || formData.lastName.length > 100)
     errors.lastName = limitFieldMessage("lastName");
 
   if (formData.password === "")
     errors.password = requiredFieldMessage("password");
   else if (formData.password.length < 5 || formData.password.length > 100)
-    errors.password = limitFieldMessage("password");
+    errors.password = limitFieldMessage("password", 5);
 
   return {
     isValid: Object.keys(errors).length === 0,

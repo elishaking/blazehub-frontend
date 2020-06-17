@@ -7,5 +7,5 @@ export const isEmailValid = (email: string) =>
 export const requiredFieldMessage = (field: string) =>
   `Your ${field} is required`;
 
-export const limitFieldMessage = (field: string, min = 5, max = 100) =>
+export const limitFieldMessage = (field: string, min = 2, max = 100) =>
   `Your ${field} should be between ${min}-${max} letters`;

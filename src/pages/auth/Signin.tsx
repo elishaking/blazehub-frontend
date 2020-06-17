@@ -45,12 +45,12 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
-      if (nextProps.auth.errors.statusCode === 403)
-        this.props.history.push("/confirm/resend");
-
-      if (nextProps.auth.errors.data) {
+      const { status } = nextProps.auth.errors;
+      if (status === 403) this.props.history.push("/confirm/resend");
+      else if (status === 400) {
         this.setState({
-          errors: nextProps.auth.errors.data,
+          // errors: nextProps.auth.errors.data,
+          error: "Please review your input",
           loading: false,
         });
       } else {
@@ -96,7 +96,7 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
         errors,
       });
 
-    this.setState({ loadingSignup: true });
+    this.setState({ loading: true });
 
     this.props.signinUser(userData);
   };

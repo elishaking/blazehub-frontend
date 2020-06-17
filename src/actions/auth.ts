@@ -1,9 +1,9 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { SET_ERRORS, SET_CURRENT_USER, SET_AUTH } from "./types";
 import { UserSigninData, UserSignupData } from "../models/user";
 import logError from "../utils/logError";
-import { AuthUser } from "../models/auth";
+import { AuthUser, AuthState } from "../models/auth";
 
 interface UserSigninResponse {
   accessToken: string;
@@ -11,9 +11,13 @@ interface UserSigninResponse {
 }
 
 // ===ACTIONS===
+export const setAuth = (authState: AuthState) => ({
+  type: SET_AUTH,
+  payload: authState,
+});
 
-export const getErrors = (errorData: any) => ({
-  type: GET_ERRORS,
+export const setErrors = (errorData: any) => ({
+  type: SET_ERRORS,
   payload: errorData,
 });
 
@@ -24,7 +28,7 @@ export const setCurrentUser = (userData: any) => ({
 
 // ===ACTION CREATORS===
 
-// @action-type GET_ERRORS
+// @action-type SET_ERRORS
 // @description sign-up user
 export const signupUser = (userData: UserSignupData, history: any) => async (
   dispatch: any
@@ -33,19 +37,24 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
     .post("/auth/signup", userData)
     .then((res) => history.push("/signin"))
     .catch((err) => {
-      logError(err);
-      if (err.response) dispatch(getErrors(err.response.data));
+      logError(err.response);
+      const errors = {
+        status: err.response.status,
+        data:
+          typeof err.response.data === "object" ? err.response.data : undefined,
+      };
+      if (err.response) dispatch(setErrors(errors));
     });
 };
 
-// @action-types SET_CURRENT_USER, GET_ERRORS
+// @action-types SET_CURRENT_USER, SET_ERRORS
 // @description sign-in/authenticate user
 export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
   axios
     .post("/auth/signin", userData)
     .then((res) => {
       // save token to localStorage to enable global access
-      const { accessToken, user }: UserSigninResponse = res.data;
+      const { accessToken }: UserSigninResponse = res.data;
       localStorage.setItem("jwtToken", accessToken);
 
       // add token to axios Authorization Header
@@ -55,16 +64,17 @@ export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
       const decodedUserData: any = jwt_decode(accessToken);
 
       dispatch(
-        setCurrentUser({
-          ...decodedUserData,
-          ...user,
+        setAuth({
+          isAuthenticated: true,
+          user: decodedUserData,
+          errors: undefined,
         })
       );
       window.location.href = "/home";
     })
     .catch((err) => {
       logError(err);
-      if (err.response) dispatch(getErrors(err.response.data));
+      if (err.response) dispatch(setErrors(err.response.data));
     });
 };
 
@@ -73,7 +83,13 @@ export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
 export const signoutUser = () => (dispatch: any) => {
   localStorage.removeItem("jwtToken");
   setAuthToken("");
-  dispatch(setCurrentUser({}));
+  dispatch(
+    setAuth({
+      isAuthenticated: false,
+      user: {} as AuthUser,
+      errors: undefined,
+    })
+  );
 };
 
 // ===UTILS===

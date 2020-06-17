@@ -8,8 +8,8 @@ import "firebase/database";
 // import axios from 'axios';
 
 import { getFriends } from "../actions/friend";
-import { listenForNewChats } from "../actions/chatActions";
-import { getProfilePic } from "../actions/profileActions";
+import { listenForNewChats } from "../actions/chat";
+import { getProfilePic } from "../actions/profile";
 
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";

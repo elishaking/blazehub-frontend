@@ -8,18 +8,18 @@ export interface AuthUser {
 }
 
 export interface AuthErrors {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  signinEmail: string;
-  signinPassword: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  signinEmail?: string;
+  signinPassword?: string;
 }
 
 export interface AuthState {
   isAuthenticated: boolean;
   user: AuthUser;
-  errors: AuthErrors;
+  errors?: AuthErrors;
 }
 
 export interface ResetPasswordData {

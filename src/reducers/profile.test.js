@@ -1,22 +1,22 @@
-import { SET_PROFILE_PIC } from '../actions/types';
-import profileReducer, { initialState } from './profileReducer';
+import { SET_PROFILE_PIC } from "../actions/types";
+import profileReducer, { initialState } from "./profile";
 
-describe('Profile Reducer', () => {
-  it('should return default state', () => {
+describe("Profile Reducer", () => {
+  it("should return default state", () => {
     // @ts-ignore
     const newState = profileReducer(undefined, {});
 
     expect(newState).toEqual(initialState);
   });
 
-  it('should return new profile state', () => {
+  it("should return new profile state", () => {
     const profilePicData = {
       key: "avatar",
-      dataUrl: "avatarDataUrl"
+      dataUrl: "avatarDataUrl",
     };
     const action = {
       type: SET_PROFILE_PIC,
-      payload: profilePicData
+      payload: profilePicData,
     };
 
     const newState = profileReducer(undefined, action);

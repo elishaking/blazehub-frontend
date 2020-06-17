@@ -1,26 +1,32 @@
-import { SET_CURRENT_USER, GET_ERRORS } from "../actions/types";
+import { SET_CURRENT_USER, SET_ERRORS, SET_AUTH } from "../actions/types";
 import { AuthState, AuthUser, AuthErrors } from "../models/auth";
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: {} as AuthUser,
-  errors: {} as AuthErrors
+  errors: {} as AuthErrors,
 };
 
 // ===REDUCERS===
-export default function(state = initialState, action: any) {
+export default function (state = initialState, action: any) {
   switch (action.type) {
+    case SET_AUTH:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case SET_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
-        user: action.payload
+        user: action.payload,
       };
 
-    case GET_ERRORS:
+    case SET_ERRORS:
       return {
         ...state,
-        errors: action.payload
+        errors: action.payload,
       };
 
     default:

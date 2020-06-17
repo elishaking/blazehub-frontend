@@ -32,7 +32,7 @@ interface LandingState {
   signupPassword: string;
   firstName: string;
   lastName: string;
-  gender: string;
+  gender: "Male" | "Female" | "Other";
 
   loadingSignin: boolean;
   loadingSignup: boolean;
@@ -55,12 +55,12 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       signupPassword: "",
       firstName: "",
       lastName: "",
-      gender: "",
+      gender: "Other",
 
       loadingSignin: false,
       loadingSignup: false,
 
-      errors: {} as AuthErrors,
+      errors: {},
       error: "",
     };
   }
@@ -83,21 +83,26 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
   componentWillReceiveProps(nextProps: any) {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
-    if (nextProps.auth.errors.success === false) {
-      // console.log(nextProps.auth.errors);
-      if (nextProps.auth.errors.data) {
+    if (nextProps.auth.errors) {
+      this.setState({
+        loadingSignin: false,
+        loadingSignup: false,
+      });
+      const { status, data } = nextProps.auth.errors;
+
+      if (status === 400) {
         this.setState({
-          errors: nextProps.auth.errors.data,
-          loadingSignin: false,
-          loadingSignup: false,
+          error: "Please review your input",
+          // errors: nextProps.auth.errors.data,
+        });
+      } else if (status === 409) {
+        this.setState({
+          error: "Please review your input",
+          errors: { email: data.message },
         });
       } else {
         this.setState({
-          loadingSignin: false,
-          loadingSignup: false,
-          error:
-            nextProps.auth.errors.message ||
-            "Something went wrong, check your connection",
+          error: "Something went wrong, check your connection",
         });
       }
     }
@@ -152,8 +157,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
           errors,
         });
 
-      this.setState({ loadingSignin: true });
-
+      this.setState({ loadingSignin: true, errors: {} });
       this.props.signinUser(userData);
     } else {
       this.props.history.push("/signin");
@@ -168,7 +172,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     const userData = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      gender: this.state.gender,
+      gender: this.state.gender || "Other",
       email: this.state.signupEmail,
       password: this.state.signupPassword,
     };
@@ -180,7 +184,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
         errors,
       });
 
-    this.setState({ loadingSignup: true });
+    this.setState({ loadingSignup: true, errors: {} });
     this.props.signupUser(userData, this.props.history);
   };
 
@@ -322,9 +326,9 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
                   <option hidden disabled selected value="other">
                     gender
                   </option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </Select>
 
                 <CompositeButton

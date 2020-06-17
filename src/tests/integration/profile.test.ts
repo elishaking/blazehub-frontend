@@ -1,13 +1,13 @@
 import { testStore } from "../utils/testUtils";
-import { getProfilePic, updateProfilePic } from "../../actions/profileActions";
-import { initialState as initialProfileState } from "../../reducers/profileReducer";
+import { getProfilePic, updateProfilePic } from "../../actions/profile";
+import { initialState as initialProfileState } from "../../reducers/profile";
 import app from "firebase/app";
 import { firebaseMock } from "../utils/mocks";
 
 describe("profile action creators", () => {
   const profilePicData = {
     key: "avatar",
-    dataUrl: "avatarDataUrl"
+    dataUrl: "avatarDataUrl",
   };
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe("profile action creators", () => {
   });
 
   describe("getProfilePic action creator", () => {
-    it(`should update store with new ${profilePicData.key} profile pic`, async done => {
+    it(`should update store with new ${profilePicData.key} profile pic`, async (done) => {
       const store = testStore();
 
       await store.dispatch(getProfilePic("", profilePicData.key));
@@ -24,7 +24,7 @@ describe("profile action creators", () => {
       const newState = store.getState();
       const expectedProfileState = {
         ...initialProfileState,
-        [profilePicData.key]: profilePicData.dataUrl
+        [profilePicData.key]: profilePicData.dataUrl,
       };
       expect(newState.profile).toEqual(expectedProfileState);
 
@@ -33,7 +33,7 @@ describe("profile action creators", () => {
   });
 
   describe("updateProfilePic action creator", () => {
-    it(`should update existing ${profilePicData.key} profile pic in store`, async done => {
+    it(`should update existing ${profilePicData.key} profile pic in store`, async (done) => {
       const store = testStore();
       const currentProfileState = store.getState().profile;
 
@@ -44,7 +44,7 @@ describe("profile action creators", () => {
       const newState = store.getState();
       expect(newState.profile).toEqual({
         ...currentProfileState,
-        [profilePicData.key]: profilePicData.dataUrl
+        [profilePicData.key]: profilePicData.dataUrl,
       });
 
       done();

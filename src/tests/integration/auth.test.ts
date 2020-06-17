@@ -1,7 +1,7 @@
 import moxios from "moxios";
 import { testStore } from "../utils/testUtils";
 import { signupUser } from "../../actions/auth";
-import { initialState as initialAuthState } from "../../reducers/authReducer";
+import { initialState as initialAuthState } from "../../reducers/auth";
 import { UserSignupData } from "../../models/user";
 
 describe("auth action creators", () => {

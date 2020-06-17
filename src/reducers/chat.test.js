@@ -1,31 +1,31 @@
-import { ADD_CHAT } from '../actions/types';
-import chatReducer from './chatReducer';
+import { ADD_CHAT } from "../actions/types";
+import chatReducer from "./chat";
 
-describe('Chat Reducer', () => {
-  it('should return default state', () => {
+describe("Chat Reducer", () => {
+  it("should return default state", () => {
     const newState = chatReducer(undefined, {});
 
     expect(newState).toEqual({});
   });
 
-  it('should return new chat state', () => {
+  it("should return new chat state", () => {
     const chat = {
       chatKey: "key",
       message: {
         key: "messageKey",
-        value: "Hello World"
-      }
+        value: "Hello World",
+      },
     };
     const action = {
       type: ADD_CHAT,
-      payload: chat
+      payload: chat,
     };
 
     const newState = chatReducer(undefined, action);
     expect(newState).toEqual({
       [chat.chatKey]: {
-        [chat.message.key]: chat.message
-      }
+        [chat.message.key]: chat.message,
+      },
     });
   });
 });
