@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import authReducer from "./auth";
 import friendReducer from "./friendReducer";
-import chatReducer from "./chatReducer";
+import chatReducer from "./chat";
 import profileReducer from "./profileReducer";
 
 export default combineReducers({
