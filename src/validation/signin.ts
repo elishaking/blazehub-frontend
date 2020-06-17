@@ -12,7 +12,7 @@ export const validateSigninInput = (formData: UserSigninData) => {
   if (formData.password === "")
     errors.signinPassword = requiredFieldMessage("password");
   else if (formData.password.length < 5 || formData.password.length > 100)
-    errors.signinPassword = limitFieldMessage("password");
+    errors.signinPassword = limitFieldMessage("password", 5);
 
   return {
     isValid: Object.keys(errors).length === 0,
