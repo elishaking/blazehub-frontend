@@ -33,8 +33,13 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
     .post("/auth/signup", userData)
     .then((res) => history.push("/signin"))
     .catch((err) => {
-      logError(err);
-      if (err.response) dispatch(getErrors(err.response.data));
+      logError(err.response);
+      const errors = {
+        status: err.response.status,
+        data:
+          typeof err.response.data === "object" ? err.response.data : undefined,
+      };
+      if (err.response) dispatch(getErrors(errors));
     });
 };
 
