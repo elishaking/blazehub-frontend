@@ -83,7 +83,13 @@ export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
 export const signoutUser = () => (dispatch: any) => {
   localStorage.removeItem("jwtToken");
   setAuthToken("");
-  dispatch(setCurrentUser({}));
+  dispatch(
+    setAuth({
+      isAuthenticated: false,
+      user: {} as AuthUser,
+      errors: undefined,
+    })
+  );
 };
 
 // ===UTILS===
