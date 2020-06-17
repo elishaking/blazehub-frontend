@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import authReducer from "./auth";
-import friendReducer from "./friendReducer";
+import friendReducer from "./friend";
 import chatReducer from "./chat";
 import profileReducer from "./profileReducer";
 
