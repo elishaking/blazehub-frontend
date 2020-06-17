@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER, SET_AUTH } from "./types";
+import { SET_ERRORS, SET_CURRENT_USER, SET_AUTH } from "./types";
 import { UserSigninData, UserSignupData } from "../models/user";
 import logError from "../utils/logError";
 import { AuthUser, AuthState } from "../models/auth";
@@ -16,8 +16,8 @@ export const setAuth = (authState: AuthState) => ({
   payload: authState,
 });
 
-export const getErrors = (errorData: any) => ({
-  type: GET_ERRORS,
+export const setErrors = (errorData: any) => ({
+  type: SET_ERRORS,
   payload: errorData,
 });
 
@@ -28,7 +28,7 @@ export const setCurrentUser = (userData: any) => ({
 
 // ===ACTION CREATORS===
 
-// @action-type GET_ERRORS
+// @action-type SET_ERRORS
 // @description sign-up user
 export const signupUser = (userData: UserSignupData, history: any) => async (
   dispatch: any
@@ -43,11 +43,11 @@ export const signupUser = (userData: UserSignupData, history: any) => async (
         data:
           typeof err.response.data === "object" ? err.response.data : undefined,
       };
-      if (err.response) dispatch(getErrors(errors));
+      if (err.response) dispatch(setErrors(errors));
     });
 };
 
-// @action-types SET_CURRENT_USER, GET_ERRORS
+// @action-types SET_CURRENT_USER, SET_ERRORS
 // @description sign-in/authenticate user
 export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
   axios
@@ -74,7 +74,7 @@ export const signinUser = (userData: UserSigninData) => (dispatch: any) => {
     })
     .catch((err) => {
       logError(err);
-      if (err.response) dispatch(getErrors(err.response.data));
+      if (err.response) dispatch(setErrors(err.response.data));
     });
 };
 

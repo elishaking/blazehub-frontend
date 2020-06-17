@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, GET_ERRORS, SET_AUTH } from "../actions/types";
+import { SET_CURRENT_USER, SET_ERRORS, SET_AUTH } from "../actions/types";
 import { AuthState, AuthUser, AuthErrors } from "../models/auth";
 
 export const initialState: AuthState = {
@@ -23,7 +23,7 @@ export default function (state = initialState, action: any) {
         user: action.payload,
       };
 
-    case GET_ERRORS:
+    case SET_ERRORS:
       return {
         ...state,
         errors: action.payload,

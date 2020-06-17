@@ -84,7 +84,7 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
-      console.log(nextProps.auth.errors);
+      console.log(nextProps.auth);
       if (nextProps.auth.errors.data) {
         this.setState({
           errors: nextProps.auth.errors.data,

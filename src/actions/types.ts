@@ -1,5 +1,5 @@
 export const SET_AUTH = "SET_AUTH";
-export const GET_ERRORS = "GET_ERRORS";
+export const SET_ERRORS = "SET_ERRORS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 export const SET_FRIENDS = "SET_FRIENDS";
