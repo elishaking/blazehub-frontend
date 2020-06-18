@@ -5,6 +5,10 @@
   "rules": {},
   "rulesDirectory": [],
   "linterOptions": {
-    "exclude": ["src/utils/logError.ts"]
+    "exclude": [
+      "src/utils/logError.ts",
+      "src/index.tsx",
+      "src/serviceWorker.ts"
+    ]
   }
 }
