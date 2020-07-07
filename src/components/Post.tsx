@@ -75,31 +75,46 @@ class Post extends Component<PostProps, Readonly<any>> {
   }
 
   componentDidMount() {
+    this.fetchUserPhoto();
+    if (this.state.loadingImage) {
+      this.fetchPostImage();
+    }
+    if (this.props.canBookmark) {
+      this.fetchBookmarkStatus();
+    }
+    this.fetchLikes();
+    this.fetchComments();
+    this.setPostTextAction();
+  }
+
+  fetchUserPhoto() {
     this.profilePhotosRef
       .child(this.state.post.user.id)
       .child("avatar-small")
       .once("value", (postUserImageSnapShot: any) => {
         this.setState({ postUserImage: postUserImageSnapShot.val() });
       });
+  }
 
-    if (this.state.loadingImage) {
-      this.postImageRef.once("value", (postImageSnapShot: any) => {
-        this.setState({
-          postImage: postImageSnapShot.val(),
-          loadingImage: false,
-        });
+  fetchPostImage() {
+    this.postImageRef.once("value", (postImageSnapShot) => {
+      this.setState({
+        postImage: postImageSnapShot.val(),
+        loadingImage: false,
       });
-    }
+    });
+  }
 
-    if (this.props.canBookmark) {
-      this.bookmarkRef.once("value", (bookmarkSnapShot: any) => {
-        if (bookmarkSnapShot.exists()) {
-          this.setState({ isBookmarked: bookmarkSnapShot.val() });
-        }
-      });
-    }
+  fetchBookmarkStatus() {
+    this.bookmarkRef.once("value", (bookmarkSnapShot: any) => {
+      if (bookmarkSnapShot.exists()) {
+        this.setState({ isBookmarked: bookmarkSnapShot.val() });
+      }
+    });
+  }
 
-    this.postRef.child("likes").on("value", (updatedLikesSnapShot: any) => {
+  fetchLikes() {
+    this.postRef.child("likes").on("value", (updatedLikesSnapShot) => {
       const { post } = this.state;
       post.likes = updatedLikesSnapShot.val();
       this.setState({
@@ -111,7 +126,9 @@ class Post extends Component<PostProps, Readonly<any>> {
         });
       });
     });
+  }
 
+  fetchComments() {
     this.postRef
       .child("comments")
       .on("child_added", (newCommentSnapShot: any) => {
@@ -124,12 +141,10 @@ class Post extends Component<PostProps, Readonly<any>> {
           post,
         });
       });
-
-    this.setPostTextAction();
   }
 
   setPostTextAction = () => {
-    const pText: any = document.getElementById(this.state.post.key);
+    const pText = document.getElementById(this.state.post.key) as HTMLElement;
 
     if (pText.clientHeight < pText.scrollHeight) {
       this.setState({
@@ -140,56 +155,57 @@ class Post extends Component<PostProps, Readonly<any>> {
   };
 
   deletePost = () => {
-    this.postRef.remove((err: any) => {
-      if (err) {
-        // console.log(err.message);
-      }
-    });
+    this.postRef.remove().catch((err) => logError(err));
   };
+
+  addLike(firstName: string) {
+    this.postRef
+      .child("likes")
+      .child(firstName)
+      .remove((err: any) => {
+        if (err) {
+          return logError(err);
+        }
+
+        this.setState({ liked: false });
+      });
+  }
+
+  removeLike(user: AuthUser, post: PostData) {
+    this.postRef
+      .child("likes")
+      .update({
+        [user.firstName]: 1, // TODO: change to user_id
+      })
+      .then(() => {
+        const newNotification = {
+          type: "new_like",
+          user,
+          post: post.key,
+          read: false,
+          date: 1e15 - Date.now(),
+        };
+        this.notificationsRef
+          .child(post.user?.id || "")
+          .push(newNotification, (notifErr: any) => {
+            if (notifErr) {
+              return logError(notifErr);
+            }
+          });
+
+        this.setState({ liked: true });
+      })
+      .catch((err) => logError(err));
+  }
 
   likePost = () => {
     const { user } = this.props;
     const { liked, post } = this.state;
-    // if (this.state.post.likes && this.state.post.likes[user.firstName]) {
+
     if (liked) {
-      this.postRef
-        .child("likes")
-        .child(user.firstName)
-        .remove((err: any) => {
-          if (err) {
-            return logError(err);
-          }
-
-          this.setState({ liked: false });
-        });
+      this.addLike(user.firstName);
     } else {
-      this.postRef.child("likes").update(
-        {
-          [user.firstName]: 1, // todo: change to user_id
-        },
-        (err: any) => {
-          if (err) {
-            return logError(err);
-          }
-
-          const newNotification = {
-            type: "new_like",
-            user,
-            post: post.key,
-            read: false,
-            date: 1e15 - Date.now(),
-          };
-          this.notificationsRef
-            .child(post.user.id)
-            .push(newNotification, (notifErr: any) => {
-              if (notifErr) {
-                return logError(notifErr);
-              }
-            });
-
-          this.setState({ liked: true });
-        }
-      );
+      this.removeLike(user, post);
     }
   };
 
