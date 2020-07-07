@@ -18,6 +18,29 @@ interface PostsState {
   loadingPosts: boolean;
 }
 
+function NoPost({ history }: any) {
+  return (
+    <div
+      className="loading-container"
+      style={{
+        padding: "1em",
+        textAlign: "center",
+      }}
+    >
+      <p>You have not created any Posts yet</p>
+      <button
+        className="btn"
+        style={{
+          marginTop: "1em",
+        }}
+        onClick={() => history.push("/home")}
+      >
+        Create Post
+      </button>
+    </div>
+  );
+}
+
 class Posts extends Component<PostsProps, Readonly<PostsState>> {
   db: app.database.Database;
   postsRef: app.database.Reference;
@@ -140,26 +163,7 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
         />
       ));
 
-    return (
-      <div
-        className="loading-container"
-        style={{
-          padding: "1em",
-          textAlign: "center",
-        }}
-      >
-        <p>You have not created any Posts yet</p>
-        <button
-          className="btn"
-          style={{
-            marginTop: "1em",
-          }}
-          onClick={() => this.props.history.push("/home")}
-        >
-          Create Post
-        </button>
-      </div>
-    );
+    return <NoPost history={this.props.history} />;
   }
 }
 
