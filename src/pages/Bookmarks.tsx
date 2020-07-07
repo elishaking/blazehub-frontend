@@ -21,7 +21,7 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
 
   state = {
     bookmarkedPosts: new Array<PostData>(),
-    loading: true
+    loading: true,
   };
 
   componentDidMount() {
@@ -36,7 +36,7 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
       .child(this.props.auth.user.id)
       .orderByValue()
       .equalTo(true)
-      .once("value", bookmarksSnapShot => {
+      .once("value", (bookmarksSnapShot) => {
         // console.log(bookmarksSnapShot.val());
         if (bookmarksSnapShot.exists()) {
           const bookmarks = bookmarksSnapShot.val();
@@ -48,19 +48,19 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
                 .child(bookmarkKeysArr[bookmarkKeys.length - i - 1])
                 .once("value")
             )
-          ).then(bookmarkedPostSnapshots => {
+          ).then((bookmarkedPostSnapshots) => {
             const { bookmarkedPosts } = this.state;
-            bookmarkedPostSnapshots.forEach(bookmarkedPostSnapshot => {
+            bookmarkedPostSnapshots.forEach((bookmarkedPostSnapshot) => {
               bookmarkedPosts.push({
                 key: bookmarkedPostSnapshot.key,
-                ...bookmarkedPostSnapshot.val()
+                ...bookmarkedPostSnapshot.val(),
               });
             });
             this.setState({ bookmarkedPosts, loading: false });
           });
         } else {
           this.setState({
-            loading: false
+            loading: false,
           });
         }
       });
@@ -89,24 +89,15 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
                 style={{
                   textAlign: "center",
                   padding: "1em 0",
-                  fontWeight: 500
+                  fontWeight: 500,
                 }}
               >
                 You have not bookmarked any posts yet
               </h3>
             ) : (
-              bookmarkedPosts.map(bookmarkedPost => (
+              bookmarkedPosts.map((bookmarkedPost) => (
                 <Post
                   key={bookmarkedPost.key}
-                  postRef={this.db.ref("posts").child(bookmarkedPost.key)}
-                  postImageRef={this.db
-                    .ref("post-images")
-                    .child(bookmarkedPost.key)}
-                  bookmarkRef={this.db
-                    .ref("bookmarks")
-                    .child(bookmarkedPost.key)}
-                  profilePhotosRef={this.db.ref("profile-photos")}
-                  notificationsRef={this.db.ref("notifications")}
                   post={bookmarkedPost}
                   user={user}
                 />
@@ -120,7 +111,7 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
 }
 
 const mapStateToProps = (state: any) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(Bookmarks);

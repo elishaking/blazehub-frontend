@@ -48,7 +48,8 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
       this.postsRef
         .orderByChild("user/id")
         .equalTo(this.otherUser ? otherUserId : this.user.id)
-        .once("value", (postsSnapShot) => {
+        .once("value")
+        .then((postsSnapShot) => {
           const posts = postsSnapShot.val() || {};
 
           this.setState({
@@ -75,7 +76,7 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
         const { posts } = this.state;
 
         const deleteIndex = posts.findIndex(
-          (post: any) => post.key === postSnapShot.key
+          (post: PostData) => post.key === postSnapShot.key
         );
         posts.splice(deleteIndex, 1);
         this.setState({ posts });
@@ -84,22 +85,10 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
       this.postsRef
         .orderByChild("date")
         .on("child_added", (newPostSnapShot) => {
-          // console.log('child_added');
           const newPost = {
             key: newPostSnapShot.key,
             ...newPostSnapShot.val(),
           };
-
-          // update imageUrl
-          // if (newPost.imageUrl && newPost.imageUrl !== true) {
-          //   this.db.ref("post-images").child(newPost.key).set(newPost.imageUrl);
-          //   this.postsRef.child(newPost.key).child("imageUrl").set(true);
-          // }
-
-          // update date
-          // if (newPost.date < 1e+13) {
-          //   this.postsRef.child(newPost.key).child("date").set(1e+15 - newPost.date);
-          // }
 
           // set date
           newPost.date = 1e15 - newPost.date;
@@ -144,14 +133,6 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
         <Post
           key={post.key}
           // profilesRef={app.database().ref("profiles")}
-          postRef={this.postsRef.child(post.key)}
-          postImageRef={this.db.ref("post-images").child(post.key)}
-          profilePhotosRef={this.db.ref("profile-photos")}
-          bookmarkRef={this.db
-            .ref("bookmarks")
-            .child(this.user.id)
-            .child(post.key)}
-          notificationsRef={app.database().ref("notifications")}
           post={post}
           user={this.user}
           canBookmark={true}

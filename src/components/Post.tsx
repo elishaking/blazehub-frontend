@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import app from "firebase/app";
+import "firebase/database";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,17 +15,13 @@ import Avatar from "./Avatar";
 import { AuthUser } from "../models/auth";
 import { PostData } from "../models/post";
 import "./Post.scss";
+import logError from "../utils/logError";
 
 interface PostProps extends RouteComponentProps {
   post: PostData;
   user: AuthUser;
   otherUser?: any;
   canBookmark?: boolean;
-  bookmarkRef: any;
-  postRef: any;
-  profilePhotosRef: any;
-  postImageRef: any;
-  notificationsRef: any;
 }
 
 class Post extends Component<PostProps, Readonly<any>> {
@@ -39,8 +37,17 @@ class Post extends Component<PostProps, Readonly<any>> {
     transition: "0.3s ease-in-out",
   };
 
+  db: app.database.Database;
+  postRef: app.database.Reference;
+  bookmarkRef: app.database.Reference;
+  profilePhotosRef: app.database.Reference;
+  postImageRef: app.database.Reference;
+  notificationsRef: app.database.Reference;
+
   constructor(props: PostProps) {
     super(props);
+
+    const { post, user } = props;
 
     this.state = {
       post: {
@@ -58,21 +65,17 @@ class Post extends Component<PostProps, Readonly<any>> {
       postTextOverflows: false,
       viewImage: false,
     };
+
+    this.db = app.database();
+    this.postRef = this.db.ref("posts").child(post.key);
+    this.postImageRef = this.db.ref("post-images").child(post.key);
+    this.profilePhotosRef = this.db.ref("profile-photos");
+    this.bookmarkRef = this.db.ref("bookmarks").child(user.id).child(post.key);
+    this.notificationsRef = app.database().ref("notifications");
   }
 
   componentDidMount() {
-    // this.props.postRef.on('value', (updatedPostSnapShot) => {
-    //   this.setState({
-    //     post: updatedPostSnapShot.val()
-    //   });
-    // });
-    const { bookmarkRef, postRef, profilePhotosRef, postImageRef } = this.props;
-
-    // profilesRef.child(this.state.post.user.id).child("username").once("value", (sn) => {
-    //   postRef.child("user").child("username").set(sn.val());
-    // });
-
-    profilePhotosRef
+    this.profilePhotosRef
       .child(this.state.post.user.id)
       .child("avatar-small")
       .once("value", (postUserImageSnapShot: any) => {
@@ -80,15 +83,7 @@ class Post extends Component<PostProps, Readonly<any>> {
       });
 
     if (this.state.loadingImage) {
-      postImageRef.once("value", (postImageSnapShot: any) => {
-        // compress images in database
-        // this.resizeImage(postImageSnapShot.val(), this.base64MimeType(postImageSnapShot.val()) || "image/png")
-        //   .then((dataUrl) => {
-        //     postImageRef.set(dataUrl).then(() => {
-        //       this.setState({ postImage: dataUrl, loadingImage: false });
-        //     })
-        //   });
-
+      this.postImageRef.once("value", (postImageSnapShot: any) => {
         this.setState({
           postImage: postImageSnapShot.val(),
           loadingImage: false,
@@ -97,14 +92,14 @@ class Post extends Component<PostProps, Readonly<any>> {
     }
 
     if (this.props.canBookmark) {
-      bookmarkRef.once("value", (bookmarkSnapShot: any) => {
+      this.bookmarkRef.once("value", (bookmarkSnapShot: any) => {
         if (bookmarkSnapShot.exists()) {
           this.setState({ isBookmarked: bookmarkSnapShot.val() });
         }
       });
     }
 
-    postRef.child("likes").on("value", (updatedLikesSnapShot: any) => {
+    this.postRef.child("likes").on("value", (updatedLikesSnapShot: any) => {
       const { post } = this.state;
       post.likes = updatedLikesSnapShot.val();
       this.setState({
@@ -117,16 +112,18 @@ class Post extends Component<PostProps, Readonly<any>> {
       });
     });
 
-    postRef.child("comments").on("child_added", (newCommentSnapShot: any) => {
-      const { post } = this.state;
-      post.comments = {
-        [newCommentSnapShot.key]: newCommentSnapShot.val(),
-        ...post.comments,
-      };
-      this.setState({
-        post,
+    this.postRef
+      .child("comments")
+      .on("child_added", (newCommentSnapShot: any) => {
+        const { post } = this.state;
+        post.comments = {
+          [newCommentSnapShot.key]: newCommentSnapShot.val(),
+          ...post.comments,
+        };
+        this.setState({
+          post,
+        });
       });
-    });
 
     this.setPostTextAction();
   }
@@ -143,7 +140,7 @@ class Post extends Component<PostProps, Readonly<any>> {
   };
 
   deletePost = () => {
-    this.props.postRef.remove((err: any) => {
+    this.postRef.remove((err: any) => {
       if (err) {
         // console.log(err.message);
       }
@@ -151,30 +148,28 @@ class Post extends Component<PostProps, Readonly<any>> {
   };
 
   likePost = () => {
-    const { postRef, user } = this.props;
+    const { user } = this.props;
     const { liked, post } = this.state;
     // if (this.state.post.likes && this.state.post.likes[user.firstName]) {
     if (liked) {
-      postRef
+      this.postRef
         .child("likes")
         .child(user.firstName)
         .remove((err: any) => {
           if (err) {
-            // console.log(err);
-            return;
+            return logError(err);
           }
 
           this.setState({ liked: false });
         });
     } else {
-      postRef.child("likes").update(
+      this.postRef.child("likes").update(
         {
           [user.firstName]: 1, // todo: change to user_id
         },
         (err: any) => {
           if (err) {
-            return;
-            // console.log(err);
+            return logError(err);
           }
 
           const newNotification = {
@@ -184,12 +179,11 @@ class Post extends Component<PostProps, Readonly<any>> {
             read: false,
             date: 1e15 - Date.now(),
           };
-          this.props.notificationsRef
+          this.notificationsRef
             .child(post.user.id)
             .push(newNotification, (notifErr: any) => {
               if (notifErr) {
-                // console.log(notifErr);
-                return;
+                return logError(notifErr);
               }
             });
 
@@ -205,7 +199,6 @@ class Post extends Component<PostProps, Readonly<any>> {
     });
   };
 
-  /** @param {React.KeyboardEvent<HTMLInputElement>} event */
   addComment = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.which === 13 && this.state.commentText !== "") {
       let { commentText } = this.state;
@@ -218,28 +211,28 @@ class Post extends Component<PostProps, Readonly<any>> {
       commentText = "";
       // @ts-ignore
       event.target.value = "";
-      this.props.postRef.child("comments").push(newComment, (err: any) => {
-        if (err) {
-          // console.error(err);
-          return;
-        } else {
+      this.postRef
+        .child("comments")
+        .push(newComment)
+        .then(() => {
           // console.log("comment added");
-        }
-      });
+        })
+        .catch((err) => {
+          logError(err);
+        });
     }
   };
 
   toggleBookmarkPost = () => {
-    const { bookmarkRef } = this.props;
-    bookmarkRef.once("value", (bookmarkSnapShot: any) => {
+    this.bookmarkRef.once("value", (bookmarkSnapShot: any) => {
       if (bookmarkSnapShot.exists()) {
-        bookmarkRef.set(!bookmarkSnapShot.val(), (err: any) => {
+        this.bookmarkRef.set(!bookmarkSnapShot.val(), (err: any) => {
           if (err) {
             // console.log(err);
           } else this.setState({ isBookmarked: !this.state.isBookmarked });
         });
       } else {
-        bookmarkRef.set(true, (err: any) => {
+        this.bookmarkRef.set(true, (err: any) => {
           if (err) {
             // console.log(err);
           } else this.setState({ isBookmarked: !this.state.isBookmarked });
@@ -248,7 +241,6 @@ class Post extends Component<PostProps, Readonly<any>> {
     });
   };
 
-  /** @param {React.ChangeEvent<HTMLInputElement>} event */
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       [event.target.name]: event.target.value,
@@ -331,8 +323,6 @@ class Post extends Component<PostProps, Readonly<any>> {
                 <h4
                   onClick={this.viewPostUserProfile}
                 >{`${post.user.firstName}  ${post.user.lastName}`}</h4>
-
-                {/* <small>{new Date(post.date).toLocaleTimeString()}</small> */}
                 <small>{this.formatPostDate(post.date)}</small>
               </div>
             </div>
@@ -365,11 +355,6 @@ class Post extends Component<PostProps, Readonly<any>> {
               {postTextMaxHeight ? "See more" : "See less"}
             </button>
           )}
-          {/* {post.imageUrl && (
-          <div className="post-image">
-            <img src={post.imageUrl} alt="" srcSet="" />
-          </div>
-        )} */}
           {post.imageUrl &&
             (loadingImage ? (
               <div className="image-loading">
