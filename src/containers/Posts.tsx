@@ -42,79 +42,79 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
     this.user = this.props.user;
     this.otherUser = this.props.otherUser;
 
-    const { forProfile, otherUserId } = this.props;
+    const { forProfile } = this.props;
 
     if (forProfile) {
-      this.postsRef
-        .orderByChild("user/id")
-        .equalTo(this.otherUser ? otherUserId : this.user.id)
-        .once("value")
-        .then((postsSnapShot) => {
-          const posts = postsSnapShot.val() || {};
-
-          this.setState({
-            posts: Object.keys(posts).map((_, i, postKeys) => {
-              const postKey = postKeys[postKeys.length - i - 1];
-              const newPost = {
-                key: postKey,
-                ...posts[postKey],
-              };
-              // set date
-              newPost.date = 1e15 - newPost.date;
-
-              if (this.state.loadingPosts)
-                this.setState({ loadingPosts: false });
-
-              return newPost;
-            }),
-          });
-
-          if (this.state.loadingPosts) this.setState({ loadingPosts: false });
-        });
-
-      this.postsRef.on("child_removed", (postSnapShot) => {
-        const { posts } = this.state;
-
-        const deleteIndex = posts.findIndex(
-          (post: PostData) => post.key === postSnapShot.key
-        );
-        posts.splice(deleteIndex, 1);
-        this.setState({ posts });
-      });
+      this.retrieveUserPosts();
     } else {
-      this.postsRef
-        .orderByChild("date")
-        .on("child_added", (newPostSnapShot) => {
-          const newPost = {
-            key: newPostSnapShot.key,
-            ...newPostSnapShot.val(),
-          };
+      this.listenForNewPost();
+    }
 
-          // set date
-          newPost.date = 1e15 - newPost.date;
+    this.listenForPostDelete();
+  }
 
-          if (this.state.loadingPosts) this.setState({ loadingPosts: false });
+  retrieveUserPosts() {
+    const { otherUserId } = this.props;
 
-          const { posts } = this.state;
-          newPost.date > this.mountedOn
-            ? posts.unshift(newPost)
-            : posts.push(newPost);
-          this.setState({
-            posts,
-          });
+    this.postsRef
+      .orderByChild("user/id")
+      .equalTo(this.otherUser ? otherUserId : this.user.id)
+      .once("value")
+      .then((postsSnapShot) => {
+        const posts = postsSnapShot.val() || {};
+
+        this.setState({
+          posts: Object.keys(posts).map((_, i, postKeys) => {
+            const postKey = postKeys[postKeys.length - i - 1];
+            const newPost = {
+              key: postKey,
+              ...posts[postKey],
+            };
+            // set date
+            newPost.date = 1e15 - newPost.date;
+
+            if (this.state.loadingPosts) this.setState({ loadingPosts: false });
+
+            return newPost;
+          }),
         });
 
-      this.postsRef.on("child_removed", (removedPostSnapShot) => {
-        const { posts } = this.state;
-
-        posts.splice(
-          posts.findIndex((post) => post.key === removedPostSnapShot.key),
-          1
-        );
-
-        this.setState({ posts });
+        if (this.state.loadingPosts) this.setState({ loadingPosts: false });
       });
-    }
+  }
+
+  listenForNewPost() {
+    this.postsRef.orderByChild("date").on("child_added", (newPostSnapShot) => {
+      const newPost = {
+        key: newPostSnapShot.key,
+        ...newPostSnapShot.val(),
+      };
+
+      // set date
+      newPost.date = 1e15 - newPost.date;
+
+      if (this.state.loadingPosts) this.setState({ loadingPosts: false });
+
+      const { posts } = this.state;
+      newPost.date > this.mountedOn
+        ? posts.unshift(newPost)
+        : posts.push(newPost);
+      this.setState({
+        posts,
+      });
+    });
+  }
+
+  listenForPostDelete() {
+    this.postsRef.on("child_removed", (postSnapShot) => {
+      const { posts } = this.state;
+
+      const deleteIndex = posts.findIndex(
+        (post: PostData) => post.key === postSnapShot.key
+      );
+      posts.splice(deleteIndex, 1);
+      this.setState({ posts });
+    });
   }
 
   render() {
