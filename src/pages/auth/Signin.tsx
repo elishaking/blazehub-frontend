@@ -45,9 +45,9 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
     this.redirectIfAuthenticated(nextProps.auth.isAuthenticated);
 
     if (nextProps.auth.errors) {
-      const { status } = nextProps.auth.errors;
-      if (status === 403) this.props.history.push("/confirm/resend");
-      else if (status === 400) {
+      const { statusCode } = nextProps.auth.errors;
+      if (statusCode === 403) this.props.history.push("/confirm/resend");
+      else if (statusCode === 400) {
         this.setState({
           // errors: nextProps.auth.errors.data,
           error: "Please review your input",
@@ -56,7 +56,9 @@ class Signin extends Component<SigninProps, Readonly<SigninState>> {
       } else {
         this.setState({
           loading: false,
-          error: "Something went wrong, check your connection",
+          error:
+            nextProps.auth.errors.message ||
+            "Something went wrong, check your connection",
         });
       }
     }

@@ -48,3 +48,19 @@ export const base64MimeType = (encoded: string) => {
 
   return result;
 };
+
+// function compressImageInDB(
+//   postImageSnapShot: any,
+//   postImageRef: any,
+//   setState: any
+// ) {
+//   // compress images in database
+//   resizeImage(
+//     postImageSnapShot.val(),
+//     base64MimeType(postImageSnapShot.val()) || "image/png"
+//   ).then((dataUrl) => {
+//     postImageRef.set(dataUrl).then(() => {
+//       setState({ postImage: dataUrl, loadingImage: false });
+//     });
+//   });
+// }
