@@ -3,10 +3,9 @@ import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import { AuthState } from "../models/auth";
-import logError from "../utils/logError";
+import { logError } from "../utils/logError";
 import { Button } from "../components/atoms";
 import { Form } from "../components/organisms/form";
 import { TextFormInput, CompositeButton } from "../components/molecules";
@@ -82,10 +81,10 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
 
     return (
       <div className="container">
-        <AuthNav showSearch={true} history={this.props.history} />
+        <AuthNavbar showSearch={true} history={this.props.history} />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           {inviteSent ? (
             <div className="invite-friends">

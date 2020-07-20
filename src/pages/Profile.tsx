@@ -14,9 +14,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
+
 import "./Profile.scss";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import Spinner from "../components/Spinner";
 import {
   TextFormInput,
@@ -368,10 +368,10 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
     return (
       <div className="container">
-        <AuthNav showSearch={true} history={this.props.history} />
+        <AuthNavbar showSearch={true} history={this.props.history} />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <div className="profile">
             <div className="pics">

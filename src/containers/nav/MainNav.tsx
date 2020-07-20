@@ -79,4 +79,4 @@ function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
   );
 }
 
-export default connect(null, { signoutUser })(MainNav);
+export const MainNavbar = connect(null, { signoutUser })(MainNav);

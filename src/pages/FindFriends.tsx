@@ -8,8 +8,7 @@ import axios from "axios";
 import { getFriends, addFriend } from "../actions/friend";
 import { Friends, Friend } from "../models/friend";
 
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import Spinner from "../components/Spinner";
 import { AuthState } from "../models/auth";
 import { CurrentUser } from "../components/organisms";
@@ -120,10 +119,10 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
 
     return (
       <div className="container">
-        <AuthNav history={this.props.history} />
+        <AuthNavbar history={this.props.history} />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <div className="friends-main">
             {loading ? (

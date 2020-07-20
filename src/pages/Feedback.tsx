@@ -3,12 +3,11 @@ import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./Feedback.scss";
-import AuthNav from "../containers/nav/AuthNav";
-import MainNav from "../containers/nav/MainNav";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import { AuthState } from "../models/auth";
 import { TextAreaFormInput } from "../components/form/TextFormInput";
 import { TextFormInput, CompositeButton } from "../components/molecules";
-import logError from "../utils/logError";
+import { logError } from "../utils/logError";
 import { sendFeedback } from "../actions/feedback";
 import { validateFeedbackInput } from "../validation/feedback";
 import { FeedbackData } from "../models/feedback";
@@ -77,10 +76,10 @@ class Feedback extends Component<FeedbackProps> {
 
     return (
       <div className="container">
-        <AuthNav showSearch={true} history={this.props.history} />
+        <AuthNavbar showSearch={true} history={this.props.history} />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <div className="form-container">
             <h1 className="mb-1">Help BlazeHub improve</h1>

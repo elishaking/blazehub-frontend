@@ -2,21 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import app from "firebase/app";
 import "firebase/database";
-// import axios from 'axios';
-// import { initializeApp, updateUsername, updatePostLikeKeys } from '../utils/firebase';
-
-// import { signoutUser } from "../actions/authActions";
-import { getProfilePic } from "../actions/profile";
-
-import { resizeImage } from "../utils/resizeImage";
 
 import "./Home.scss";
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
+import { MainNavbar, AuthNavbar } from "../containers/nav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
-import logError from "../utils/logError";
 import { PostActions, PostImage, PostInput } from "../components/organisms";
+import { getProfilePic } from "../actions/profile";
+import { resizeImage } from "../utils/resizeImage";
+import { logError } from "../utils/logError";
 
 interface HomeState {
   postText: string;
@@ -49,29 +43,12 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
       notifications: [],
       loadingNotifications: true,
     };
-
-    // this.setupFirebase();
   }
 
   componentDidMount() {
-    // initializeApp(this);
-    // updateUsername();
-    // this.setupFirebase();
-    // updatePostLikeKeys()
-
     const { profile, auth } = this.props;
     if (!profile.avatar) this.props.getProfilePic(auth.user.id, "avatar");
   }
-
-  /**
-   * Initialize firebase references
-   */
-  // setupFirebase = () => {
-  //   this.db = app.database();
-  //   this.postsRef = this.db.ref('posts');
-  //   this.postImagesRef = this.db.ref('post-images');
-  //   // this.notificationsRef = this.db.ref('notifications');
-  // }
 
   /**
    * Opens file explorer for image attachment to new post
@@ -167,14 +144,14 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
 
     return (
       <div className="container" data-test="homeComponent">
-        <AuthNav
+        <AuthNavbar
           showSearch={true}
           avatar={avatar}
           notificationsRef={this.db.ref("notifications")}
         />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <div className="main-feed">
             <header>

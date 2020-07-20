@@ -1,15 +1,13 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import app from "firebase/app";
 import "firebase/database";
 
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
 import Post from "../components/Post";
-import { RouteComponentProps } from "react-router-dom";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import { AuthState } from "../models/auth";
-
 import { PostData } from "../models/post";
 
 interface BookmarksProps extends RouteComponentProps {
@@ -72,13 +70,13 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
 
     return (
       <div className="container">
-        <AuthNav
+        <AuthNavbar
           showSearch={true}
           notificationsRef={this.db.ref("notifications")}
         />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <div className="bookmarks">
             {/* <h3 style={{ textAlign: "center", fontWeight: "500", padding: "1em 0" }}>Bookmarks Coming Soon</h3> */}

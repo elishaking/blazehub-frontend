@@ -8,8 +8,7 @@ import {
   faHands,
 } from "@fortawesome/free-solid-svg-icons";
 
-import AuthNav from "../containers/nav/AuthNav";
-import MainNav from "../containers/nav/MainNav";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import { AuthState } from "../models/auth";
 import { signoutUser } from "../actions/auth";
 import NavItem from "../components/NavItem";
@@ -25,10 +24,10 @@ class Menu extends Component<MenuProps> {
     const { user } = this.props.auth;
     return (
       <div className="container menu">
-        <AuthNav />
+        <AuthNavbar />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <ul className="menu-items">
             <NavItem

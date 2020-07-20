@@ -15,7 +15,7 @@ import Avatar from "./Avatar";
 import { AuthUser } from "../models/auth";
 import { PostData } from "../models/post";
 import "./Post.scss";
-import logError from "../utils/logError";
+import { logError } from "../utils/logError";
 
 interface PostProps extends RouteComponentProps {
   post: PostData;

@@ -11,8 +11,7 @@ import { getFriends } from "../actions/friend";
 import { listenForNewChats } from "../actions/chat";
 import { getProfilePic } from "../actions/profile";
 
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
 import Spinner from "../components/Spinner";
 import Avatar from "../components/Avatar";
 
@@ -300,10 +299,10 @@ class Chat extends Component<ChatProps, Readonly<any>> {
 
     return (
       <div className="container chat-page">
-        <AuthNav history={this.props.history} avatar={avatar} />
+        <AuthNavbar history={this.props.history} avatar={avatar} />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar user={user} />
 
           <div className="chat-space">
             <header>
