@@ -5,14 +5,13 @@ import app from "firebase/app";
 import "firebase/database";
 import axios from "axios";
 
-import { getFriends, addFriend } from "../actions/friend";
+import { getFriends, addFriend } from "../store/actions/friend";
 import { Friends, Friend } from "../models/friend";
 
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
-import Spinner from "../components/Spinner";
+import { Spinner } from "../components/molecules";
 import { AuthState } from "../models/auth";
 import { CurrentUser } from "../components/organisms";
+import { PageTemplate } from "../components/templates";
 
 interface FindFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -115,42 +114,35 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
 
   render() {
     const { users, loading } = this.state;
-    const { user } = this.props.auth;
     const userIds = Object.keys(users);
 
     return (
-      <div className="container">
-        <AuthNav history={this.props.history} />
-
-        <div className="main">
-          <MainNav user={user} />
-
-          <div className="friends-main">
-            {loading ? (
-              <Spinner />
-            ) : userIds.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "1em 0" }}>
-                <h3 style={{ fontWeight: 500 }}>No friends to add</h3>
-              </div>
-            ) : (
-              userIds.map((userId, idx, arr) => {
-                const currentUser = users[userId];
-                if (currentUser.added) return;
-                return (
-                  <CurrentUser
-                    key={userId}
-                    userId={userId}
-                    currentUser={currentUser}
-                    addFriend={this.addFriend}
-                    idx={idx}
-                    N={arr.length}
-                  />
-                );
-              })
-            )}
-          </div>
+      <PageTemplate history={this.props.history}>
+        <div className="friends-main">
+          {loading ? (
+            <Spinner />
+          ) : userIds.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "1em 0" }}>
+              <h3 style={{ fontWeight: 500 }}>No friends to add</h3>
+            </div>
+          ) : (
+            userIds.map((userId, idx, arr) => {
+              const currentUser = users[userId];
+              if (currentUser.added) return;
+              return (
+                <CurrentUser
+                  key={userId}
+                  userId={userId}
+                  currentUser={currentUser}
+                  addFriend={this.addFriend}
+                  idx={idx}
+                  N={arr.length}
+                />
+              );
+            })
+          )}
         </div>
-      </div>
+      </PageTemplate>
     );
   }
 }
@@ -160,6 +152,7 @@ const mapStateToProps = (state: any) => ({
   friends: state.friends,
 });
 
-export default connect<any>(mapStateToProps, { getFriends, addFriend })(
-  FindFriends
-);
+export const FindFriendsPage = connect<any>(mapStateToProps, {
+  getFriends,
+  addFriend,
+})(FindFriends);

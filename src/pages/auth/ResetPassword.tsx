@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import { RouteComponentProps, match } from "react-router-dom";
 
-import { confirmPasswordResetUrl, resetPassword } from "../../actions/auth";
-import Spinner from "../../components/Spinner";
-import { AuthState, ResetPasswordData } from "../../models/auth";
 import "./Landing.scss";
-import logError from "../../utils/logError";
+import {
+  confirmPasswordResetUrl,
+  resetPassword,
+} from "../../store/actions/auth";
+import { AuthState, ResetPasswordData } from "../../models/auth";
+import { logError } from "../../utils";
 import { AuthContainer } from "./AuthContainer";
-import { TextFormInput, CompositeButton } from "../../components/molecules";
-import { connect } from "react-redux";
-import { validateResetPasswordInput } from "../../validation/resetPassword";
+import {
+  TextFormInput,
+  CompositeButton,
+  Spinner,
+} from "../../components/molecules";
 import { SuccessMessage, Button, ErrorMessage } from "../../components/atoms";
 import { Form } from "../../components/organisms/form";
+import { connect } from "react-redux";
+import { validateResetPasswordInput } from "../../validation/resetPassword";
 
 interface ResetPasswordProps extends RouteComponentProps {
   auth: AuthState;
@@ -225,4 +231,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps)(ResetPassword);
+export const ResetPasswordPage = connect<any>(mapStateToProps)(ResetPassword);

@@ -3,16 +3,15 @@ import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./Feedback.scss";
-import AuthNav from "../containers/nav/AuthNav";
-import MainNav from "../containers/nav/MainNav";
-import { AuthState } from "../models/auth";
 import { TextAreaFormInput } from "../components/form/TextFormInput";
 import { TextFormInput, CompositeButton } from "../components/molecules";
-import logError from "../utils/logError";
-import { sendFeedback } from "../actions/feedback";
+import { logError } from "../utils/logError";
+import { sendFeedback } from "../store/actions/feedback";
 import { validateFeedbackInput } from "../validation/feedback";
 import { FeedbackData } from "../models/feedback";
 import { Form } from "../components/organisms/form";
+import { PageTemplate } from "../components/templates";
+import { AuthState } from "../models/auth";
 
 interface FeedbackProps extends RouteComponentProps {
   auth: AuthState;
@@ -76,52 +75,44 @@ class Feedback extends Component<FeedbackProps> {
     const { errors, loading, feedbackSent } = this.state;
 
     return (
-      <div className="container">
-        <AuthNav showSearch={true} history={this.props.history} />
+      <PageTemplate showSearch={true} history={this.props.history}>
+        <div className="form-container">
+          <h1 className="mb-1">Help BlazeHub improve</h1>
+          <Form onSubmit={this.onSubmit}>
+            <TextFormInput
+              type="text"
+              name="name"
+              placeholder="name"
+              error={errors.name}
+              onChange={this.onChange as any}
+              value={`${user.firstName} ${user.lastName}`}
+            />
 
-        <div className="main">
-          <MainNav user={user} />
+            <TextFormInput
+              type="email"
+              name="email"
+              placeholder="email"
+              error={errors.email}
+              onChange={this.onChange as any}
+              value={user.email}
+            />
 
-          <div className="form-container">
-            <h1 className="mb-1">Help BlazeHub improve</h1>
-            <Form onSubmit={this.onSubmit}>
-              <TextFormInput
-                type="text"
-                name="name"
-                placeholder="name"
-                error={errors.name}
-                onChange={this.onChange as any}
-                value={`${user.firstName} ${user.lastName}`}
-              />
+            <TextAreaFormInput
+              name="message"
+              placeholder="How or where will you like BlazeHub to improve"
+              error={errors.message}
+              onChange={this.onChange}
+              rows={5}
+            />
 
-              <TextFormInput
-                type="email"
-                name="email"
-                placeholder="email"
-                error={errors.email}
-                onChange={this.onChange as any}
-                value={user.email}
-              />
-
-              <TextAreaFormInput
-                name="message"
-                placeholder="How or where will you like BlazeHub to improve"
-                error={errors.message}
-                onChange={this.onChange}
-                rows={5}
-              />
-
-              {feedbackSent ? (
-                <p>Feedback Sent</p>
-              ) : (
-                <CompositeButton loading={loading}>
-                  Send Feedback
-                </CompositeButton>
-              )}
-            </Form>
-          </div>
+            {feedbackSent ? (
+              <p>Feedback Sent</p>
+            ) : (
+              <CompositeButton loading={loading}>Send Feedback</CompositeButton>
+            )}
+          </Form>
         </div>
-      </div>
+      </PageTemplate>
     );
   }
 }
@@ -130,4 +121,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Feedback);
+export const FeedbackPage = connect(mapStateToProps)(Feedback);

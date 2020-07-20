@@ -1,7 +1,8 @@
-import { testStore } from "../utils/testUtils";
-import { getProfilePic, updateProfilePic } from "../../actions/profile";
-import { initialState as initialProfileState } from "../../reducers/profile";
 import app from "firebase/app";
+
+import { testStore } from "../utils/testUtils";
+import { getProfilePic, updateProfilePic } from "../../store/actions/profile";
+import { initialState as initialProfileState } from "../../store/reducers/profile";
 import { firebaseMock } from "../utils/mocks";
 
 describe("profile action creators", () => {

@@ -11,10 +11,11 @@ import {
   faBars,
   faHands,
 } from "@fortawesome/free-solid-svg-icons";
-import { signoutUser } from "../../actions/auth";
-import "./MainNav.scss";
+
+import "./main-nav.scss";
+import { signoutUser } from "../../store/actions/auth";
 import { AuthUser } from "../../models/auth";
-import NavItem from "../../components/NavItem";
+import { NavItem } from "../../components/molecules";
 
 interface MainNavProps {
   user: AuthUser;
@@ -79,4 +80,8 @@ function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
   );
 }
 
-export default connect(null, { signoutUser })(MainNav);
+const mapStateToProps = (state: any) => ({
+  user: state.auth.user,
+});
+
+export const MainNavbar = connect(mapStateToProps, { signoutUser })(MainNav);

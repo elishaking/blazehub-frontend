@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-function PrivateRoute({ component: Component, auth, ...rest }: any) {
+function PRoute({ component: Component, auth, ...rest }: any) {
   // const checkRoute = (props) => {
   //   if (props.match.path.indexOf(":") !== -1 && ["/home", "/chat", "/find", "/profile", "/bookmarks", "/invite"].indexOf(props.match.url) !== -1) return (<div></div>);
 
@@ -12,7 +12,7 @@ function PrivateRoute({ component: Component, auth, ...rest }: any) {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         auth.isAuthenticated === true ? (
           <Component {...props} />
         ) : (
@@ -24,7 +24,7 @@ function PrivateRoute({ component: Component, auth, ...rest }: any) {
 }
 
 const mapStateToProps = (state: any) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+export const PrivateRoute = connect(mapStateToProps)(PRoute);

@@ -4,31 +4,36 @@ import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import app from "firebase/app";
+
 import "./App.scss";
-import store from "./store";
-import { setAuthToken, setCurrentUser, signoutUser } from "./actions/auth";
-
-import PrivateRoute from "./containers/PrivateRoute";
-import Landing from "./pages/auth/Landing";
-import Signin from "./pages/auth/Signin";
-import Confirm from "./pages/auth/Confirm";
-import Home from "./pages/Home";
-import Chat from "./pages/Chat";
-import FindFriends from "./pages/FindFriends";
-import Profile from "./pages/Profile";
-import Bookmarks from "./pages/Bookmarks";
-import InviteFriends from "./pages/InviteFriends";
-import Spinner from "./components/Spinner";
-import Menu from "./pages/Menu";
-import Privacy from "./pages/auth/Privacy";
-import Feedback from "./pages/Feedback";
-import ResendConfirm from "./pages/auth/ResendConfirm";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
+import store from "./store/store";
+import {
+  setAuthToken,
+  setCurrentUser,
+  signoutUser,
+} from "./store/actions/auth";
+import {
+  LandingPage,
+  SigninPage,
+  ConfirmPage,
+  ResendConfirmPage,
+  ForgotPasswordPage,
+  PrivacyPage,
+  ResetPasswordPage,
+} from "./pages/auth";
+import {
+  HomePage,
+  ProfilePage,
+  ChatPage,
+  FindFriendsPage,
+  InviteFriendsPage,
+  BookmarkPage,
+  FeedbackPage,
+  MenuPage,
+} from "./pages";
+import { PrivateRoute } from "./containers/private-route";
+import { Spinner } from "./components/molecules";
 import { Center, OutlineButton } from "./components/atoms";
-
-// upon page reload/refresh, update user authentication token
-// updateAuthToken();
 
 class App extends Component<{}, Readonly<any>> {
   state = {
@@ -43,9 +48,7 @@ class App extends Component<{}, Readonly<any>> {
   updateAuthToken = () => {
     if (localStorage.jwtToken) {
       setAuthToken(localStorage.jwtToken);
-
       const decodedUserData: any = jwt_decode(localStorage.jwtToken);
-
       store.dispatch(setCurrentUser(decodedUserData));
 
       // Check for expired token
@@ -93,46 +96,46 @@ class App extends Component<{}, Readonly<any>> {
     return (
       <Provider store={store}>
         <Router>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/signin" component={Signin} />
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/signin" component={SigninPage} />
           <Switch>
-            <Route exact path="/confirm/resend" component={ResendConfirm} />
-            <Route exact path="/confirm/:token" component={Confirm} />
+            <Route exact path="/confirm/resend" component={ResendConfirmPage} />
+            <Route exact path="/confirm/:token" component={ConfirmPage} />
           </Switch>
-          <Route exact path="/password/forgot" component={ForgotPassword} />
+          <Route exact path="/password/forgot" component={ForgotPasswordPage} />
           <Route
             exact
             path="/password/reset/:token"
-            component={ResetPassword}
+            component={ResetPasswordPage}
           />
-          <Route exact path="/privacy" component={Privacy} />
+          <Route exact path="/privacy" component={PrivacyPage} />
           <Switch>
-            <PrivateRoute exact path="/home" component={Home} />
+            <PrivateRoute exact path="/home" component={HomePage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/chat" component={Chat} />
+            <PrivateRoute exact path="/chat" component={ChatPage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/find" component={FindFriends} />
+            <PrivateRoute exact path="/find" component={FindFriendsPage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/profile" component={ProfilePage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/bookmarks" component={Bookmarks} />
+            <PrivateRoute exact path="/bookmarks" component={BookmarkPage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/invite" component={InviteFriends} />
+            <PrivateRoute exact path="/invite" component={InviteFriendsPage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/menu" component={Menu} />
+            <PrivateRoute exact path="/menu" component={MenuPage} />
           </Switch>
           <Switch>
-            <PrivateRoute exact path="/feedback" component={Feedback} />
+            <PrivateRoute exact path="/feedback" component={FeedbackPage} />
           </Switch>
 
           <Switch>
-            <PrivateRoute exact path="/p/:username" component={Profile} />
+            <PrivateRoute exact path="/p/:username" component={ProfilePage} />
           </Switch>
         </Router>
       </Provider>

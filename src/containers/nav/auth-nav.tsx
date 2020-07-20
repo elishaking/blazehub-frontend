@@ -7,12 +7,11 @@ import {
   faUserCircle,
   // faBell,
 } from "@fortawesome/free-solid-svg-icons";
-import { signoutUser } from "../../actions/auth";
-import Avatar from "../../components/Avatar";
-import "./AuthNav.scss";
-import Logo from "../../components/Logo";
+
+import "./auth-nav.scss";
+import { signoutUser } from "../../store/actions/auth";
 import { TextFormInput } from "../../components/molecules";
-import { OutlineButton } from "../../components/atoms";
+import { Avatar, OutlineButton, Logo } from "../../components/atoms";
 
 interface AuthNavProps extends RouteComponentProps {
   showSearch: boolean;
@@ -134,54 +133,9 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
 
 const mapStateToProps = (state: any) => ({
   user: state.auth.user,
+  avatar: state.profile.avatar,
 });
 
-export default connect<any, any, any>(mapStateToProps, { signoutUser })(
-  AuthNav
-);
-
-// export default function AuthNav({ user, signoutUser, history, hasProfilePic, showSearch = false }) {
-//   const signOut = () => {
-//     signoutUser();
-//     history.push('/');
-//   };
-
-//   const { firstName, lastName } = user;
-//   return (
-//     <header>
-//       <nav className="auth-nav">
-//         <h1 className="logo">
-//           <img src={`./assets/img/logo-pri.svg`} alt="Logo" srcSet="" /> <span>BlazeHub</span>
-//         </h1>
-
-//         {
-//           showSearch && (
-//             <div className="search">
-//               <div className="icon-input">
-//                 <input type="text" placeholder="Search" />
-//                 <FontAwesomeIcon icon={faSearch} className="icon" />
-//               </div>
-//             </div>
-//           )
-//         }
-
-//         <div className="auth-nav-right">
-//           {hasProfilePic ? <img src="" alt={firstName} srcSet="" /> : <FontAwesomeIcon icon={faUserCircle} className="icon" />} &nbsp;&nbsp;&nbsp;
-//               <span>{`${firstName} ${lastName}`}</span>
-//           <input type="button" value="Sign Out" className="btn-input" onClick={signOut} />
-//         </div>
-//       </nav>
-
-//       {
-//         showSearch && (
-//           <div className="alt-search">
-//             <div className="icon-input">
-//               <input type="text" placeholder="Search" />
-//               <FontAwesomeIcon icon={faSearch} className="icon" />
-//             </div>
-//           </div>
-//         )
-//       }
-//     </header>
-//   )
-// }
+export const AuthNavbar = connect<any, any, any>(mapStateToProps, {
+  signoutUser,
+})(AuthNav);

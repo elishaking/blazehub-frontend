@@ -1,9 +1,10 @@
 import axios from "axios";
 import app from "firebase/app";
 import "firebase/database";
+
 import { SET_FRIENDS, ADD_FRIEND } from "./types";
-import { Friends, Friend } from "../models/friend";
-import logError from "../utils/logError";
+import { Friends, Friend } from "../../models/friend";
+import { logError } from "../../utils";
 
 // ===ACTIONS===
 

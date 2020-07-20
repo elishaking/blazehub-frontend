@@ -10,7 +10,7 @@ interface ResendProps extends RouteComponentProps {
   auth: AuthState;
 }
 
-class ResendConfirm extends Component<ResendProps> {
+class ForgotPassword extends Component<ResendProps> {
   componentDidMount() {
     // if user is already authenticated, redirect to dashboard
     if (this.props.auth.isAuthenticated) {
@@ -44,4 +44,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps)(ResendConfirm);
+export const ForgotPasswordPage = connect<any>(mapStateToProps)(ForgotPassword);

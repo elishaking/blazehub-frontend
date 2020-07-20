@@ -5,21 +5,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
-// import axios from 'axios';
 
-import { getFriends } from "../actions/friend";
-import { listenForNewChats } from "../actions/chat";
-import { getProfilePic } from "../actions/profile";
-
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
-import Spinner from "../components/Spinner";
-import Avatar from "../components/Avatar";
+import "./Chat.scss";
+import { Spinner } from "../components/molecules";
+import { Avatar } from "../components/atoms";
+import { getFriends } from "../store/actions/friend";
+import { listenForNewChats } from "../store/actions/chat";
+import { getProfilePic } from "../store/actions/profile";
 
 // @ts-ignore
 import notificationSound from "./notification.ogg";
-import "./Chat.scss";
 import { AuthState } from "../models/auth";
+import { PageTemplate } from "../components/templates";
 
 interface ChatProps extends RouteComponentProps {
   profile: any;
@@ -282,7 +279,6 @@ class Chat extends Component<ChatProps, Readonly<any>> {
   };
 
   render() {
-    const { user } = this.props.auth;
     const {
       loading,
       avatar,
@@ -299,184 +295,180 @@ class Chat extends Component<ChatProps, Readonly<any>> {
     const friendKeys = Object.keys(friends);
 
     return (
-      <div className="container chat-page">
-        <AuthNav history={this.props.history} avatar={avatar} />
+      <PageTemplate
+        wrapperClass="container chat-page"
+        history={this.props.history}
+      >
+        <div className="chat-space">
+          <header>
+            <div className="icon-text">
+              {/* <FontAwesomeIcon icon={faUserCircle} /> */}
+              {friends[currentFriendKey] && friends[currentFriendKey].avatar ? (
+                <Avatar
+                  avatar={friends[currentFriendKey].avatar}
+                  marginRight="0.5em"
+                />
+              ) : (
+                <FontAwesomeIcon icon={faUserCircle} className="icon" />
+              )}
+              <h3>{chatTitle}</h3>
+            </div>
 
-        <div className="main">
-          <MainNav user={user} />
+            <div
+              id={this.state.slideInStyle === SLIDE_IN ? "burger-slided" : ""}
+              className="burger"
+              onClick={this.toggleFriends}
+            >
+              <div className="line1"></div>
+              <div className="line2"></div>
+              <div className="line3"></div>
+            </div>
+          </header>
 
-          <div className="chat-space">
-            <header>
-              <div className="icon-text">
-                {/* <FontAwesomeIcon icon={faUserCircle} /> */}
-                {friends[currentFriendKey] &&
-                friends[currentFriendKey].avatar ? (
-                  <Avatar
-                    avatar={friends[currentFriendKey].avatar}
-                    marginRight="0.5em"
-                  />
-                ) : (
-                  <FontAwesomeIcon icon={faUserCircle} className="icon" />
-                )}
-                <h3>{chatTitle}</h3>
-              </div>
+          <div style={{ height: `${chatsHeight}px` }} className="chats">
+            <div id="chat-messages" className="chat-messages">
+              {loadingChat ? (
+                <Spinner />
+              ) : (
+                chats[currentChatKey] &&
+                Object.keys(chats[currentChatKey]).map(
+                  (messageKey, idx, messageKeys) => {
+                    const message = chats[currentChatKey][messageKey];
+                    const timeString = new Date(message.date)
+                      .toLocaleTimeString()
+                      .split(":");
+                    const meridiem = timeString[2].split(" ")[1];
+                    const time = `${timeString[0]}:${timeString[1]} ${
+                      meridiem || ""
+                    }`;
+                    const prevMessageKey =
+                      idx === 0 ? messageKey : messageKeys[idx - 1];
 
-              <div
-                id={this.state.slideInStyle === SLIDE_IN ? "burger-slided" : ""}
-                className="burger"
-                onClick={this.toggleFriends}
-              >
-                <div className="line1"></div>
-                <div className="line2"></div>
-                <div className="line3"></div>
-              </div>
-            </header>
+                    const currentChat = chats[currentChatKey][prevMessageKey];
+                    const currentUserKey =
+                      (currentChat.user && currentChat.user.key) ||
+                      currentChat.userID;
+                    const messageUserKey: string =
+                      (message.userID && message.userID) || message.user.key;
 
-            <div style={{ height: `${chatsHeight}px` }} className="chats">
-              <div id="chat-messages" className="chat-messages">
-                {loadingChat ? (
-                  <Spinner />
-                ) : (
-                  chats[currentChatKey] &&
-                  Object.keys(chats[currentChatKey]).map(
-                    (messageKey, idx, messageKeys) => {
-                      const message = chats[currentChatKey][messageKey];
-                      const timeString = new Date(message.date)
-                        .toLocaleTimeString()
-                        .split(":");
-                      const meridiem = timeString[2].split(" ")[1];
-                      const time = `${timeString[0]}:${timeString[1]} ${
-                        meridiem || ""
-                      }`;
-                      const prevMessageKey =
-                        idx === 0 ? messageKey : messageKeys[idx - 1];
-
-                      const currentChat = chats[currentChatKey][prevMessageKey];
-                      const currentUserKey =
-                        (currentChat.user && currentChat.user.key) ||
-                        currentChat.userID;
-                      const messageUserKey: string =
-                        (message.userID && message.userID) || message.user.key;
-
-                      if (messageUserKey === this.userId)
-                        return (
-                          <div
-                            key={messageKey}
-                            className="chat chat-me"
-                            style={{
-                              marginTop:
-                                prevMessageKey &&
-                                currentUserKey !== messageUserKey
-                                  ? "1.3em"
-                                  : "0.5em",
-                            }}
-                          >
-                            {avatar ? (
-                              <Avatar avatar={avatar} />
-                            ) : (
-                              <FontAwesomeIcon
-                                icon={faUserCircle}
-                                className="icon"
-                              />
-                            )}
-                            <div>
-                              <p>{message.text}</p>
-                              <small>{time}</small>
-                            </div>
+                    if (messageUserKey === this.userId)
+                      return (
+                        <div
+                          key={messageKey}
+                          className="chat chat-me"
+                          style={{
+                            marginTop:
+                              prevMessageKey &&
+                              currentUserKey !== messageUserKey
+                                ? "1.3em"
+                                : "0.5em",
+                          }}
+                        >
+                          {avatar ? (
+                            <Avatar avatar={avatar} />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faUserCircle}
+                              className="icon"
+                            />
+                          )}
+                          <div>
+                            <p>{message.text}</p>
+                            <small>{time}</small>
                           </div>
-                        );
-                      else
-                        return (
-                          <div
-                            key={messageKey}
-                            className="chat chat-other"
-                            style={{
-                              marginTop:
-                                prevMessageKey &&
-                                currentUserKey !== messageUserKey
-                                  ? "1.3em"
-                                  : "0.5em",
-                            }}
-                          >
-                            {friends[currentFriendKey] &&
-                            friends[currentFriendKey].avatar ? (
-                              <Avatar
-                                avatar={friends[currentFriendKey].avatar}
-                                marginRight="0"
-                                marginLeft="1em"
-                              />
-                            ) : (
-                              <FontAwesomeIcon
-                                icon={faUserCircle}
-                                className="icon"
-                              />
-                            )}
-                            <div>
-                              {/* <h5>{message.user.name}</h5> */}
-                              <p>{message.text}</p>
-                              <small>{time}</small>
-                            </div>
+                        </div>
+                      );
+                    else
+                      return (
+                        <div
+                          key={messageKey}
+                          className="chat chat-other"
+                          style={{
+                            marginTop:
+                              prevMessageKey &&
+                              currentUserKey !== messageUserKey
+                                ? "1.3em"
+                                : "0.5em",
+                          }}
+                        >
+                          {friends[currentFriendKey] &&
+                          friends[currentFriendKey].avatar ? (
+                            <Avatar
+                              avatar={friends[currentFriendKey].avatar}
+                              marginRight="0"
+                              marginLeft="1em"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faUserCircle}
+                              className="icon"
+                            />
+                          )}
+                          <div>
+                            {/* <h5>{message.user.name}</h5> */}
+                            <p>{message.text}</p>
+                            <small>{time}</small>
                           </div>
-                        );
-                    }
-                  )
-                )}
-              </div>
-
-              {chatTitle !== "BlazeHub" && (
-                <div className="chat-input">
-                  <input
-                    type="text"
-                    name="messageText"
-                    placeholder="Type a message"
-                    onChange={this.onChange}
-                    onKeyPress={this.sendMessage}
-                    value={messageText}
-                  />
-                  {/* <button>
-                  <FontAwesomeIcon icon={faSmile} className="icon" />
-                </button> */}
-                </div>
+                        </div>
+                      );
+                  }
+                )
               )}
             </div>
-          </div>
 
-          <div className="friends" style={slideInStyle}>
-            {loading ? (
-              <Spinner />
-            ) : (
-              friendKeys.map((friendKey) => {
-                const friend = friends[friendKey];
-                // console.log(friend);
-
-                return (
-                  <div key={friendKey}>
-                    <div
-                      className="friend"
-                      onClick={(e) => this.openChat(friendKey)}
-                    >
-                      {friend.avatar ? (
-                        <Avatar avatar={friend.avatar} />
-                      ) : (
-                        <FontAwesomeIcon icon={faUserCircle} className="icon" />
-                      )}
-                      <p>{friend.name}</p>
-                    </div>
-
-                    {friendKeys.length === 1 && (
-                      <div style={{ textAlign: "center", marginTop: "2em" }}>
-                        <Link to="/find">
-                          <button className="btn">Find Friends</button>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                );
-              })
+            {chatTitle !== "BlazeHub" && (
+              <div className="chat-input">
+                <input
+                  type="text"
+                  name="messageText"
+                  placeholder="Type a message"
+                  onChange={this.onChange}
+                  onKeyPress={this.sendMessage}
+                  value={messageText}
+                />
+                {/* <button>
+                  <FontAwesomeIcon icon={faSmile} className="icon" />
+                </button> */}
+              </div>
             )}
           </div>
         </div>
-      </div>
+
+        <div className="friends" style={slideInStyle}>
+          {loading ? (
+            <Spinner />
+          ) : (
+            friendKeys.map((friendKey) => {
+              const friend = friends[friendKey];
+              // console.log(friend);
+
+              return (
+                <div key={friendKey}>
+                  <div
+                    className="friend"
+                    onClick={(e) => this.openChat(friendKey)}
+                  >
+                    {friend.avatar ? (
+                      <Avatar avatar={friend.avatar} />
+                    ) : (
+                      <FontAwesomeIcon icon={faUserCircle} className="icon" />
+                    )}
+                    <p>{friend.name}</p>
+                  </div>
+
+                  {friendKeys.length === 1 && (
+                    <div style={{ textAlign: "center", marginTop: "2em" }}>
+                      <Link to="/find">
+                        <button className="btn">Find Friends</button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+      </PageTemplate>
     );
   }
 }
@@ -488,7 +480,7 @@ const mapStateToProps = (state: any) => ({
   chats: state.chats,
 });
 
-export default connect<any>(mapStateToProps, {
+export const ChatPage = connect<any>(mapStateToProps, {
   getProfilePic,
   getFriends,
   listenForNewChats,

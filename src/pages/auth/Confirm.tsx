@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
 
-import { verifyConfirmToken } from "../../actions/auth";
-import Spinner from "../../components/Spinner";
-import { AuthState } from "../../models/auth";
 import "./Landing.scss";
-import logError from "../../utils/logError";
-import { AuthContainer } from "./AuthContainer";
+import { verifyConfirmToken } from "../../store/actions/auth";
+import { Spinner } from "../../components/molecules";
 import { Button, SuccessMessage, ErrorMessage } from "../../components/atoms";
+import { AuthState } from "../../models/auth";
+import { logError } from "../../utils";
+import { AuthContainer } from "./AuthContainer";
 
 interface ConfirmProps extends RouteComponentProps {
   auth: AuthState;
@@ -34,12 +34,11 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
 
   componentDidMount() {
     // if user is already authenticated, redirect to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/home");
-    }
+    if (this.props.auth.isAuthenticated) this.props.history.push("/home");
 
     verifyConfirmToken(this.props.match.params.token)
       .then((res) => {
+        console.log(res.data);
         this.setState({
           loading: false,
           message: res.data.message,
@@ -47,11 +46,11 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
         });
       })
       .catch((err) => {
-        logError(err);
+        logError(err.response);
 
         this.setState({
           loading: false,
-          message: err.response.data.data,
+          message: err.response.data.message,
           successful: false,
         });
       });
@@ -66,7 +65,6 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
     }
   }
 
-  /** @param {boolean} isAuthenticated */
   redirectIfAuthenticated = (isAuthenticated: boolean) => {
     // redirect authenticated user to home-page
     if (isAuthenticated) {
@@ -113,7 +111,7 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
               <Button onClick={() => this.navigate("/signin")}>Sign In</Button>
             ) : (
               <Button onClick={() => this.navigate("/confirm/resend")}>
-                Resend URL
+                Resend Link
               </Button>
             )}
           </div>
@@ -127,4 +125,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps)(Confirm);
+export const ConfirmPage = connect<any>(mapStateToProps)(Confirm);

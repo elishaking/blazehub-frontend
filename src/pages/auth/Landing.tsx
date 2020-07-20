@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
-import { signinUser, signupUser } from "../../actions/auth";
+import "./Landing.scss";
+import { signinUser, signupUser } from "../../store/actions/auth";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
-import Logo from "../../components/Logo";
-import "./Landing.scss";
-import { Select } from "../../components/atoms";
-import { Form } from "../../components/organisms/form";
+import { Select, Logo } from "../../components/atoms";
+import { Form } from "../../components/organisms";
 import { validateSignupInput, validateSigninInput } from "../../validation";
 
 interface LandingProps extends RouteComponentProps {
@@ -352,6 +351,7 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps, { signinUser, signupUser })(
-  Landing
-);
+export const LandingPage = connect<any>(mapStateToProps, {
+  signinUser,
+  signupUser,
+})(Landing);

@@ -14,20 +14,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
-import MainNav from "../containers/nav/MainNav";
-import AuthNav from "../containers/nav/AuthNav";
+
 import "./Profile.scss";
-import Spinner from "../components/Spinner";
+import { AuthNavbar, MainNavbar } from "../containers/nav";
+import { Spinner } from "../components/molecules";
 import {
   TextFormInput,
   TextAreaFormInput,
 } from "../components/form/TextFormInput";
 import { DateFormInput } from "../components/form/DateFormInput";
-import { getFriends } from "../actions/friend";
-import { getProfilePic, updateProfilePic } from "../actions/profile";
-import Posts from "../containers/Posts";
+import { getFriends } from "../store/actions/friend";
+import { getProfilePic, updateProfilePic } from "../store/actions/profile";
+import { Posts } from "../containers/posts";
 
-import { resizeImage } from "../utils/resizeImage";
+import { resizeImage } from "../utils";
 import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
@@ -368,10 +368,10 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
     return (
       <div className="container">
-        <AuthNav showSearch={true} history={this.props.history} />
+        <AuthNavbar showSearch={true} history={this.props.history} />
 
         <div className="main">
-          <MainNav user={user} />
+          <MainNavbar />
 
           <div className="profile">
             <div className="pics">
@@ -654,7 +654,7 @@ const mapStateToProps = (state: any) => ({
   profile: state.profile,
 });
 
-export default connect<any>(mapStateToProps, {
+export const ProfilePage = connect<any>(mapStateToProps, {
   getFriends,
   getProfilePic,
   updateProfilePic,
