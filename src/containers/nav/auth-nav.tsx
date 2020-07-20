@@ -7,9 +7,10 @@ import {
   faUserCircle,
   // faBell,
 } from "@fortawesome/free-solid-svg-icons";
+
+import "./auth-nav.scss";
 import { signoutUser } from "../../actions/auth";
 import Avatar from "../../components/Avatar";
-import "./AuthNav.scss";
 import Logo from "../../components/Logo";
 import { TextFormInput } from "../../components/molecules";
 import { OutlineButton } from "../../components/atoms";

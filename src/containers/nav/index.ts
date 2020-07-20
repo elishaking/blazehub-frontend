@@ -1,2 +1,2 @@
-export { AuthNavbar } from "./AuthNav";
-export { MainNavbar } from "./MainNav";
+export { AuthNavbar } from "./auth-nav";
+export { MainNavbar } from "./main-nav";

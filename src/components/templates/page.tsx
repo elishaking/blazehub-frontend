@@ -2,7 +2,6 @@ import React from "react";
 import { History } from "history";
 
 import { MainNavbar, AuthNavbar } from "../../containers/nav";
-import { AuthUser } from "../../models/auth";
 
 interface TProps {
   children: React.ReactNode;
