@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import app from "firebase/app";
 import "firebase/database";
-import Post from "../components/Post";
+
+import { Post } from "../components/organisms";
 import Spinner from "../components/Spinner";
 import { PostData } from "../models/post";
 

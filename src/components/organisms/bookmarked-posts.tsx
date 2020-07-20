@@ -1,7 +1,7 @@
 import React from "react";
 
 import Spinner from "../Spinner";
-import Post from "../Post";
+import { Post } from ".";
 import { PostData } from "../../models/post";
 import { AuthUser } from "../../models/auth";
 

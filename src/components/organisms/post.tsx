@@ -11,12 +11,12 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "./Post.scss";
-import Spinner from "./Spinner";
-import { Avatar } from "./atoms";
-import { AuthUser } from "../models/auth";
-import { PostData } from "../models/post";
-import { logError } from "../utils/logError";
+import "./post.scss";
+import Spinner from "../Spinner";
+import { Avatar } from "../atoms";
+import { AuthUser } from "../../models/auth";
+import { PostData } from "../../models/post";
+import { logError } from "../../utils/logError";
 
 interface PostProps extends RouteComponentProps {
   post: PostData;
@@ -25,7 +25,7 @@ interface PostProps extends RouteComponentProps {
   canBookmark?: boolean;
 }
 
-class Post extends Component<PostProps, Readonly<any>> {
+class PostItem extends Component<PostProps, Readonly<any>> {
   beforeMountStyle = {
     opacity: 0,
     transform: "scale(0.7)",
@@ -548,4 +548,4 @@ class Post extends Component<PostProps, Readonly<any>> {
   }
 }
 
-export default withRouter(Post);
+export const Post = withRouter(PostItem);
