@@ -19,7 +19,7 @@ import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
 import logError from "../utils/logError";
 import { CloseIcon } from "../components/atoms";
-import { PostActions } from "../components/organisms";
+import { PostActions, PostImage } from "../components/organisms";
 
 interface HomeState {
   postText: string;
@@ -195,16 +195,10 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                   <FontAwesomeIcon icon={faUserAlt} className="icon" />
                 </div>
 
-                <div className="post-img">
-                  {postImgDataUrl && (
-                    <div className="img-container">
-                      <img src={postImgDataUrl} alt="Post" />
-                      <div className="close" onClick={this.removeImage}>
-                        <CloseIcon />
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <PostImage
+                  postImgDataUrl={postImgDataUrl}
+                  removeImage={this.removeImage}
+                />
 
                 <PostActions
                   createPost={this.createPost}
