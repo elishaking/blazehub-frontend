@@ -31,7 +31,7 @@ import {
   FeedbackPage,
   MenuPage,
 } from "./pages";
-import PrivateRoute from "./containers/PrivateRoute";
+import { PrivateRoute } from "./containers/private-route";
 import { Spinner } from "./components/molecules";
 import { Center, OutlineButton } from "./components/atoms";
 
