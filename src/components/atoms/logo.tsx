@@ -5,7 +5,7 @@ interface LogoProps {
   style?: React.CSSProperties;
 }
 
-export default function Logo({ color = "#7c62a9", style }: LogoProps) {
+export function Logo({ color = "#7c62a9", style }: LogoProps) {
   return (
     <svg
       id="logo"

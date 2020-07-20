@@ -10,9 +10,8 @@ import {
 
 import "./auth-nav.scss";
 import { signoutUser } from "../../actions/auth";
-import Logo from "../../components/Logo";
 import { TextFormInput } from "../../components/molecules";
-import { Avatar, OutlineButton } from "../../components/atoms";
+import { Avatar, OutlineButton, Logo } from "../../components/atoms";
 
 interface AuthNavProps extends RouteComponentProps {
   showSearch: boolean;

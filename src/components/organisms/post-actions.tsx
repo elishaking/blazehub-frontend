@@ -1,7 +1,7 @@
 import React from "react";
 import { faImage, faSmile } from "@fortawesome/free-solid-svg-icons";
 
-import IconButton from "../Button";
+import { IconButton } from "../molecules";
 import { Button } from "../atoms";
 
 interface TProps {

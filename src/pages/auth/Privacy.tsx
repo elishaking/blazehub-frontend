@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import "./Privacy.scss";
-import Logo from "../../components/Logo";
+import { Logo } from "../../components/atoms";
 
 export class PrivacyPage extends Component {
   render() {
