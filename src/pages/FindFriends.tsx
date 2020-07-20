@@ -5,18 +5,14 @@ import app from "firebase/app";
 import "firebase/database";
 import axios from "axios";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-
 import { getFriends, addFriend } from "../actions/friend";
 import { Friends, Friend } from "../models/friend";
 
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Spinner from "../components/Spinner";
-import Avatar from "../components/Avatar";
 import { AuthState } from "../models/auth";
-import { CompositeButton } from "../components/molecules";
+import { CurrentUser } from "../components/organisms";
 
 interface FindFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -69,6 +65,8 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
     const { users } = this.state;
 
     Object.keys(users).forEach((userId) => {
+      // TODO: look into this (write test cases for it)
+      if (users[userId].adding) users[userId].added = true;
       if (friendIds.indexOf(userId) !== -1) delete users[userId];
     });
     // if (Object.keys(users).length == 2) users = {}
@@ -137,49 +135,16 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
             ) : (
               userIds.map((userId, idx, arr) => {
                 const currentUser = users[userId];
+                if (currentUser.added) return;
                 return (
-                  <div className="friend-container" key={userId}>
-                    <div className="friend-main">
-                      <div className="friend-inner">
-                        {currentUser.avatar ? (
-                          <Avatar
-                            avatar={currentUser.avatar}
-                            marginRight="1.5em"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faUserCircle}
-                            className="icon"
-                          />
-                        )}
-                        <p>
-                          {currentUser.firstName} {currentUser.lastName}
-                        </p>
-                      </div>
-                      {/* {currentUser.adding ? (
-                        <Spinner full={false} />
-                      ) : (
-                        <button
-                          className="btn"
-                          onClick={e => {
-                            this.addFriend(userId);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faUserPlus} /> Add Friend
-                        </button>
-                      )} */}
-                      <CompositeButton
-                        icon={faUserPlus}
-                        loading={currentUser.adding}
-                        onClick={() => {
-                          this.addFriend(userId);
-                        }}
-                      >
-                        Add Friend
-                      </CompositeButton>
-                    </div>
-                    {idx !== arr.length - 1 && <hr />}
-                  </div>
+                  <CurrentUser
+                    key={userId}
+                    userId={userId}
+                    currentUser={currentUser}
+                    addFriend={this.addFriend}
+                    idx={idx}
+                    N={arr.length}
+                  />
                 );
               })
             )}

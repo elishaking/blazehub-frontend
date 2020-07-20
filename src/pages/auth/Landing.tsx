@@ -88,14 +88,15 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
         loadingSignin: false,
         loadingSignup: false,
       });
-      const { status, data } = nextProps.auth.errors;
+      const { statusCode, data } = nextProps.auth.errors;
 
-      if (status === 400) {
+      if (statusCode === 403) this.props.history.push("/confirm/resend");
+      else if (statusCode === 400) {
         this.setState({
           error: "Please review your input",
           // errors: nextProps.auth.errors.data,
         });
-      } else if (status === 409) {
+      } else if (statusCode === 409) {
         this.setState({
           error: "Please review your input",
           errors: { email: data.message },

@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, GET_ERRORS } from "../actions/types";
+import { SET_CURRENT_USER, GET_ERRORS, SET_ERRORS } from "../actions/types";
 import authReducer, { initialState } from "./auth";
 
 describe("Auth Reducer", () => {
@@ -26,7 +26,7 @@ describe("Auth Reducer", () => {
   it("should return error state", () => {
     const errors = { password: "Password is incorrect" };
     const action = {
-      type: GET_ERRORS,
+      type: SET_ERRORS,
       payload: errors,
     };
 

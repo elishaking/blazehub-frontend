@@ -45,14 +45,14 @@ export const validateProfileEditInput = (formData: FormData) => {
   )
     errors.bio = "Your bio should be between 20-300 characters";
 
-  if (formData.location.length > 300)
+  if (formData.location && formData.location.length > 300)
     errors.location = "Your location should be less than 300 characters";
 
-  if (formData.website.length > 100)
+  if (formData.website && formData.website.length > 100)
     errors.website = "Your website should be less than 100 characters";
 
   return {
     isValid: Object.keys(errors).length === 0,
-    errors
+    errors,
   };
 };

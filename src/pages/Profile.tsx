@@ -321,9 +321,9 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
         {
           name,
           bio,
-          location,
-          website,
-          birth,
+          location: location || "",
+          website: website || "",
+          birth: birth || "",
         },
         (err) => {
           this.setState({ loadingProfile: false });
