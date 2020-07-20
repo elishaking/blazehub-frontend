@@ -6,6 +6,3 @@ export { HomePage } from "./Home";
 export { InviteFriendsPage } from "./InviteFriends";
 export { ProfilePage } from "./Profile";
 export { MenuPage } from "./Menu";
-export {} from "";
-export {} from "";
-export {} from "";

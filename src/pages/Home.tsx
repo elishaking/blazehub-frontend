@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAlt, faImage, faSmile } from "@fortawesome/free-solid-svg-icons";
+import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 // import axios from 'axios';
@@ -12,14 +12,14 @@ import { getProfilePic } from "../actions/profile";
 
 import { resizeImage } from "../utils/resizeImage";
 
+import "./Home.scss";
 import MainNav from "../containers/nav/MainNav";
 import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
-import "./Home.scss";
-import { IconButton } from "../components/molecules";
 import logError from "../utils/logError";
-import { CloseIcon, Button } from "../components/atoms";
+import { CloseIcon } from "../components/atoms";
+import { PostActions } from "../components/organisms";
 
 interface HomeState {
   postText: string;
@@ -59,9 +59,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
   componentDidMount() {
     // initializeApp(this);
     // updateUsername();
-
     // this.setupFirebase();
-
     // updatePostLikeKeys()
 
     const { profile, auth } = this.props;
@@ -102,7 +100,6 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
 
   /**
    * Display image attached to new post
-   * @param {React.ChangeEvent<HTMLInputElement>} e
    */
   showImage = (e: any) => {
     const postImgInput = e.target;
@@ -148,7 +145,6 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
           this.postImagesRef.child(post.key).set(postImgDataUrl);
       })
       .catch((err) => {
-        // console.log(err)
         logError(err);
       });
 
@@ -160,7 +156,6 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
 
   /**
    * Updates react-state with new data
-   * @param {React.ChangeEvent<HTMLTextAreaElement>} event
    */
   onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({
@@ -211,30 +206,12 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
                   )}
                 </div>
 
-                <div className="create-post-actions">
-                  <div className="icon-btns">
-                    <div id="select-image">
-                      <input
-                        type="file"
-                        name="image"
-                        id="post-img"
-                        onChange={this.showImage}
-                        accept="image/*"
-                      />
-
-                      <IconButton icon={faImage} onClick={this.selectImage} />
-                    </div>
-
-                    <IconButton icon={faSmile} onClick={this.selectEmoticon} />
-                  </div>
-                  <Button
-                    className="btn"
-                    onClick={this.createPost}
-                    data-test="createPostBtn"
-                  >
-                    Post
-                  </Button>
-                </div>
+                <PostActions
+                  createPost={this.createPost}
+                  showImage={this.showImage}
+                  selectImage={this.selectImage}
+                  selectEmoticon={this.selectEmoticon}
+                />
               </div>
             </header>
 
