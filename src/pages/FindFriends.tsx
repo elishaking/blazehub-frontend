@@ -90,8 +90,6 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
       });
     });
 
-    console.log(friendIds, users);
-
     this.setState({
       users,
     });
