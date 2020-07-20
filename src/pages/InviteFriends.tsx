@@ -3,12 +3,12 @@ import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import { AuthNavbar, MainNavbar } from "../containers/nav";
 import { AuthState } from "../models/auth";
 import { logError } from "../utils/logError";
 import { Button } from "../components/atoms";
 import { Form } from "../components/organisms/form";
 import { TextFormInput, CompositeButton } from "../components/molecules";
+import { PageTemplate } from "../components/templates";
 
 interface InviteFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -75,46 +75,39 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
   };
 
   render() {
-    // const hasProfilePic = false;
-    const { user } = this.props.auth;
     const { inviteSent, friendEmails, loading, error } = this.state;
 
     return (
-      <div className="container">
-        <AuthNavbar showSearch={true} history={this.props.history} />
+      <PageTemplate showSearch={true} history={this.props.history}>
+        {inviteSent ? (
+          <div className="invite-friends">
+            <h3 style={{ margin: "0.7em 0 em 0" }}>Invitation sent</h3>
+            <Button onClick={this.inviteMore}>Invite More</Button>
+          </div>
+        ) : (
+          <div className="invite-friends">
+            <h3>Invite your friends</h3>
 
-        <div className="main">
-          <MainNavbar user={user} />
+            <Form
+              className="add-friend"
+              onSubmit={this.inviteFriends}
+              error={error}
+            >
+              {friendEmails.map((_: any, index: number) => (
+                <TextFormInput
+                  type="email"
+                  key={index}
+                  name={`email${index}`}
+                  placeholder="email"
+                  onChange={(e: any) => this.onChange(e, index)}
+                />
+              ))}
 
-          {inviteSent ? (
-            <div className="invite-friends">
-              <h3 style={{ margin: "0.7em 0 em 0" }}>Invitation sent</h3>
-              <Button onClick={this.inviteMore}>Invite More</Button>
-            </div>
-          ) : (
-            <div className="invite-friends">
-              <h3>Invite your friends</h3>
+              <Button type="button" className="btn" onClick={this.addField}>
+                Add Email
+              </Button>
 
-              <Form
-                className="add-friend"
-                onSubmit={this.inviteFriends}
-                error={error}
-              >
-                {friendEmails.map((_: any, index: number) => (
-                  <TextFormInput
-                    type="email"
-                    key={index}
-                    name={`email${index}`}
-                    placeholder="email"
-                    onChange={(e: any) => this.onChange(e, index)}
-                  />
-                ))}
-
-                <Button type="button" className="btn" onClick={this.addField}>
-                  Add Email
-                </Button>
-
-                {/* {loading ? (
+              {/* {loading ? (
                   <div style={{ textAlign: "end" }}>
                     <Spinner full={false} />
                   </div>
@@ -127,16 +120,15 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
                     Invite
                   </button>
                 )} */}
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <CompositeButton loading={loading}>
-                    Invite {friendEmails.length > 1 && <span>All</span>}
-                  </CompositeButton>
-                </div>
-              </Form>
-            </div>
-          )}
-        </div>
-      </div>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <CompositeButton loading={loading}>
+                  Invite {friendEmails.length > 1 && <span>All</span>}
+                </CompositeButton>
+              </div>
+            </Form>
+          </div>
+        )}
+      </PageTemplate>
     );
   }
 }

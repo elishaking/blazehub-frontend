@@ -8,10 +8,10 @@ import axios from "axios";
 import { getFriends, addFriend } from "../actions/friend";
 import { Friends, Friend } from "../models/friend";
 
-import { AuthNavbar, MainNavbar } from "../containers/nav";
 import Spinner from "../components/Spinner";
 import { AuthState } from "../models/auth";
 import { CurrentUser } from "../components/organisms";
+import { PageTemplate } from "../components/templates";
 
 interface FindFriendsProps extends RouteComponentProps {
   auth: AuthState;
@@ -114,42 +114,35 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
 
   render() {
     const { users, loading } = this.state;
-    const { user } = this.props.auth;
     const userIds = Object.keys(users);
 
     return (
-      <div className="container">
-        <AuthNavbar history={this.props.history} />
-
-        <div className="main">
-          <MainNavbar user={user} />
-
-          <div className="friends-main">
-            {loading ? (
-              <Spinner />
-            ) : userIds.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "1em 0" }}>
-                <h3 style={{ fontWeight: 500 }}>No friends to add</h3>
-              </div>
-            ) : (
-              userIds.map((userId, idx, arr) => {
-                const currentUser = users[userId];
-                if (currentUser.added) return;
-                return (
-                  <CurrentUser
-                    key={userId}
-                    userId={userId}
-                    currentUser={currentUser}
-                    addFriend={this.addFriend}
-                    idx={idx}
-                    N={arr.length}
-                  />
-                );
-              })
-            )}
-          </div>
+      <PageTemplate history={this.props.history}>
+        <div className="friends-main">
+          {loading ? (
+            <Spinner />
+          ) : userIds.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "1em 0" }}>
+              <h3 style={{ fontWeight: 500 }}>No friends to add</h3>
+            </div>
+          ) : (
+            userIds.map((userId, idx, arr) => {
+              const currentUser = users[userId];
+              if (currentUser.added) return;
+              return (
+                <CurrentUser
+                  key={userId}
+                  userId={userId}
+                  currentUser={currentUser}
+                  addFriend={this.addFriend}
+                  idx={idx}
+                  N={arr.length}
+                />
+              );
+            })
+          )}
         </div>
-      </div>
+      </PageTemplate>
     );
   }
 }

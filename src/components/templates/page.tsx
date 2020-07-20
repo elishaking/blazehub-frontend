@@ -6,8 +6,6 @@ import { AuthUser } from "../../models/auth";
 
 interface TProps {
   children: React.ReactNode;
-  user: AuthUser;
-  avatar: any;
   wrapperClass?: string;
   dataTest?: string;
   showSearch?: boolean;
@@ -18,8 +16,6 @@ interface TProps {
 export const PageTemplate = ({
   wrapperClass = "container",
   dataTest,
-  avatar,
-  user,
   children,
   history,
   notificationsRef,
@@ -29,13 +25,12 @@ export const PageTemplate = ({
     <div className={wrapperClass} data-test={dataTest}>
       <AuthNavbar
         history={history}
-        avatar={avatar}
         showSearch={showSearch}
         notificationsRef={notificationsRef}
       />
 
       <div className="main">
-        <MainNavbar user={user} />
+        <MainNavbar />
 
         {children}
       </div>

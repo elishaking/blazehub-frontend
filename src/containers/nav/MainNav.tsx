@@ -79,4 +79,8 @@ function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
   );
 }
 
-export const MainNavbar = connect(null, { signoutUser })(MainNav);
+const mapStateToProps = (state: any) => ({
+  user: state.auth.user,
+});
+
+export const MainNavbar = connect(mapStateToProps, { signoutUser })(MainNav);

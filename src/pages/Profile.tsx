@@ -371,7 +371,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
         <AuthNavbar showSearch={true} history={this.props.history} />
 
         <div className="main">
-          <MainNavbar user={user} />
+          <MainNavbar />
 
           <div className="profile">
             <div className="pics">

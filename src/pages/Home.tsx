@@ -4,14 +4,12 @@ import app from "firebase/app";
 import "firebase/database";
 
 import "./Home.scss";
-import { MainNavbar, AuthNavbar } from "../containers/nav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
 import { PostActions, PostImage, PostInput } from "../components/organisms";
-import { getProfilePic } from "../actions/profile";
-import { resizeImage } from "../utils/resizeImage";
-import { logError } from "../utils/logError";
+import { resizeImage, logError } from "../utils";
 import { PageTemplate } from "../components/templates";
+import { getProfilePic } from "../actions/profile";
 
 interface HomeState {
   postText: string;
@@ -54,14 +52,11 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
   render() {
     const { user } = this.props.auth;
     const { postText, postImgDataUrl } = this.state;
-    const { avatar } = this.props.profile || "";
 
     return (
       <PageTemplate
         showSearch={true}
-        avatar={avatar}
         notificationsRef={this.db.ref("notifications")}
-        user={user}
         dataTest="homeComponent"
       >
         <div className="main-feed">

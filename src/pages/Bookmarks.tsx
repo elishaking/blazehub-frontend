@@ -6,9 +6,9 @@ import "firebase/database";
 
 import Spinner from "../components/Spinner";
 import Post from "../components/Post";
-import { AuthNavbar, MainNavbar } from "../containers/nav";
 import { AuthState } from "../models/auth";
 import { PostData } from "../models/post";
+import { PageTemplate } from "../components/templates";
 
 interface BookmarksProps extends RouteComponentProps {
   auth: AuthState;
@@ -69,41 +69,34 @@ class Bookmarks extends Component<BookmarksProps, Readonly<any>> {
     const { bookmarkedPosts, loading } = this.state;
 
     return (
-      <div className="container">
-        <AuthNavbar
-          showSearch={true}
-          notificationsRef={this.db.ref("notifications")}
-        />
-
-        <div className="main">
-          <MainNavbar user={user} />
-
-          <div className="bookmarks">
-            {/* <h3 style={{ textAlign: "center", fontWeight: "500", padding: "1em 0" }}>Bookmarks Coming Soon</h3> */}
-            {loading ? (
-              <Spinner />
-            ) : bookmarkedPosts.length === 0 ? (
-              <h3
-                style={{
-                  textAlign: "center",
-                  padding: "1em 0",
-                  fontWeight: 500,
-                }}
-              >
-                You have not bookmarked any posts yet
-              </h3>
-            ) : (
-              bookmarkedPosts.map((bookmarkedPost) => (
-                <Post
-                  key={bookmarkedPost.key}
-                  post={bookmarkedPost}
-                  user={user}
-                />
-              ))
-            )}
-          </div>
+      <PageTemplate
+        showSearch={true}
+        notificationsRef={this.db.ref("notifications")}
+      >
+        <div className="bookmarks">
+          {loading ? (
+            <Spinner />
+          ) : bookmarkedPosts.length === 0 ? (
+            <h3
+              style={{
+                textAlign: "center",
+                padding: "1em 0",
+                fontWeight: 500,
+              }}
+            >
+              You have not bookmarked any posts yet
+            </h3>
+          ) : (
+            bookmarkedPosts.map((bookmarkedPost) => (
+              <Post
+                key={bookmarkedPost.key}
+                post={bookmarkedPost}
+                user={user}
+              />
+            ))
+          )}
         </div>
-      </div>
+      </PageTemplate>
     );
   }
 }

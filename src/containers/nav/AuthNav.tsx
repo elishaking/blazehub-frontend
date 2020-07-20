@@ -134,6 +134,7 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
 
 const mapStateToProps = (state: any) => ({
   user: state.auth.user,
+  avatar: state.profile.avatar,
 });
 
 export const AuthNavbar = connect<any, any, any>(mapStateToProps, {
