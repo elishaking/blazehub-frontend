@@ -19,30 +19,7 @@ interface PostsState {
   loadingPosts: boolean;
 }
 
-function NoPost({ history }: any) {
-  return (
-    <div
-      className="loading-container"
-      style={{
-        padding: "1em",
-        textAlign: "center",
-      }}
-    >
-      <p>You have not created any Posts yet</p>
-      <button
-        className="btn"
-        style={{
-          marginTop: "1em",
-        }}
-        onClick={() => history.push("/home")}
-      >
-        Create Post
-      </button>
-    </div>
-  );
-}
-
-class Posts extends Component<PostsProps, Readonly<PostsState>> {
+class PostList extends Component<PostsProps, Readonly<PostsState>> {
   db: app.database.Database;
   postsRef: app.database.Reference;
   mountedOn = 0;
@@ -75,6 +52,32 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
     }
 
     this.listenForPostDelete();
+  }
+
+  render() {
+    const { loadingPosts, posts } = this.state;
+    // const { avatar } = this.props;
+
+    if (loadingPosts)
+      return (
+        <div className="loading-container">
+          <Spinner />
+        </div>
+      );
+
+    if (posts.length > 0)
+      return posts.map((post: any) => (
+        <Post
+          key={post.key}
+          // profilesRef={app.database().ref("profiles")}
+          post={post}
+          user={this.user}
+          canBookmark={true}
+          otherUser={this.otherUser}
+        />
+      ));
+
+    return <NoPost history={this.props.history} />;
   }
 
   retrieveUserPosts() {
@@ -140,32 +143,29 @@ class Posts extends Component<PostsProps, Readonly<PostsState>> {
       this.setState({ posts });
     });
   }
-
-  render() {
-    const { loadingPosts, posts } = this.state;
-    // const { avatar } = this.props;
-
-    if (loadingPosts)
-      return (
-        <div className="loading-container">
-          <Spinner />
-        </div>
-      );
-
-    if (posts.length > 0)
-      return posts.map((post: any) => (
-        <Post
-          key={post.key}
-          // profilesRef={app.database().ref("profiles")}
-          post={post}
-          user={this.user}
-          canBookmark={true}
-          otherUser={this.otherUser}
-        />
-      ));
-
-    return <NoPost history={this.props.history} />;
-  }
 }
 
-export default withRouter(Posts);
+export const Posts = withRouter(PostList);
+
+function NoPost({ history }: any) {
+  return (
+    <div
+      className="loading-container"
+      style={{
+        padding: "1em",
+        textAlign: "center",
+      }}
+    >
+      <p>You have not created any Posts yet</p>
+      <button
+        className="btn"
+        style={{
+          marginTop: "1em",
+        }}
+        onClick={() => history.push("/home")}
+      >
+        Create Post
+      </button>
+    </div>
+  );
+}

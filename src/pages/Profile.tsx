@@ -25,7 +25,7 @@ import {
 import { DateFormInput } from "../components/form/DateFormInput";
 import { getFriends } from "../store/actions/friend";
 import { getProfilePic, updateProfilePic } from "../store/actions/profile";
-import Posts from "../containers/Posts";
+import { Posts } from "../containers/posts";
 
 import { resizeImage } from "../utils";
 import { validateProfileEditInput } from "../validation/profile";

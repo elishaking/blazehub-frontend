@@ -4,7 +4,7 @@ import app from "firebase/app";
 import "firebase/database";
 
 import "./Home.scss";
-import Posts from "../containers/Posts";
+import { Posts } from "../containers/posts";
 import { AuthState } from "../models/auth";
 import { PostActions, PostImage, PostInput } from "../components/organisms";
 import { resizeImage, logError } from "../utils";
