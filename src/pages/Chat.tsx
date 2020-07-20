@@ -488,7 +488,7 @@ const mapStateToProps = (state: any) => ({
   chats: state.chats,
 });
 
-export default connect<any>(mapStateToProps, {
+export const ChatPage = connect<any>(mapStateToProps, {
   getProfilePic,
   getFriends,
   listenForNewChats,

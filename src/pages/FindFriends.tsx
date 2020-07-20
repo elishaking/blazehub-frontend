@@ -160,6 +160,7 @@ const mapStateToProps = (state: any) => ({
   friends: state.friends,
 });
 
-export default connect<any>(mapStateToProps, { getFriends, addFriend })(
-  FindFriends
-);
+export const FindFriendsPage = connect<any>(mapStateToProps, {
+  getFriends,
+  addFriend,
+})(FindFriends);

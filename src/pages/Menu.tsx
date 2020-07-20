@@ -74,4 +74,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps, { signoutUser })(Menu);
+export const MenuPage = connect<any>(mapStateToProps, { signoutUser })(Menu);

@@ -257,4 +257,4 @@ const mapStateToProps = (state: any) => ({
   profile: state.profile,
 });
 
-export default connect<any>(mapStateToProps, { getProfilePic })(Home);
+export const HomePage = connect<any>(mapStateToProps, { getProfilePic })(Home);

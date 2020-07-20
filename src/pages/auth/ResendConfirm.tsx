@@ -45,4 +45,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps)(ResendConfirm);
+export const ResendConfirmPage = connect<any>(mapStateToProps)(ResendConfirm);

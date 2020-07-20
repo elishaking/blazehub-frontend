@@ -161,4 +161,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps, { signinUser })(Signin);
+export const SigninPage = connect<any>(mapStateToProps, { signinUser })(Signin);

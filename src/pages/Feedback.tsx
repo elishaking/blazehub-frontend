@@ -130,4 +130,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Feedback);
+export const FeedbackPage = connect(mapStateToProps)(Feedback);

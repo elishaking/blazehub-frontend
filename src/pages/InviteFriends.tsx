@@ -146,4 +146,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(InviteFriends);
+export const InviteFriendsPage = connect(mapStateToProps)(InviteFriends);

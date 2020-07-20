@@ -225,4 +225,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect<any>(mapStateToProps)(ResetPassword);
+export const ResetPasswordPage = connect<any>(mapStateToProps)(ResetPassword);

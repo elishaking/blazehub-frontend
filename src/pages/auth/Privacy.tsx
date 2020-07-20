@@ -6,7 +6,7 @@ import { faHome } from "@fortawesome/free-solid-svg-icons";
 import "./Privacy.scss";
 import Logo from "../../components/Logo";
 
-export default class Privacy extends Component {
+export class PrivacyPage extends Component {
   render() {
     return (
       <div className="container privacy">

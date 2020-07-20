@@ -114,4 +114,4 @@ const mapStateToProps = (state: any) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Bookmarks);
+export const BookmarkPage = connect(mapStateToProps)(Bookmarks);
