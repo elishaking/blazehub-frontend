@@ -6,8 +6,12 @@ import axios from "axios";
 import app from "firebase/app";
 
 import "./App.scss";
-import store from "./store";
-import { setAuthToken, setCurrentUser, signoutUser } from "./actions/auth";
+import store from "./store/store";
+import {
+  setAuthToken,
+  setCurrentUser,
+  signoutUser,
+} from "./store/actions/auth";
 import {
   LandingPage,
   SigninPage,

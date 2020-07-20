@@ -1,7 +1,8 @@
 import app from "firebase/app";
 import "firebase/database";
+
 import { SET_PROFILE_PIC } from "./types";
-import { logError } from "../utils/logError";
+import { logError } from "../../utils";
 
 /**
  * @param {string} key

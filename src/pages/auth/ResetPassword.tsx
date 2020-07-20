@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { RouteComponentProps, match } from "react-router-dom";
 
 import "./Landing.scss";
-import { confirmPasswordResetUrl, resetPassword } from "../../actions/auth";
+import {
+  confirmPasswordResetUrl,
+  resetPassword,
+} from "../../store/actions/auth";
 import { AuthState, ResetPasswordData } from "../../models/auth";
 import { logError } from "../../utils";
 import { AuthContainer } from "./AuthContainer";

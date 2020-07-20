@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
 import "./Landing.scss";
-import { signinUser, signupUser } from "../../actions/auth";
+import { signinUser, signupUser } from "../../store/actions/auth";
 import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { UserSigninData, UserSignupData } from "../../models/user";
 import { AuthState, AuthErrors } from "../../models/auth";
 import { Select, Logo } from "../../components/atoms";
-import { Form } from "../../components/organisms/form";
+import { Form } from "../../components/organisms";
 import { validateSignupInput, validateSigninInput } from "../../validation";
 
 interface LandingProps extends RouteComponentProps {

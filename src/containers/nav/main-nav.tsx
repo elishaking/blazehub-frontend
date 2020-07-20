@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./main-nav.scss";
-import { signoutUser } from "../../actions/auth";
+import { signoutUser } from "../../store/actions/auth";
 import { AuthUser } from "../../models/auth";
 import { NavItem } from "../../components/molecules";
 

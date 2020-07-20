@@ -1,5 +1,5 @@
 import { SET_CURRENT_USER, SET_ERRORS, SET_AUTH } from "../actions/types";
-import { AuthState, AuthUser, AuthErrors } from "../models/auth";
+import { AuthState, AuthUser, AuthErrors } from "../../models/auth";
 
 export const initialState: AuthState = {
   isAuthenticated: false,

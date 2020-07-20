@@ -1,9 +1,10 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+
 import { SET_ERRORS, SET_CURRENT_USER, SET_AUTH } from "./types";
-import { UserSigninData, UserSignupData } from "../models/user";
-import { logError } from "../utils/logError";
-import { AuthUser, AuthState } from "../models/auth";
+import { UserSigninData, UserSignupData } from "../../models/user";
+import { logError } from "../../utils/logError";
+import { AuthUser, AuthState } from "../../models/auth";
 
 interface UserSigninResponse {
   accessToken: string;

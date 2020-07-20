@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
+import "./Landing.scss";
 import {
   resendConfirmationUrl,
   sendPasswordResetUrl,
-} from "../../actions/auth";
+} from "../../store/actions/auth";
 import { AuthState } from "../../models/auth";
-import "./Landing.scss";
-import { logError } from "../../utils/logError";
+import { logError } from "../../utils";
 import { AuthContainer } from "./AuthContainer";
-import { TextFormInput } from "../../components/molecules";
-import { CompositeButton } from "../../components/molecules";
+import { TextFormInput, CompositeButton } from "../../components/molecules";
 import { Form } from "../../components/organisms/form";
 import { Button, SuccessMessage } from "../../components/atoms";
 import { isEmailValid } from "../../validation/utils";

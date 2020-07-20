@@ -1,8 +1,8 @@
 import moxios from "moxios";
-import { testStore } from "../utils/testUtils";
-import { signupUser } from "../../actions/auth";
-import { initialState as initialAuthState } from "../../reducers/auth";
-import { UserSignupData } from "../../models/user";
+// import { testStore } from "../utils/testUtils";
+// import { signupUser } from "../../store/actions/auth";
+// import { initialState as initialAuthState } from "../../store/reducers/auth";
+// import { UserSignupData } from "../../models/user";
 
 describe("auth action creators", () => {
   beforeEach(() => {

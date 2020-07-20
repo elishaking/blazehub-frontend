@@ -6,7 +6,7 @@ import "./Feedback.scss";
 import { TextAreaFormInput } from "../components/form/TextFormInput";
 import { TextFormInput, CompositeButton } from "../components/molecules";
 import { logError } from "../utils/logError";
-import { sendFeedback } from "../actions/feedback";
+import { sendFeedback } from "../store/actions/feedback";
 import { validateFeedbackInput } from "../validation/feedback";
 import { FeedbackData } from "../models/feedback";
 import { Form } from "../components/organisms/form";

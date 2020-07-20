@@ -9,7 +9,7 @@ import { AuthState } from "../models/auth";
 import { PostActions, PostImage, PostInput } from "../components/organisms";
 import { resizeImage, logError } from "../utils";
 import { PageTemplate } from "../components/templates";
-import { getProfilePic } from "../actions/profile";
+import { getProfilePic } from "../store/actions/profile";
 
 interface HomeState {
   postText: string;

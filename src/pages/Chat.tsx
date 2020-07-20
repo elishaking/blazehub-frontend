@@ -9,9 +9,9 @@ import "firebase/database";
 import "./Chat.scss";
 import { Spinner } from "../components/molecules";
 import { Avatar } from "../components/atoms";
-import { getFriends } from "../actions/friend";
-import { listenForNewChats } from "../actions/chat";
-import { getProfilePic } from "../actions/profile";
+import { getFriends } from "../store/actions/friend";
+import { listenForNewChats } from "../store/actions/chat";
+import { getProfilePic } from "../store/actions/profile";
 
 // @ts-ignore
 import notificationSound from "./notification.ogg";

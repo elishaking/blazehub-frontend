@@ -1,8 +1,9 @@
 // import axios from "axios";
 import app from "firebase/app";
 import "firebase/database";
-import { FeedbackData } from "../models/feedback";
-import { logError } from "../utils/logError";
+
+import { FeedbackData } from "../../models/feedback";
+import { logError } from "../../utils/logError";
 
 export const sendFeedback = async (feedbackData: FeedbackData) => {
   try {

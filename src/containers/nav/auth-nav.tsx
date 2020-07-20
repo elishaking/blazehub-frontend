@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./auth-nav.scss";
-import { signoutUser } from "../../actions/auth";
+import { signoutUser } from "../../store/actions/auth";
 import { TextFormInput } from "../../components/molecules";
 import { Avatar, OutlineButton, Logo } from "../../components/atoms";
 

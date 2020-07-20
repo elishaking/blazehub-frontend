@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, GET_ERRORS, SET_ERRORS } from "../actions/types";
+import { SET_CURRENT_USER, SET_ERRORS } from "../actions/types";
 import authReducer, { initialState } from "./auth";
 
 describe("Auth Reducer", () => {

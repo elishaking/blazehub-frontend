@@ -5,7 +5,7 @@ import app from "firebase/app";
 import "firebase/database";
 import axios from "axios";
 
-import { getFriends, addFriend } from "../actions/friend";
+import { getFriends, addFriend } from "../store/actions/friend";
 import { Friends, Friend } from "../models/friend";
 
 import { Spinner } from "../components/molecules";

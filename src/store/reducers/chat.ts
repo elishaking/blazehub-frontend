@@ -1,6 +1,6 @@
 import { ADD_CHAT } from "../actions/types";
 
-export default function(state: any = {}, action: any) {
+export default function (state: any = {}, action: any) {
   switch (action.type) {
     case ADD_CHAT:
       const chats = state;

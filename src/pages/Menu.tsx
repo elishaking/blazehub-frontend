@@ -10,7 +10,7 @@ import {
 
 import "./Menu.scss";
 import { AuthState } from "../models/auth";
-import { signoutUser } from "../actions/auth";
+import { signoutUser } from "../store/actions/auth";
 import { NavItem } from "../components/molecules";
 import { PageTemplate } from "../components/templates";
 

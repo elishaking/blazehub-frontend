@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
 
 import "./Landing.scss";
-import { verifyConfirmToken } from "../../actions/auth";
+import { verifyConfirmToken } from "../../store/actions/auth";
 import { Spinner } from "../../components/molecules";
 import { Button, SuccessMessage, ErrorMessage } from "../../components/atoms";
 import { AuthState } from "../../models/auth";
