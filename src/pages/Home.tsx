@@ -11,6 +11,7 @@ import { PostActions, PostImage, PostInput } from "../components/organisms";
 import { getProfilePic } from "../actions/profile";
 import { resizeImage } from "../utils/resizeImage";
 import { logError } from "../utils/logError";
+import { PageTemplate } from "../components/templates";
 
 interface HomeState {
   postText: string;
@@ -48,6 +49,52 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
   componentDidMount() {
     const { profile, auth } = this.props;
     if (!profile.avatar) this.props.getProfilePic(auth.user.id, "avatar");
+  }
+
+  render() {
+    const { user } = this.props.auth;
+    const { postText, postImgDataUrl } = this.state;
+    const { avatar } = this.props.profile || "";
+
+    return (
+      <PageTemplate
+        showSearch={true}
+        avatar={avatar}
+        notificationsRef={this.db.ref("notifications")}
+        user={user}
+        dataTest="homeComponent"
+      >
+        <div className="main-feed">
+          <header>
+            <div className="create-post">
+              <h3>Create Post</h3>
+
+              <PostInput postText={postText} onChange={this.onChange} />
+
+              <PostImage
+                postImgDataUrl={postImgDataUrl}
+                removeImage={this.removeImage}
+              />
+
+              <PostActions
+                createPost={this.createPost}
+                showImage={this.showImage}
+                selectImage={this.selectImage}
+                selectEmoticon={this.selectEmoticon}
+              />
+            </div>
+          </header>
+
+          <div className="posts">
+            <Posts user={user} />
+          </div>
+        </div>
+
+        {/* <div className="extras">
+
+          </div> */}
+      </PageTemplate>
+    );
   }
 
   /**
@@ -136,56 +183,6 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
       [event.target.name]: event.target.value,
     });
   };
-
-  render() {
-    const { user } = this.props.auth;
-    const { postText, postImgDataUrl } = this.state;
-    const { avatar } = this.props.profile || "";
-
-    return (
-      <div className="container" data-test="homeComponent">
-        <AuthNavbar
-          showSearch={true}
-          avatar={avatar}
-          notificationsRef={this.db.ref("notifications")}
-        />
-
-        <div className="main">
-          <MainNavbar user={user} />
-
-          <div className="main-feed">
-            <header>
-              <div className="create-post">
-                <h3>Create Post</h3>
-
-                <PostInput postText={postText} onChange={this.onChange} />
-
-                <PostImage
-                  postImgDataUrl={postImgDataUrl}
-                  removeImage={this.removeImage}
-                />
-
-                <PostActions
-                  createPost={this.createPost}
-                  showImage={this.showImage}
-                  selectImage={this.selectImage}
-                  selectEmoticon={this.selectEmoticon}
-                />
-              </div>
-            </header>
-
-            <div className="posts">
-              <Posts user={user} />
-            </div>
-          </div>
-
-          {/* <div className="extras">
-
-          </div> */}
-        </div>
-      </div>
-    );
-  }
 }
 
 const mapStateToProps = (state: any) => ({
