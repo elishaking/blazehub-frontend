@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 // import axios from 'axios';
@@ -18,8 +16,7 @@ import AuthNav from "../containers/nav/AuthNav";
 import Posts from "../containers/Posts";
 import { AuthState } from "../models/auth";
 import logError from "../utils/logError";
-import { CloseIcon } from "../components/atoms";
-import { PostActions, PostImage } from "../components/organisms";
+import { PostActions, PostImage, PostInput } from "../components/organisms";
 
 interface HomeState {
   postText: string;
@@ -184,16 +181,7 @@ class Home extends Component<HomeProps, Readonly<HomeState>> {
               <div className="create-post">
                 <h3>Create Post</h3>
 
-                <div className="icon-input">
-                  <textarea
-                    name="postText"
-                    placeholder="Share your thoughts"
-                    rows={3}
-                    value={postText}
-                    onChange={this.onChange}
-                  ></textarea>
-                  <FontAwesomeIcon icon={faUserAlt} className="icon" />
-                </div>
+                <PostInput postText={postText} onChange={this.onChange} />
 
                 <PostImage
                   postImgDataUrl={postImgDataUrl}
