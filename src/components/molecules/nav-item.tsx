@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
-import "./NavItem.scss";
+import "./nav-item.scss";
 
 interface NavItemProps {
   link: string;
@@ -14,7 +14,7 @@ interface NavItemProps {
   nav?: boolean;
 }
 
-export default function NavItem({
+export function NavItem({
   link,
   text,
   icon,

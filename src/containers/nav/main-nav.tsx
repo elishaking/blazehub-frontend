@@ -15,7 +15,7 @@ import {
 import "./main-nav.scss";
 import { signoutUser } from "../../actions/auth";
 import { AuthUser } from "../../models/auth";
-import NavItem from "../../components/NavItem";
+import { NavItem } from "../../components/molecules";
 
 interface MainNavProps {
   user: AuthUser;

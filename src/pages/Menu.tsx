@@ -8,10 +8,10 @@ import {
   faHands,
 } from "@fortawesome/free-solid-svg-icons";
 
+import "./Menu.scss";
 import { AuthState } from "../models/auth";
 import { signoutUser } from "../actions/auth";
-import NavItem from "../components/NavItem";
-import "./Menu.scss";
+import { NavItem } from "../components/molecules";
 import { PageTemplate } from "../components/templates";
 
 interface MenuProps {
