@@ -26,6 +26,51 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
     };
   }
 
+  render() {
+    const { inviteSent, friendEmails, loading, error } = this.state;
+
+    return (
+      <PageTemplate showSearch={true} history={this.props.history}>
+        {inviteSent ? (
+          <div className="invite-friends">
+            <h3 style={{ margin: "0.7em 0 em 0" }}>Invitation sent</h3>
+            <Button onClick={this.inviteMore}>Invite More</Button>
+          </div>
+        ) : (
+          <div className="invite-friends">
+            <h3>Invite your friends</h3>
+
+            <Form
+              className="add-friend"
+              onSubmit={this.inviteFriends}
+              error={error}
+            >
+              {friendEmails.map((_: any, index: number) => (
+                <TextFormInput
+                  type="email"
+                  key={index}
+                  name={`email${index}`}
+                  placeholder="email"
+                  onChange={(e: any) => this.onChange(e, index)}
+                />
+              ))}
+
+              <Button type="button" className="btn" onClick={this.addField}>
+                Add Email
+              </Button>
+
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <CompositeButton loading={loading}>
+                  Invite {friendEmails.length > 1 && <span>All</span>}
+                </CompositeButton>
+              </div>
+            </Form>
+          </div>
+        )}
+      </PageTemplate>
+    );
+  }
+
   addField = () => {
     const { friendEmails } = this.state;
     friendEmails.push("");
@@ -73,64 +118,6 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
       friendEmails,
     });
   };
-
-  render() {
-    const { inviteSent, friendEmails, loading, error } = this.state;
-
-    return (
-      <PageTemplate showSearch={true} history={this.props.history}>
-        {inviteSent ? (
-          <div className="invite-friends">
-            <h3 style={{ margin: "0.7em 0 em 0" }}>Invitation sent</h3>
-            <Button onClick={this.inviteMore}>Invite More</Button>
-          </div>
-        ) : (
-          <div className="invite-friends">
-            <h3>Invite your friends</h3>
-
-            <Form
-              className="add-friend"
-              onSubmit={this.inviteFriends}
-              error={error}
-            >
-              {friendEmails.map((_: any, index: number) => (
-                <TextFormInput
-                  type="email"
-                  key={index}
-                  name={`email${index}`}
-                  placeholder="email"
-                  onChange={(e: any) => this.onChange(e, index)}
-                />
-              ))}
-
-              <Button type="button" className="btn" onClick={this.addField}>
-                Add Email
-              </Button>
-
-              {/* {loading ? (
-                  <div style={{ textAlign: "end" }}>
-                    <Spinner full={false} />
-                  </div>
-                ) : (
-                  <button
-                    type="submit"
-                    className="btn"
-                    style={{ marginLeft: "auto" }}
-                  >
-                    Invite
-                  </button>
-                )} */}
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <CompositeButton loading={loading}>
-                  Invite {friendEmails.length > 1 && <span>All</span>}
-                </CompositeButton>
-              </div>
-            </Form>
-          </div>
-        )}
-      </PageTemplate>
-    );
-  }
 }
 
 const mapStateToProps = (state: any) => ({

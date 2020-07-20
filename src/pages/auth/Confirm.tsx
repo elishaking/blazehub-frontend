@@ -34,12 +34,11 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
 
   componentDidMount() {
     // if user is already authenticated, redirect to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/home");
-    }
+    if (this.props.auth.isAuthenticated) this.props.history.push("/home");
 
     verifyConfirmToken(this.props.match.params.token)
       .then((res) => {
+        console.log(res.data);
         this.setState({
           loading: false,
           message: res.data.message,
@@ -47,11 +46,11 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
         });
       })
       .catch((err) => {
-        logError(err);
+        logError(err.response);
 
         this.setState({
           loading: false,
-          message: err.response.data.data,
+          message: err.response.data.message,
           successful: false,
         });
       });
@@ -66,7 +65,6 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
     }
   }
 
-  /** @param {boolean} isAuthenticated */
   redirectIfAuthenticated = (isAuthenticated: boolean) => {
     // redirect authenticated user to home-page
     if (isAuthenticated) {
@@ -113,7 +111,7 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
               <Button onClick={() => this.navigate("/signin")}>Sign In</Button>
             ) : (
               <Button onClick={() => this.navigate("/confirm/resend")}>
-                Resend URL
+                Resend Link
               </Button>
             )}
           </div>
