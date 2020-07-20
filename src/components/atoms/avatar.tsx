@@ -1,10 +1,16 @@
 import React from "react";
 
-export default function Avatar({
+interface TProps {
+  avatar: string;
+  marginRight?: string;
+  marginLeft?: string;
+}
+
+export function Avatar({
   avatar,
   marginRight = "1em",
   marginLeft = "0",
-}: any) {
+}: TProps) {
   return (
     <img
       src={avatar}

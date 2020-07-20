@@ -10,12 +10,12 @@ import { getFriends } from "../actions/friend";
 import { listenForNewChats } from "../actions/chat";
 import { getProfilePic } from "../actions/profile";
 
+import "./Chat.scss";
 import Spinner from "../components/Spinner";
-import Avatar from "../components/Avatar";
+import { Avatar } from "../components/atoms";
 
 // @ts-ignore
 import notificationSound from "./notification.ogg";
-import "./Chat.scss";
 import { AuthState } from "../models/auth";
 import { PageTemplate } from "../components/templates";
 

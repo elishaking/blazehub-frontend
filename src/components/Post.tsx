@@ -10,11 +10,12 @@ import {
   faBookmark,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+
+import "./Post.scss";
 import Spinner from "./Spinner";
-import Avatar from "./Avatar";
+import { Avatar } from "./atoms";
 import { AuthUser } from "../models/auth";
 import { PostData } from "../models/post";
-import "./Post.scss";
 import { logError } from "../utils/logError";
 
 interface PostProps extends RouteComponentProps {

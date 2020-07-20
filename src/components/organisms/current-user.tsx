@@ -1,7 +1,8 @@
 import React from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import Avatar from "../Avatar";
+import { Avatar } from "../atoms";
 import { CompositeButton } from "../molecules";
 
 interface TProps {
