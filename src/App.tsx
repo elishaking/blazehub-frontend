@@ -28,7 +28,7 @@ import {
   MenuPage,
 } from "./pages";
 import PrivateRoute from "./containers/PrivateRoute";
-import Spinner from "./components/Spinner";
+import { Spinner } from "./components/molecules";
 import { Center, OutlineButton } from "./components/atoms";
 
 class App extends Component<{}, Readonly<any>> {

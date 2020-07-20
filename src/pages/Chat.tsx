@@ -6,13 +6,12 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 
+import "./Chat.scss";
+import { Spinner } from "../components/molecules";
+import { Avatar } from "../components/atoms";
 import { getFriends } from "../actions/friend";
 import { listenForNewChats } from "../actions/chat";
 import { getProfilePic } from "../actions/profile";
-
-import "./Chat.scss";
-import Spinner from "../components/Spinner";
-import { Avatar } from "../components/atoms";
 
 // @ts-ignore
 import notificationSound from "./notification.ogg";

@@ -4,7 +4,7 @@ import app from "firebase/app";
 import "firebase/database";
 
 import { Post } from "../components/organisms";
-import Spinner from "../components/Spinner";
+import { Spinner } from "../components/molecules";
 import { PostData } from "../models/post";
 
 interface PostsProps extends RouteComponentProps {

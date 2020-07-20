@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./post.scss";
-import Spinner from "../Spinner";
+import { Spinner } from "../molecules";
 import { Avatar } from "../atoms";
 import { AuthUser } from "../../models/auth";
 import { PostData } from "../../models/post";

@@ -8,7 +8,7 @@ import axios from "axios";
 import { getFriends, addFriend } from "../actions/friend";
 import { Friends, Friend } from "../models/friend";
 
-import Spinner from "../components/Spinner";
+import { Spinner } from "../components/molecules";
 import { AuthState } from "../models/auth";
 import { CurrentUser } from "../components/organisms";
 import { PageTemplate } from "../components/templates";

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
 
-import { verifyConfirmToken } from "../../actions/auth";
-import Spinner from "../../components/Spinner";
-import { AuthState } from "../../models/auth";
 import "./Landing.scss";
-import { logError } from "../../utils/logError";
-import { AuthContainer } from "./AuthContainer";
+import { verifyConfirmToken } from "../../actions/auth";
+import { Spinner } from "../../components/molecules";
 import { Button, SuccessMessage, ErrorMessage } from "../../components/atoms";
+import { AuthState } from "../../models/auth";
+import { logError } from "../../utils";
+import { AuthContainer } from "./AuthContainer";
 
 interface ConfirmProps extends RouteComponentProps {
   auth: AuthState;

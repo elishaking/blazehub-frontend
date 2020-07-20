@@ -17,7 +17,7 @@ import "firebase/database";
 
 import "./Profile.scss";
 import { AuthNavbar, MainNavbar } from "../containers/nav";
-import Spinner from "../components/Spinner";
+import { Spinner } from "../components/molecules";
 import {
   TextFormInput,
   TextAreaFormInput,
@@ -27,7 +27,7 @@ import { getFriends } from "../actions/friend";
 import { getProfilePic, updateProfilePic } from "../actions/profile";
 import Posts from "../containers/Posts";
 
-import { resizeImage } from "../utils/resizeImage";
+import { resizeImage } from "../utils";
 import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
