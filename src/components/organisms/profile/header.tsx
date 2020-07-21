@@ -14,12 +14,14 @@ interface StoreProps {
   userId: string;
   coverPhoto: string;
   avatar: string;
+  isForOtherUser: boolean;
 }
 
 interface DispatchProps {
   getProfilePic: (
     userId: string,
-    key: "avatar" | "coverPhoto"
+    key: "avatar" | "coverPhoto",
+    isForOtherUser?: boolean
   ) => Promise<void>;
   updateProfilePic: (
     userId: string,
@@ -47,15 +49,22 @@ class Header extends Component<TProps, Readonly<TState>> {
       userId,
       avatar,
       coverPhoto,
+      isForOtherUser,
       getProfilePic,
       deleteProfilePics,
     } = this.props;
 
-    if (getProfilePic && userId) {
-      if (otherUserId) {
+    // if not auth user
+    if (otherUserId) {
+      deleteProfilePics();
+      getProfilePic(otherUserId, "avatar", true);
+      getProfilePic(otherUserId, "coverPhoto", true);
+    } else {
+      // if current profile pics in store is not for auth user
+      if (isForOtherUser) {
         deleteProfilePics();
-        getProfilePic(otherUserId, "avatar");
-        getProfilePic(otherUserId, "coverPhoto");
+        getProfilePic(userId, "avatar");
+        getProfilePic(userId, "coverPhoto");
       } else {
         if (!avatar) getProfilePic(userId, "avatar");
         if (!coverPhoto) getProfilePic(userId, "coverPhoto");
@@ -189,12 +198,13 @@ const mapStateToProps = (state: any) => ({
   userId: state.auth.user.id,
   avatar: state.profile.avatar,
   coverPhoto: state.profile.coverPhoto,
+  isForOtherUser: state.profile.isForOtherUser,
 });
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
   return {
-    getProfilePic: async (userId, key) => {
-      await dispatch(getProfilePic(userId, key));
+    getProfilePic: async (userId, key, isForOtherUser) => {
+      await dispatch(getProfilePic(userId, key, isForOtherUser));
     },
     deleteProfilePics: async () => {
       await dispatch(deleteProfilePics());
