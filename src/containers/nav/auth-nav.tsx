@@ -33,40 +33,6 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
     // this.getNotifications();
   }
 
-  getNotifications = () => {
-    // console.log(this.props.hello)
-    this.props.notificationsRef
-      .child(this.props.user.id)
-      .orderByChild("date")
-      .on("child_added", (newNotificationSnapShot: any) => {
-        const newNotification = {
-          key: newNotificationSnapShot.key,
-          ...newNotificationSnapShot.val(),
-        };
-
-        // set date
-        newNotification.date = 1e15 - newNotification.date;
-
-        if (this.state.loading) this.setState({ loading: false });
-
-        const { notifications } = this.state;
-        // newNotification.date > this.mountedOn ? notifications.unshift(newNotification) : notifications.push(newNotification);
-        this.setState({
-          notifications,
-        });
-      });
-  };
-
-  signOut = () => this.props.signoutUser();
-
-  openNotifications = () => {
-    // console.log("open");
-  };
-
-  search = () => {
-    // console.log("performing search");
-  };
-
   render() {
     // const { notifications } = this.state;
     const { user, showSearch, avatar = "" } = this.props;
@@ -129,11 +95,45 @@ class AuthNav extends Component<AuthNavProps, Readonly<any>> {
       </header>
     );
   }
+
+  getNotifications = () => {
+    // console.log(this.props.hello)
+    this.props.notificationsRef
+      .child(this.props.user.id)
+      .orderByChild("date")
+      .on("child_added", (newNotificationSnapShot: any) => {
+        const newNotification = {
+          key: newNotificationSnapShot.key,
+          ...newNotificationSnapShot.val(),
+        };
+
+        // set date
+        newNotification.date = 1e15 - newNotification.date;
+
+        if (this.state.loading) this.setState({ loading: false });
+
+        const { notifications } = this.state;
+        // newNotification.date > this.mountedOn ? notifications.unshift(newNotification) : notifications.push(newNotification);
+        this.setState({
+          notifications,
+        });
+      });
+  };
+
+  signOut = () => this.props.signoutUser();
+
+  openNotifications = () => {
+    // console.log("open");
+  };
+
+  search = () => {
+    // console.log("performing search");
+  };
 }
 
 const mapStateToProps = (state: any) => ({
   user: state.auth.user,
-  avatar: state.profile.avatar,
+  avatar: state.profile.authAvatar,
 });
 
 export const AuthNavbar = connect<any, any, any>(mapStateToProps, {

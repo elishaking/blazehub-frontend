@@ -72,60 +72,6 @@ class Header extends Component<TProps, Readonly<TState>> {
     }
   }
 
-  selectCoverPhoto = () => {
-    this.updateCover = true;
-    (document.getElementById("img-input") as HTMLElement).click();
-  };
-
-  selectAvatar = () => {
-    this.updateCover = false;
-    (document.getElementById("img-input") as HTMLElement).click();
-  };
-
-  processPic = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imgInput = e.target;
-    if (imgInput.files && imgInput.files[0]) {
-      const imgReader = new FileReader();
-      // const key = this.updateCover ? "coverPhoto" : "avatar";
-      const files = imgInput.files as FileList;
-
-      imgReader.onload = (err: any) => {
-        if (files[0].size > 100000)
-          resizeImage(err.target.result.toString(), files[0].type).then(
-            (dataUrl: any) => {
-              if (this.updateCover) {
-                this.updatePic(dataUrl);
-              } else {
-                resizeImage(
-                  err.target.result.toString(),
-                  files[0].type,
-                  50
-                ).then((dataUrlSmall: any) => {
-                  this.updatePic(dataUrl, dataUrlSmall);
-                });
-              }
-            }
-          );
-        else this.updatePic(err.target.result);
-      };
-
-      imgReader.readAsDataURL(files[0]);
-    }
-  };
-
-  updatePic = (dataUrl: string, dataUrlSmall = "") => {
-    const { updateProfilePic, userId } = this.props;
-    if (updateProfilePic && userId) {
-      if (this.updateCover) {
-        this.setState({ loadingCoverPhoto: true });
-        updateProfilePic(userId, "coverPhoto", dataUrl);
-      } else {
-        this.setState({ loadingAvatar: true });
-        updateProfilePic(userId, "avatar", dataUrl, dataUrlSmall);
-      }
-    }
-  };
-
   render() {
     const { otherUserId, coverPhoto, avatar } = this.props;
     const loadingCoverPhoto = coverPhoto === undefined;
@@ -192,6 +138,60 @@ class Header extends Component<TProps, Readonly<TState>> {
       </div>
     );
   }
+
+  selectCoverPhoto = () => {
+    this.updateCover = true;
+    (document.getElementById("img-input") as HTMLElement).click();
+  };
+
+  selectAvatar = () => {
+    this.updateCover = false;
+    (document.getElementById("img-input") as HTMLElement).click();
+  };
+
+  processPic = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imgInput = e.target;
+    if (imgInput.files && imgInput.files[0]) {
+      const imgReader = new FileReader();
+      // const key = this.updateCover ? "coverPhoto" : "avatar";
+      const files = imgInput.files as FileList;
+
+      imgReader.onload = (err: any) => {
+        if (files[0].size > 100000)
+          resizeImage(err.target.result.toString(), files[0].type).then(
+            (dataUrl: any) => {
+              if (this.updateCover) {
+                this.updatePic(dataUrl);
+              } else {
+                resizeImage(
+                  err.target.result.toString(),
+                  files[0].type,
+                  50
+                ).then((dataUrlSmall: any) => {
+                  this.updatePic(dataUrl, dataUrlSmall);
+                });
+              }
+            }
+          );
+        else this.updatePic(err.target.result);
+      };
+
+      imgReader.readAsDataURL(files[0]);
+    }
+  };
+
+  updatePic = (dataUrl: string, dataUrlSmall = "") => {
+    const { updateProfilePic, userId } = this.props;
+    if (updateProfilePic && userId) {
+      if (this.updateCover) {
+        this.setState({ loadingCoverPhoto: true });
+        updateProfilePic(userId, "coverPhoto", dataUrl);
+      } else {
+        this.setState({ loadingAvatar: true });
+        updateProfilePic(userId, "avatar", dataUrl, dataUrlSmall);
+      }
+    }
+  };
 }
 
 const mapStateToProps = (state: any) => ({
