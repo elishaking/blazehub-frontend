@@ -16,7 +16,6 @@ import "firebase/database";
 
 import "./Profile.scss";
 import { getFriends } from "../store/actions/friend";
-import { Posts } from "../containers";
 
 import { logError } from "../utils";
 import { validateProfileEditInput } from "../validation/profile";
@@ -24,7 +23,11 @@ import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
 import { Button } from "../components/atoms";
 import { ProfileData } from "../models/profile";
-import { EditProfile, ProfileHeader } from "../components/organisms";
+import {
+  EditProfile,
+  ProfileHeader,
+  ProfilePosts,
+} from "../components/organisms";
 import { PageTemplate } from "../components/templates";
 import { Spinner } from "../components/molecules";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
@@ -128,20 +131,12 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
           />
 
           <div className="profile-content">
-            <div className="user-posts">
-              {this.isOtherUser ? (
-                !loadingOtherUserId && (
-                  <Posts
-                    user={user}
-                    forProfile={true}
-                    otherUser={this.isOtherUser}
-                    otherUserId={this.otherUserId}
-                  />
-                )
-              ) : (
-                <Posts user={user} forProfile={true} />
-              )}
-            </div>
+            <ProfilePosts
+              user={user}
+              isOtherUser={this.isOtherUser}
+              otherUserId={this.otherUserId}
+              loadingOtherUserId={loadingOtherUserId}
+            />
 
             <div className="user-data">
               <div className="data-container">
@@ -265,20 +260,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
         }
       });
   };
-
-  // loadOtherUserProfilePhotos = () => {
-  //   this.db
-  //     .ref("profile-photos")
-  //     .child(this.otherUserId)
-  //     .once("value")
-  //     .then((photosSnapShot) => {
-  //       const photos = photosSnapShot.exists()
-  //         ? photosSnapShot.val()
-  //         : { avatar: "", coverPhoto: "" };
-  //       this.setPic("avatar", photos.avatar);
-  //       this.setPic("coverPhoto", photos.coverPhoto);
-  //     });
-  // };
 
   loadOtherUserProfileData = () => {
     this.db
