@@ -124,7 +124,6 @@ export const sendPasswordResetUrl = (email: string) => {
 };
 
 export const confirmPasswordResetUrl = (token: string) => {
-  console.log("");
   return axios.post("/auth/password/confirm", {
     token,
   });

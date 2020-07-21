@@ -38,7 +38,6 @@ class Confirm extends Component<ConfirmProps, Readonly<ConfirmState>> {
 
     verifyConfirmToken(this.props.match.params.token)
       .then((res) => {
-        console.log(res.data);
         this.setState({
           loading: false,
           message: res.data.message,

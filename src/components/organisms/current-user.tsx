@@ -7,7 +7,7 @@ import { CompositeButton } from "../molecules";
 
 interface TProps {
   currentUser: any;
-  addFriend: Function;
+  addFriend: (friendId: string) => void;
   userId: string;
   idx: number;
   N: number;
