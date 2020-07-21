@@ -17,9 +17,10 @@ const setProfilePic = (key: string, dataUrl: string) => ({
  * @param {string} userId
  * @param {string} key
  */
-export const getProfilePic = (userId: string, key: string) => async (
-  dispatch: any
-) => {
+export const getProfilePic = (
+  userId: string,
+  key: "avatar" | "coverPhoto"
+) => async (dispatch: any) => {
   await app
     .database()
     .ref("profile-photos")

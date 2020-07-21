@@ -1,8 +1,8 @@
 import { SET_PROFILE_PIC } from "../actions/types";
 
 export const initialState = {
-  avatar: "",
-  coverPhoto: "",
+  avatar: undefined,
+  coverPhoto: undefined,
 };
 
 /**
@@ -13,7 +13,7 @@ export default function (state = initialState, action: any) {
     case SET_PROFILE_PIC:
       return {
         ...state,
-        [action.payload.key]: action.payload.dataUrl,
+        [action.payload.key]: action.payload.dataUrl || "",
       };
 
     default:

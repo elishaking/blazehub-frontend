@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCamera,
   faUser,
   faBible,
   faAddressBook,
@@ -20,7 +19,7 @@ import { getFriends } from "../store/actions/friend";
 import { getProfilePic, updateProfilePic } from "../store/actions/profile";
 import { Posts } from "../containers";
 
-import { resizeImage } from "../utils";
+import { resizeImage, logError } from "../utils";
 import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
@@ -101,14 +100,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    if (nextProps.profile.avatar !== this.state.avatar) {
-      this.setPic("avatar", nextProps.profile.avatar);
-    }
-
-    if (nextProps.profile.coverPhoto !== this.state.coverPhoto) {
-      this.setPic("coverPhoto", nextProps.profile.coverPhoto);
-    }
-
     if (nextProps.friends) {
       const { friends } = this.state;
       const friendKeys = Object.keys(nextProps.friends);
@@ -121,10 +112,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
   render() {
     const { user } = this.props.auth;
     const {
-      loadingAvatar,
-      loadingCoverPhoto,
-      avatar,
-      coverPhoto,
       loadingProfile,
       // loadingFriends,
       friends,
@@ -142,16 +129,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     return (
       <PageTemplate>
         <div className="profile">
-          <ProfileHeader
-            avatar={avatar}
-            coverPhoto={coverPhoto}
-            loadingAvatar={loadingAvatar}
-            loadingCoverPhoto={loadingCoverPhoto}
-            otherUser={this.otherUser}
-            processPic={this.processPic}
-            selectAvatar={this.selectAvatar}
-            selectCoverPhoto={this.selectCoverPhoto}
-          />
+          <ProfileHeader isOtherUser={this.otherUser} />
 
           <div className="profile-content">
             <div className="user-posts">
@@ -332,22 +310,12 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
   };
 
   loadUserProfileData = () => {
-    const { user } = this.props.auth;
-    const { friends, profile } = this.props;
+    const { friends } = this.props;
 
     const friendKeys = Object.keys(friends);
     friendKeys.length === 0
       ? this.props.getFriends()
       : this.setFriends(friendKeys, friends);
-
-    const avatar = profile.avatar;
-    avatar
-      ? this.setPic("avatar", avatar)
-      : this.props.getProfilePic(user.id, "avatar");
-    const coverPhoto = profile.coverPhoto;
-    coverPhoto
-      ? this.setPic("coverPhoto", coverPhoto)
-      : this.props.getProfilePic(user.id, "coverPhoto");
 
     // createProfileForExistingUser();
 
@@ -368,67 +336,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     });
   };
 
-  selectCoverPhoto = () => {
-    this.updateCover = true;
-    (document.getElementById("img-input") as HTMLElement).click();
-  };
-
-  selectAvatar = () => {
-    this.updateCover = false;
-    (document.getElementById("img-input") as HTMLElement).click();
-  };
-
-  processPic = (e: any) => {
-    const imgInput = e.target;
-    if (imgInput.files && imgInput.files[0]) {
-      const imgReader = new FileReader();
-      // const key = this.updateCover ? "coverPhoto" : "avatar";
-
-      imgReader.onload = (err: any) => {
-        if (imgInput.files[0].size > 100000)
-          resizeImage(
-            err.target.result.toString(),
-            imgInput.files[0].type
-          ).then((dataUrl: any) => {
-            if (this.updateCover) {
-              this.updatePic(dataUrl);
-            } else {
-              resizeImage(
-                err.target.result.toString(),
-                imgInput.files[0].type,
-                50
-              ).then((dataUrlSmall: any) => {
-                this.updatePic(dataUrl, dataUrlSmall);
-              });
-            }
-          });
-        else this.updatePic(err.target.result);
-      };
-
-      imgReader.readAsDataURL(imgInput.files[0]);
-    }
-  };
-
-  updatePic = (dataUrl: string, dataUrlSmall = "") => {
-    if (this.updateCover) {
-      this.setState({ loadingCoverPhoto: true });
-      this.props.updateProfilePic(
-        this.props.auth.user.id,
-        "coverPhoto",
-        dataUrl
-      );
-    } else {
-      this.setState({ loadingAvatar: true });
-      this.props.updateProfilePic(
-        this.props.auth.user.id,
-        "avatar",
-        dataUrl,
-        dataUrlSmall
-      );
-    }
-  };
-
-  /** @param {any} e */
   onChange = (e: any) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -439,7 +346,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     this.setState({ editProfile: !this.state.editProfile });
   };
 
-  /** @param {React.FormEvent<HTMLFormElement>} e */
   editProfile = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.setState({ loadingProfile: true });
@@ -472,6 +378,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
           if (err) {
             // console.log(err);
+            logError(err);
             return;
           }
 
