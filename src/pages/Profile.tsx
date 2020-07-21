@@ -17,12 +17,6 @@ import "firebase/database";
 
 import "./Profile.scss";
 import { AuthNavbar, MainNavbar } from "../containers";
-import { Spinner } from "../components/molecules";
-import {
-  TextFormInput,
-  TextAreaFormInput,
-} from "../components/form/TextFormInput";
-import { DateFormInput } from "../components/form/DateFormInput";
 import { getFriends } from "../store/actions/friend";
 import { getProfilePic, updateProfilePic } from "../store/actions/profile";
 import { Posts } from "../containers";
@@ -32,6 +26,8 @@ import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
 import { Button } from "../components/atoms";
+import { ProfileData } from "../models/profile";
+import { EditProfile } from "../components/organisms";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 interface Params {
@@ -310,115 +306,21 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
         </div>
 
         {editProfile && (
-          <div className="edit-profile">
-            <div className="inner-content">
-              <div className="modal">
-                <div className="close" onClick={this.toggleEditProfile}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 49.243 49.243"
-                  >
-                    <g
-                      id="Group_153"
-                      data-name="Group 153"
-                      transform="translate(-2307.379 -2002.379)"
-                    >
-                      <line
-                        id="Line_1"
-                        data-name="Line 1"
-                        x2="45"
-                        y2="45"
-                        transform="translate(2309.5 2004.5)"
-                        fill="none"
-                        stroke="#fff"
-                        strokeLinecap="round"
-                        strokeWidth="7"
-                      />
-                      <line
-                        id="Line_2"
-                        data-name="Line 2"
-                        x1="45"
-                        y2="45"
-                        transform="translate(2309.5 2004.5)"
-                        fill="none"
-                        stroke="#fff"
-                        strokeLinecap="round"
-                        strokeWidth="7"
-                      />
-                    </g>
-                  </svg>
-                </div>
-
-                <form onSubmit={this.editProfile}>
-                  <label htmlFor="username">Username</label>
-                  <TextFormInput
-                    name="username"
-                    placeholder="username"
-                    type="text"
-                    value={username}
-                    onChange={this.onChange}
-                    error={errors.username}
-                  />
-
-                  <label htmlFor="name">Name</label>
-                  <TextFormInput
-                    name="name"
-                    placeholder="name"
-                    type="text"
-                    value={name}
-                    onChange={this.onChange}
-                    error={errors.name}
-                  />
-
-                  <label htmlFor="name">Bio</label>
-                  <TextAreaFormInput
-                    name="bio"
-                    placeholder="bio"
-                    value={bio}
-                    onChange={this.onChange}
-                    error={errors.bio}
-                  />
-
-                  <label htmlFor="location">Location</label>
-                  <TextFormInput
-                    name="location"
-                    placeholder="location"
-                    value={location}
-                    type="text"
-                    onChange={this.onChange}
-                    error={errors.location}
-                  />
-
-                  <label htmlFor="website">Website</label>
-                  <TextFormInput
-                    name="website"
-                    placeholder="website"
-                    value={website}
-                    type="text"
-                    onChange={this.onChange}
-                    error={errors.website}
-                  />
-
-                  <label htmlFor="birth">Birth Date</label>
-                  <DateFormInput
-                    name="birth"
-                    placeholder="birth"
-                    value={birth}
-                    onChange={this.onChange}
-                    error={errors.birth}
-                  />
-
-                  {loadingProfile ? (
-                    <Spinner />
-                  ) : (
-                    <input type="submit" value="Save" className="btn" />
-                  )}
-                </form>
-              </div>
-            </div>
-          </div>
+          <EditProfile
+            onChange={this.onChange}
+            editProfile={this.editProfile}
+            profileData={{
+              bio,
+              birth,
+              username,
+              location,
+              name,
+              website,
+            }}
+            errors={errors}
+            loading={loadingProfile}
+            toggleEditProfile={this.toggleEditProfile}
+          />
         )}
       </div>
     );
@@ -655,12 +557,3 @@ export const ProfilePage = connect<any>(mapStateToProps, {
   getProfilePic,
   updateProfilePic,
 })(Profile);
-
-interface ProfileData {
-  name: string;
-  username: string;
-  bio: string;
-  location: string;
-  website: string;
-  birth: string;
-}

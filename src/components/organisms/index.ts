@@ -5,3 +5,5 @@ export { PostImage } from "./post-image";
 export { PostInput } from "./post-input";
 export { BookmarkedPosts } from "./bookmarked-posts";
 export { Post } from "./post";
+
+export { EditProfile } from "./profile";
