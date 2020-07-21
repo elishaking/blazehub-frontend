@@ -128,7 +128,7 @@ class FindFriends extends Component<FindFriendsProps, Readonly<any>> {
           ) : (
             userIds.map((userId, idx, arr) => {
               const currentUser = users[userId];
-              if (currentUser.added) return;
+              if (currentUser.added) return null;
               return (
                 <CurrentUser
                   key={userId}
