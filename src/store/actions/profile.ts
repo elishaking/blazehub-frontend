@@ -1,25 +1,22 @@
 import app from "firebase/app";
 import "firebase/database";
 
-import { SET_PROFILE_PIC } from "./types";
+import { SET_PROFILE_PIC, REMOVE_PROFILE_PICS } from "./types";
 import { logError } from "../../utils";
 
-/**
- * @param {string} key
- * @param {string} dataUrl
- */
-const setProfilePic = (key: string, dataUrl: string) => ({
+const setProfilePic = (key: string, dataUrl: string, isOtherUser: boolean) => ({
   type: SET_PROFILE_PIC,
-  payload: { key, dataUrl },
+  payload: { key, dataUrl, isOtherUser },
 });
 
-/**
- * @param {string} userId
- * @param {string} key
- */
+const removeProfilePics = () => ({
+  type: REMOVE_PROFILE_PICS,
+});
+
 export const getProfilePic = (
   userId: string,
-  key: "avatar" | "coverPhoto"
+  key: "avatar" | "coverPhoto",
+  isOtherUser = false
 ) => async (dispatch: any) => {
   await app
     .database()
@@ -28,16 +25,15 @@ export const getProfilePic = (
     .child(key)
     .once("value")
     .then((picSnapShot) => {
-      dispatch(setProfilePic(key, picSnapShot.val()));
+      dispatch(setProfilePic(key, picSnapShot.val(), isOtherUser));
     })
     .catch((err) => logError(err));
 };
 
-/**
- * @param {string} userId
- * @param {string} key
- * @param {string} dataUrl
- */
+export const deleteProfilePics = () => (dispatch: any) => {
+  dispatch(removeProfilePics());
+};
+
 export const updateProfilePic = (
   userId: string,
   key: string,
@@ -54,17 +50,15 @@ export const updateProfilePic = (
         await profileRef
           .child("avatar-small")
           .set(dataUrlSmall)
-          .then(() => dispatch(setProfilePic(key, dataUrl)))
+          .then(() => dispatch(setProfilePic(key, dataUrl, false)))
           .catch((err) => {
-            // console.log(err)
             logError(err);
           });
       } else {
-        dispatch(setProfilePic(key, dataUrl));
+        dispatch(setProfilePic(key, dataUrl, false));
       }
     })
     .catch((err) => {
-      // console.log(err)
       logError(err);
     });
 };

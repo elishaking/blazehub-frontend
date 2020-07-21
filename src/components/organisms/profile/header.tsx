@@ -5,26 +5,36 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 import {
   getProfilePic,
+  deleteProfilePics,
   updateProfilePic,
 } from "../../../store/actions/profile";
 import { resizeImage } from "../../../utils";
 
-interface TProps {
-  isOtherUser: boolean;
-  userId?: string;
-  coverPhoto?: string;
-  avatar?: string;
-  getProfilePic?: (
+interface StoreProps {
+  userId: string;
+  coverPhoto: string;
+  avatar: string;
+}
+
+interface DispatchProps {
+  getProfilePic: (
     userId: string,
     key: "avatar" | "coverPhoto"
-  ) => (dispatch: any) => Promise<void>;
-  updateProfilePic?: (
+  ) => Promise<void>;
+  updateProfilePic: (
     userId: string,
     key: string,
     dataUrl: string,
     dataUrlSmall?: string
-  ) => (dispatch: any) => Promise<void>;
+  ) => Promise<void>;
+  deleteProfilePics: () => void;
 }
+
+interface OwnProps {
+  otherUserId: string;
+}
+
+type TProps = StoreProps & DispatchProps & OwnProps;
 
 interface TState {}
 
@@ -32,11 +42,24 @@ class Header extends Component<TProps, Readonly<TState>> {
   updateCover = false;
 
   componentDidMount() {
-    const { userId, avatar, coverPhoto, getProfilePic } = this.props;
+    const {
+      otherUserId,
+      userId,
+      avatar,
+      coverPhoto,
+      getProfilePic,
+      deleteProfilePics,
+    } = this.props;
 
     if (getProfilePic && userId) {
-      if (!avatar) getProfilePic(userId, "avatar");
-      if (!coverPhoto) getProfilePic(userId, "coverPhoto");
+      if (otherUserId) {
+        deleteProfilePics();
+        getProfilePic(otherUserId, "avatar");
+        getProfilePic(otherUserId, "coverPhoto");
+      } else {
+        if (!avatar) getProfilePic(userId, "avatar");
+        if (!coverPhoto) getProfilePic(userId, "coverPhoto");
+      }
     }
   }
 
@@ -95,9 +118,10 @@ class Header extends Component<TProps, Readonly<TState>> {
   };
 
   render() {
-    const { isOtherUser, coverPhoto, avatar } = this.props;
+    const { otherUserId, coverPhoto, avatar } = this.props;
     const loadingCoverPhoto = coverPhoto === undefined;
     const loadingAvatar = avatar === undefined;
+    const isOtherUser = otherUserId ? true : false;
 
     return (
       <div className="pics">
@@ -167,7 +191,21 @@ const mapStateToProps = (state: any) => ({
   coverPhoto: state.profile.coverPhoto,
 });
 
-export const ProfileHeader = connect<any>(mapStateToProps, {
-  getProfilePic,
-  updateProfilePic,
-})(Header);
+const mapDispatchToProps = (dispatch: any): DispatchProps => {
+  return {
+    getProfilePic: async (userId, key) => {
+      await dispatch(getProfilePic(userId, key));
+    },
+    deleteProfilePics: async () => {
+      await dispatch(deleteProfilePics());
+    },
+    updateProfilePic: async (userId, key, dataUrl, dataUrlSmall) => {
+      await dispatch(updateProfilePic(userId, key, dataUrl, dataUrlSmall));
+    },
+  };
+};
+
+export const ProfileHeader = connect<StoreProps, DispatchProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

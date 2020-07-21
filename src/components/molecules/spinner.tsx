@@ -1,17 +1,21 @@
 import React from "react";
 
-export function Spinner({ full = true, padding = true }) {
+interface TProps {
+  full?: boolean;
+  padding?: boolean;
+  style?: React.CSSProperties;
+}
+
+export function Spinner({ full = true, padding = true, style }: TProps) {
   return (
     <div
       style={{
         display: full ? "block" : "inline-block",
         textAlign: "center",
         padding: padding ? "1em" : "0",
+        ...style,
       }}
     >
-      {/* <img src="./assets/img/spinner.gif" alt="" srcSet="" style={{
-        maxHeight: "4vh"
-      }} /> */}
       <svg
         className="spinner"
         xmlns="http://www.w3.org/2000/svg"

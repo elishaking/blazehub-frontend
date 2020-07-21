@@ -16,10 +16,9 @@ import "firebase/database";
 
 import "./Profile.scss";
 import { getFriends } from "../store/actions/friend";
-import { getProfilePic, updateProfilePic } from "../store/actions/profile";
 import { Posts } from "../containers";
 
-import { resizeImage, logError } from "../utils";
+import { logError } from "../utils";
 import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
@@ -27,6 +26,7 @@ import { Button } from "../components/atoms";
 import { ProfileData } from "../models/profile";
 import { EditProfile, ProfileHeader } from "../components/organisms";
 import { PageTemplate } from "../components/templates";
+import { Spinner } from "../components/molecules";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 interface Params {
@@ -39,21 +39,11 @@ interface ProfileProps extends RouteComponentProps {
   friends: Friends;
   profile: any;
   getFriends: () => (dispatch: any) => Promise<void>;
-  getProfilePic: (
-    userId: string,
-    key: string
-  ) => (dispatch: any) => Promise<void>;
-  updateProfilePic: (
-    userId: string,
-    key: string,
-    dataUrl: string,
-    dataUrlSmall?: string
-  ) => (dispatch: any) => Promise<void>;
 }
 
 class Profile extends Component<ProfileProps, Readonly<any>> {
   updateCover = false;
-  otherUser = true;
+  isOtherUser = true;
   otherUserId = "";
   db = app.database();
   profileRef: app.database.Reference;
@@ -62,11 +52,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     super(props);
 
     this.state = {
-      loadingAvatar: true,
-      loadingCoverPhoto: true,
-      avatar: "",
-      coverPhoto: "",
-
       loadingProfile: true,
       editProfile: false,
       username: "",
@@ -90,9 +75,11 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     // createSmallAvatar();
 
     if (this.props.match.params && this.props.match.params.username) {
+      this.isOtherUser = true;
+      this.otherUserId = this.props.match.params.username;
       this.loadOtherUserProfileData();
     } else {
-      this.otherUser = false;
+      this.isOtherUser = false;
       const { user } = this.props.auth;
       this.setState({ name: `${user.firstName} ${user.lastName}` });
       this.loadUserProfileData();
@@ -126,19 +113,28 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       loadingOtherUserId,
     } = this.state;
 
+    if (loadingProfile)
+      return (
+        <PageTemplate>
+          <Spinner style={{ flex: 1 }} />
+        </PageTemplate>
+      );
+
     return (
       <PageTemplate>
         <div className="profile">
-          <ProfileHeader isOtherUser={this.otherUser} />
+          <ProfileHeader
+            otherUserId={this.isOtherUser ? this.otherUserId : ""}
+          />
 
           <div className="profile-content">
             <div className="user-posts">
-              {this.otherUser ? (
+              {this.isOtherUser ? (
                 !loadingOtherUserId && (
                   <Posts
                     user={user}
                     forProfile={true}
-                    otherUser={this.otherUser}
+                    otherUser={this.isOtherUser}
                     otherUserId={this.otherUserId}
                   />
                 )
@@ -177,7 +173,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                     <small>{birth}</small>
                   </div>
                 )}
-                {!this.otherUser && (
+                {!this.isOtherUser && (
                   <Button className="btn" onClick={this.toggleEditProfile}>
                     Edit Profile
                   </Button>
@@ -198,7 +194,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                     </div>
                   ))}
 
-                {!this.otherUser && (
+                {!this.isOtherUser && (
                   <Button className="btn" onClick={this.findFriends}>
                     Find Friends
                   </Button>
@@ -220,7 +216,9 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                     ))
                   } */}
 
-                {!this.otherUser && <Button className="btn">Add Photo</Button>}
+                {!this.isOtherUser && (
+                  <Button className="btn">Add Photo</Button>
+                )}
               </div>
             </div>
           </div>
@@ -246,12 +244,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     );
   }
 
-  setPic = (key: string, dataUrl: string) => {
-    key === "avatar"
-      ? this.setState({ avatar: dataUrl, loadingAvatar: false })
-      : this.setState({ coverPhoto: dataUrl, loadingCoverPhoto: false });
-  };
-
   setFriends = (friendKeys: string[], friends: any) => {
     this.setState({
       friends: friendKeys.slice(0, 7).map((friendKey) => ({
@@ -274,19 +266,19 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       });
   };
 
-  loadOtherUserProfilePhotos = () => {
-    this.db
-      .ref("profile-photos")
-      .child(this.otherUserId)
-      .once("value")
-      .then((photosSnapShot) => {
-        const photos = photosSnapShot.exists()
-          ? photosSnapShot.val()
-          : { avatar: "", coverPhoto: "" };
-        this.setPic("avatar", photos.avatar);
-        this.setPic("coverPhoto", photos.coverPhoto);
-      });
-  };
+  // loadOtherUserProfilePhotos = () => {
+  //   this.db
+  //     .ref("profile-photos")
+  //     .child(this.otherUserId)
+  //     .once("value")
+  //     .then((photosSnapShot) => {
+  //       const photos = photosSnapShot.exists()
+  //         ? photosSnapShot.val()
+  //         : { avatar: "", coverPhoto: "" };
+  //       this.setPic("avatar", photos.avatar);
+  //       this.setPic("coverPhoto", photos.coverPhoto);
+  //     });
+  // };
 
   loadOtherUserProfileData = () => {
     this.db
@@ -305,7 +297,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
         this.loadOtherUserFriends();
 
-        this.loadOtherUserProfilePhotos();
+        // this.loadOtherUserProfilePhotos();
       });
   };
 
@@ -403,6 +395,4 @@ const mapStateToProps = (state: any) => ({
 
 export const ProfilePage = connect<any>(mapStateToProps, {
   getFriends,
-  getProfilePic,
-  updateProfilePic,
 })(Profile);

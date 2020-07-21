@@ -6,5 +6,6 @@ export const SET_FRIENDS = "SET_FRIENDS";
 export const ADD_FRIEND = "ADD_FRIEND";
 
 export const SET_PROFILE_PIC = "SET_PROFILE_PIC";
+export const REMOVE_PROFILE_PICS = "REMOVE_PROFILE_PICS";
 
 export const ADD_CHAT = "ADD_CHAT";
