@@ -16,7 +16,7 @@ import app from "firebase/app";
 import "firebase/database";
 
 import "./Profile.scss";
-import { AuthNavbar, MainNavbar } from "../containers/nav";
+import { AuthNavbar, MainNavbar } from "../containers";
 import { Spinner } from "../components/molecules";
 import {
   TextFormInput,

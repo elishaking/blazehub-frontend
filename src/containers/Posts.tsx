@@ -145,8 +145,6 @@ class PostList extends Component<PostsProps, Readonly<PostsState>> {
   }
 }
 
-export const Posts = withRouter(PostList);
-
 function NoPost({ history }: any) {
   return (
     <div
@@ -169,3 +167,5 @@ function NoPost({ history }: any) {
     </div>
   );
 }
+
+export const Posts = withRouter(PostList);
