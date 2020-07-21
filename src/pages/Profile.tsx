@@ -26,7 +26,7 @@ import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
 import { Button } from "../components/atoms";
 import { ProfileData } from "../models/profile";
-import { EditProfile } from "../components/organisms";
+import { EditProfile, ProfileHeader } from "../components/organisms";
 import { PageTemplate } from "../components/templates";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
@@ -142,63 +142,16 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     return (
       <PageTemplate>
         <div className="profile">
-          <div className="pics">
-            <div className={`cover main ${loadingCoverPhoto ? "disable" : ""}`}>
-              <input
-                accept="image/*"
-                type="file"
-                name="img-input"
-                id="img-input"
-                onChange={this.processPic}
-              />
-              {coverPhoto ? (
-                <div className="cover-img main">
-                  <img src={coverPhoto} alt="Cover" />
-                </div>
-              ) : (
-                <div
-                  className={`cover-placeholder ${
-                    loadingCoverPhoto ? "loading-pic" : ""
-                  }`}
-                ></div>
-              )}
-              {!this.otherUser && (
-                <button onClick={this.selectCoverPhoto}>
-                  <div>
-                    <FontAwesomeIcon icon={faCamera} />
-                    <span>Update Cover Photo</span>
-                  </div>
-                </button>
-              )}
-            </div>
-            <div className="avatar">
-              <div
-                className={`avatar-container main ${
-                  loadingAvatar ? "disable" : ""
-                }`}
-              >
-                {avatar ? (
-                  <div className="avatar-img main">
-                    <img src={avatar} alt="Profile Avatar" />
-                  </div>
-                ) : (
-                  <div
-                    className={`avatar-placeholder ${
-                      loadingAvatar ? "loading-pic" : ""
-                    }`}
-                  ></div>
-                )}
-
-                {!this.otherUser && (
-                  <div className="btn-container">
-                    <button onClick={this.selectAvatar}>
-                      <FontAwesomeIcon icon={faCamera} />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <ProfileHeader
+            avatar={avatar}
+            coverPhoto={coverPhoto}
+            loadingAvatar={loadingAvatar}
+            loadingCoverPhoto={loadingCoverPhoto}
+            otherUser={this.otherUser}
+            processPic={this.processPic}
+            selectAvatar={this.selectAvatar}
+            selectCoverPhoto={this.selectCoverPhoto}
+          />
 
           <div className="profile-content">
             <div className="user-posts">
