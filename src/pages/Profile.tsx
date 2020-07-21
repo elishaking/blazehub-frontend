@@ -16,7 +16,6 @@ import app from "firebase/app";
 import "firebase/database";
 
 import "./Profile.scss";
-import { AuthNavbar, MainNavbar } from "../containers";
 import { getFriends } from "../store/actions/friend";
 import { getProfilePic, updateProfilePic } from "../store/actions/profile";
 import { Posts } from "../containers";
@@ -28,6 +27,7 @@ import { AuthState } from "../models/auth";
 import { Button } from "../components/atoms";
 import { ProfileData } from "../models/profile";
 import { EditProfile } from "../components/organisms";
+import { PageTemplate } from "../components/templates";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 interface Params {
@@ -140,154 +140,147 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     } = this.state;
 
     return (
-      <div className="container">
-        <AuthNavbar showSearch={true} history={this.props.history} />
-
-        <div className="main">
-          <MainNavbar />
-
-          <div className="profile">
-            <div className="pics">
+      <PageTemplate>
+        <div className="profile">
+          <div className="pics">
+            <div className={`cover main ${loadingCoverPhoto ? "disable" : ""}`}>
+              <input
+                accept="image/*"
+                type="file"
+                name="img-input"
+                id="img-input"
+                onChange={this.processPic}
+              />
+              {coverPhoto ? (
+                <div className="cover-img main">
+                  <img src={coverPhoto} alt="Cover" />
+                </div>
+              ) : (
+                <div
+                  className={`cover-placeholder ${
+                    loadingCoverPhoto ? "loading-pic" : ""
+                  }`}
+                ></div>
+              )}
+              {!this.otherUser && (
+                <button onClick={this.selectCoverPhoto}>
+                  <div>
+                    <FontAwesomeIcon icon={faCamera} />
+                    <span>Update Cover Photo</span>
+                  </div>
+                </button>
+              )}
+            </div>
+            <div className="avatar">
               <div
-                className={`cover main ${loadingCoverPhoto ? "disable" : ""}`}
+                className={`avatar-container main ${
+                  loadingAvatar ? "disable" : ""
+                }`}
               >
-                <input
-                  accept="image/*"
-                  type="file"
-                  name="img-input"
-                  id="img-input"
-                  onChange={this.processPic}
-                />
-                {coverPhoto ? (
-                  <div className="cover-img main">
-                    <img src={coverPhoto} alt="Cover" />
+                {avatar ? (
+                  <div className="avatar-img main">
+                    <img src={avatar} alt="Profile Avatar" />
                   </div>
                 ) : (
                   <div
-                    className={`cover-placeholder ${
-                      loadingCoverPhoto ? "loading-pic" : ""
+                    className={`avatar-placeholder ${
+                      loadingAvatar ? "loading-pic" : ""
                     }`}
                   ></div>
                 )}
-                {!this.otherUser && (
-                  <button onClick={this.selectCoverPhoto}>
-                    <div>
-                      <FontAwesomeIcon icon={faCamera} />
-                      <span>Update Cover Photo</span>
-                    </div>
-                  </button>
-                )}
-              </div>
-              <div className="avatar">
-                <div
-                  className={`avatar-container main ${
-                    loadingAvatar ? "disable" : ""
-                  }`}
-                >
-                  {avatar ? (
-                    <div className="avatar-img main">
-                      <img src={avatar} alt="Profile Avatar" />
-                    </div>
-                  ) : (
-                    <div
-                      className={`avatar-placeholder ${
-                        loadingAvatar ? "loading-pic" : ""
-                      }`}
-                    ></div>
-                  )}
 
-                  {!this.otherUser && (
-                    <div className="btn-container">
-                      <button onClick={this.selectAvatar}>
-                        <FontAwesomeIcon icon={faCamera} />
-                      </button>
-                    </div>
-                  )}
-                </div>
+                {!this.otherUser && (
+                  <div className="btn-container">
+                    <button onClick={this.selectAvatar}>
+                      <FontAwesomeIcon icon={faCamera} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
+          </div>
 
-            <div className="profile-content">
-              <div className="user-posts">
-                {this.otherUser ? (
-                  !loadingOtherUserId && (
-                    <Posts
-                      user={user}
-                      forProfile={true}
-                      otherUser={this.otherUser}
-                      otherUserId={this.otherUserId}
-                    />
-                  )
-                ) : (
-                  <Posts user={user} forProfile={true} />
+          <div className="profile-content">
+            <div className="user-posts">
+              {this.otherUser ? (
+                !loadingOtherUserId && (
+                  <Posts
+                    user={user}
+                    forProfile={true}
+                    otherUser={this.otherUser}
+                    otherUserId={this.otherUserId}
+                  />
+                )
+              ) : (
+                <Posts user={user} forProfile={true} />
+              )}
+            </div>
+
+            <div className="user-data">
+              <div className="data-container">
+                <h3>
+                  <FontAwesomeIcon icon={faUser} />
+                  <span>{name}</span>
+                </h3>
+                {bio && (
+                  <div className="data">
+                    <FontAwesomeIcon icon={faBible} />
+                    <small>{bio}</small>
+                  </div>
+                )}
+                {location && (
+                  <div className="data">
+                    <FontAwesomeIcon icon={faAddressBook} />
+                    <small>{location}</small>
+                  </div>
+                )}
+                {website && (
+                  <div className="data">
+                    <FontAwesomeIcon icon={faGlobe} />
+                    <small>{website}</small>
+                  </div>
+                )}
+                {birth && (
+                  <div className="data">
+                    <FontAwesomeIcon icon={faBaby} />
+                    <small>{birth}</small>
+                  </div>
+                )}
+                {!this.otherUser && (
+                  <Button className="btn" onClick={this.toggleEditProfile}>
+                    Edit Profile
+                  </Button>
                 )}
               </div>
 
-              <div className="user-data">
-                <div className="data-container">
-                  <h3>
-                    <FontAwesomeIcon icon={faUser} />
-                    <span>{name}</span>
-                  </h3>
-                  {bio && (
-                    <div className="data">
-                      <FontAwesomeIcon icon={faBible} />
-                      <small>{bio}</small>
+              <div className="data-container">
+                <h3>
+                  <FontAwesomeIcon icon={faPeopleCarry} />
+                  <span>Friends</span>
+                </h3>
+
+                {friends.length > 0 &&
+                  friends.map((friend: any) => (
+                    <div key={friend.key} className="data">
+                      <FontAwesomeIcon icon={faUser} />
+                      <small>{friend.name}</small>
                     </div>
-                  )}
-                  {location && (
-                    <div className="data">
-                      <FontAwesomeIcon icon={faAddressBook} />
-                      <small>{location}</small>
-                    </div>
-                  )}
-                  {website && (
-                    <div className="data">
-                      <FontAwesomeIcon icon={faGlobe} />
-                      <small>{website}</small>
-                    </div>
-                  )}
-                  {birth && (
-                    <div className="data">
-                      <FontAwesomeIcon icon={faBaby} />
-                      <small>{birth}</small>
-                    </div>
-                  )}
-                  {!this.otherUser && (
-                    <Button className="btn" onClick={this.toggleEditProfile}>
-                      Edit Profile
-                    </Button>
-                  )}
-                </div>
+                  ))}
 
-                <div className="data-container">
-                  <h3>
-                    <FontAwesomeIcon icon={faPeopleCarry} />
-                    <span>Friends</span>
-                  </h3>
+                {!this.otherUser && (
+                  <Button className="btn" onClick={this.findFriends}>
+                    Find Friends
+                  </Button>
+                )}
+              </div>
 
-                  {friends.length > 0 &&
-                    friends.map((friend: any) => (
-                      <div key={friend.key} className="data">
-                        <FontAwesomeIcon icon={faUser} />
-                        <small>{friend.name}</small>
-                      </div>
-                    ))}
+              <div className="data-container">
+                <h3>
+                  <FontAwesomeIcon icon={faImages} />
+                  <span>Photos</span>
+                </h3>
 
-                  {!this.otherUser && (
-                    <Button className="btn" onClick={this.findFriends}>
-                      Find Friends
-                    </Button>
-                  )}
-                </div>
-
-                <div className="data-container">
-                  <h3>
-                    <FontAwesomeIcon icon={faImages} />
-                    <span>Photos</span>
-                  </h3>
-
-                  {/* {
+                {/* {
                     friends.length > 0 && friends.map((friend) => (
                       <div key={friend.key} className="data">
                         <FontAwesomeIcon icon={faUser} />
@@ -296,15 +289,11 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
                     ))
                   } */}
 
-                  {!this.otherUser && (
-                    <Button className="btn">Add Photo</Button>
-                  )}
-                </div>
+                {!this.otherUser && <Button className="btn">Add Photo</Button>}
               </div>
             </div>
           </div>
         </div>
-
         {editProfile && (
           <EditProfile
             onChange={this.onChange}
@@ -322,7 +311,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
             toggleEditProfile={this.toggleEditProfile}
           />
         )}
-      </div>
+      </PageTemplate>
     );
   }
 
