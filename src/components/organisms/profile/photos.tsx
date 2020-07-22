@@ -6,15 +6,18 @@ import { faImages } from "@fortawesome/free-solid-svg-icons";
 import { FileButton, Spinner } from "../../molecules";
 import { Button, CloseIcon } from "../../atoms";
 import { resizeImage } from "../../../utils";
+import { uploadPhotos, fetchPhotos } from "../../../store/actions/profile";
 
 interface TProps {
   isOtherUser: boolean;
+  userId: string;
 }
 
 interface TState {
   photos: string[];
   pendingPhotos: string[];
   uploading: boolean;
+  loading: boolean;
 }
 
 const Wrapper = styled.div`
@@ -68,12 +71,28 @@ export class ProfilePhotos extends Component<TProps, Readonly<TState>> {
   state = {
     photos: [],
     pendingPhotos: [],
+    loading: true,
     uploading: false,
   };
 
+  componentDidMount() {
+    this.fetchAllPhotos();
+  }
+
   render() {
     const { isOtherUser } = this.props;
-    const { photos, pendingPhotos, uploading } = this.state;
+    const { photos, pendingPhotos, uploading, loading } = this.state;
+
+    if (loading)
+      return (
+        <div className="data-container">
+          <h3>
+            <FontAwesomeIcon icon={faImages} />
+            <span>Photos</span>
+          </h3>
+          <Spinner />
+        </div>
+      );
 
     return (
       <div className="data-container">
@@ -130,7 +149,7 @@ export class ProfilePhotos extends Component<TProps, Readonly<TState>> {
           (uploading ? (
             <Spinner />
           ) : (
-            <Button onClick={this.uploadPhoto}>Upload</Button>
+            <Button onClick={this.uploadAllPhotos}>Upload</Button>
           ))}
       </div>
     );
@@ -151,19 +170,27 @@ export class ProfilePhotos extends Component<TProps, Readonly<TState>> {
     }));
   };
 
-  uploadPhoto = async () => {
+  fetchAllPhotos = async () => {
+    const photos = await fetchPhotos(this.props.userId);
+    this.setState({
+      loading: false,
+      photos,
+    });
+  };
+
+  uploadAllPhotos = async () => {
     // TODO: review this code
+    const { pendingPhotos, photos } = this.state;
     this.setState({ uploading: true });
     const resizedPhotos = await Promise.all(
-      this.state.pendingPhotos.map((photo) => resizeImage(photo))
+      pendingPhotos.map((photo) => resizeImage(photo))
     );
+    await uploadPhotos(this.state.pendingPhotos, this.props.userId);
 
-    this.setState((state, props) => {
-      return {
-        photos: [...state.photos, ...resizedPhotos],
-        pendingPhotos: [],
-        uploading: false,
-      };
+    this.setState({
+      photos: [...photos, ...resizedPhotos],
+      pendingPhotos: [],
+      uploading: false,
     });
   };
 }

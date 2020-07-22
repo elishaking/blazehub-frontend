@@ -94,6 +94,9 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
       // loadingFriends,
       friends,
     } = this.state;
+    const userId = this.isOtherUser
+      ? this.otherUserId
+      : this.props.auth.user.id;
 
     if (loadingProfile)
       return (
@@ -119,9 +122,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
             <div className="user-data">
               <ProfileDetails
                 isOtherUser={this.isOtherUser}
-                userId={
-                  this.isOtherUser ? this.otherUserId : this.props.auth.user.id
-                }
+                userId={userId}
                 profileDetails={this.profileDetails || ({} as ProfileData)}
               />
 
@@ -131,7 +132,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
                 isOtherUser={this.isOtherUser}
               />
 
-              <ProfilePhotos isOtherUser={this.isOtherUser} />
+              <ProfilePhotos isOtherUser={this.isOtherUser} userId={userId} />
             </div>
           </div>
         </div>

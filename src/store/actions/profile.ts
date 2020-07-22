@@ -121,3 +121,31 @@ export const updateProfileData = async (
     throw err;
   }
 };
+
+export const uploadPhotos = async (photos: string[], userId: string) => {
+  await Promise.all(
+    photos.map((photo) =>
+      app
+        .database()
+        .ref("profile-photos")
+        .child(userId)
+        .child("photos")
+        .push(photo)
+    )
+  );
+};
+
+export const fetchPhotos = async (userId: string) => {
+  const photosSnapshot = await app
+    .database()
+    .ref("profile-photos")
+    .child(userId)
+    .child("photos")
+    .once("value");
+  if (photosSnapshot.exists()) {
+    const photosMap = photosSnapshot.val();
+    return Object.keys(photosMap).map((key) => photosMap[key]);
+  }
+
+  return [];
+};
