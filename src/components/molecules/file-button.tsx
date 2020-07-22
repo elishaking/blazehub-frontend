@@ -5,7 +5,7 @@ import { Button } from "../atoms";
 interface TProps extends HTMLProps<HTMLButtonElement> {
   children: React.ReactNode;
   type?: "button" | "submit" | "reset";
-  handleFile?: Function;
+  handleFile?: (dataUrl: string) => void;
 }
 
 const Wrapper = styled.span`

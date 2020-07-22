@@ -6,9 +6,9 @@
  */
 export const resizeImage = (
   dataUrl: string,
-  type: string,
+  type?: string,
   maxSize: number = 1000
-) => {
+): Promise<string> => {
   const img = document.createElement("img");
   img.src = dataUrl;
   return new Promise((resolve, reject) => {
