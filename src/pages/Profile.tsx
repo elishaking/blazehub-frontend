@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImages } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 
@@ -11,13 +9,13 @@ import { getFriends } from "../store/actions/friend";
 
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
-import { Button } from "../components/atoms";
 import { ProfileData } from "../models/profile";
 import {
   ProfileHeader,
   ProfilePosts,
   ProfileDetails,
   ProfileFriends,
+  ProfilePhotos,
 } from "../components/organisms";
 import { PageTemplate } from "../components/templates";
 import { Spinner } from "../components/molecules";
@@ -133,25 +131,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
                 isOtherUser={this.isOtherUser}
               />
 
-              <div className="data-container">
-                <h3>
-                  <FontAwesomeIcon icon={faImages} />
-                  <span>Photos</span>
-                </h3>
-
-                {/* {
-                    friends.length > 0 && friends.map((friend) => (
-                      <div key={friend.key} className="data">
-                        <FontAwesomeIcon icon={faUser} />
-                        <small>{friend.name}</small>
-                      </div>
-                    ))
-                  } */}
-
-                {!this.isOtherUser && (
-                  <Button className="btn">Add Photo</Button>
-                )}
-              </div>
+              <ProfilePhotos isOtherUser={this.isOtherUser} />
             </div>
           </div>
         </div>

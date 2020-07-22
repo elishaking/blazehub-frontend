@@ -12,4 +12,5 @@ export {
   ProfilePosts,
   ProfileDetails,
   ProfileFriends,
+  ProfilePhotos,
 } from "./profile";
