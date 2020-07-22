@@ -11,4 +11,5 @@ export {
   ProfileHeader,
   ProfilePosts,
   ProfileDetails,
+  ProfileFriends,
 } from "./profile";

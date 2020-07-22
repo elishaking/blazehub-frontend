@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, match } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faPeopleCarry,
-  faImages,
-} from "@fortawesome/free-solid-svg-icons";
+import { faImages } from "@fortawesome/free-solid-svg-icons";
 import app from "firebase/app";
 import "firebase/database";
 
@@ -21,6 +17,7 @@ import {
   ProfileHeader,
   ProfilePosts,
   ProfileDetails,
+  ProfileFriends,
 } from "../components/organisms";
 import { PageTemplate } from "../components/templates";
 import { Spinner } from "../components/molecules";
@@ -130,26 +127,11 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
                 profileDetails={this.profileDetails || ({} as ProfileData)}
               />
 
-              <div className="data-container">
-                <h3>
-                  <FontAwesomeIcon icon={faPeopleCarry} />
-                  <span>Friends</span>
-                </h3>
-
-                {friends.length > 0 &&
-                  friends.map((friend: any) => (
-                    <div key={friend.key} className="data">
-                      <FontAwesomeIcon icon={faUser} />
-                      <small>{friend.name}</small>
-                    </div>
-                  ))}
-
-                {!this.isOtherUser && (
-                  <Button className="btn" onClick={this.findFriends}>
-                    Find Friends
-                  </Button>
-                )}
-              </div>
+              <ProfileFriends
+                friends={friends}
+                findFriends={this.findFriends}
+                isOtherUser={this.isOtherUser}
+              />
 
               <div className="data-container">
                 <h3>
