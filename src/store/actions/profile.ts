@@ -3,6 +3,7 @@ import "firebase/database";
 
 import { SET_PROFILE_PIC, REMOVE_PROFILE_PICS } from "./types";
 import { logError } from "../../utils";
+import { ProfileData } from "../../models/profile";
 
 const setProfilePic = (key: string, dataUrl: string, isOtherUser: boolean) => ({
   type: SET_PROFILE_PIC,
@@ -61,4 +62,62 @@ export const updateProfilePic = (
     .catch((err) => {
       logError(err);
     });
+};
+
+export const fetchProfileDetails = async (username: string) => {
+  const profileSnapShot = await app
+    .database()
+    .ref("profiles")
+    .orderByChild("username")
+    .equalTo(username)
+    .once("value");
+
+  return profileSnapShot;
+};
+
+export const fetchProfileDetailsById = async (userId: string) => {
+  const profileSnapShot = await app
+    .database()
+    .ref("profiles")
+    .child(userId)
+    .once("value");
+
+  return profileSnapShot;
+};
+
+export const isValidUsername = async (username: string) => {
+  try {
+    const profileSnapshot = await app
+      .database()
+      .ref("profiles")
+      .orderByChild("username")
+      .equalTo(username)
+      .once("value");
+    if (profileSnapshot.exists()) return false;
+  } catch (err) {
+    throw err;
+  }
+
+  return true;
+};
+
+export const updateProfileData = async (
+  { name, bio, location, website, birth }: ProfileData,
+  profileId: string
+) => {
+  try {
+    await app
+      .database()
+      .ref("profiles")
+      .child(profileId)
+      .update({
+        name,
+        bio,
+        location: location || "",
+        website: website || "",
+        birth: birth || "",
+      });
+  } catch (err) {
+    throw err;
+  }
 };

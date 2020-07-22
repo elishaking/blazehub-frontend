@@ -6,4 +6,9 @@ export { PostInput } from "./post-input";
 export { BookmarkedPosts } from "./bookmarked-posts";
 export { Post } from "./post";
 
-export { EditProfile, ProfileHeader, ProfilePosts } from "./profile";
+export {
+  EditProfile,
+  ProfileHeader,
+  ProfilePosts,
+  ProfileDetails,
+} from "./profile";

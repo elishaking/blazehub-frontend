@@ -4,10 +4,6 @@ import { RouteComponentProps, match } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
-  faBible,
-  faAddressBook,
-  faGlobe,
-  faBaby,
   faPeopleCarry,
   faImages,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,19 +13,21 @@ import "firebase/database";
 import "./Profile.scss";
 import { getFriends } from "../store/actions/friend";
 
-import { logError } from "../utils";
-import { validateProfileEditInput } from "../validation/profile";
 import { Friends } from "../models/friend";
 import { AuthState } from "../models/auth";
 import { Button } from "../components/atoms";
 import { ProfileData } from "../models/profile";
 import {
-  EditProfile,
   ProfileHeader,
   ProfilePosts,
+  ProfileDetails,
 } from "../components/organisms";
 import { PageTemplate } from "../components/templates";
 import { Spinner } from "../components/molecules";
+import {
+  fetchProfileDetails,
+  fetchProfileDetailsById,
+} from "../store/actions/profile";
 // import { createProfileForExistingUser, createSmallAvatar } from '../../utils/firebase';
 
 interface Params {
@@ -44,31 +42,27 @@ interface ProfileProps extends RouteComponentProps {
   getFriends: () => (dispatch: any) => Promise<void>;
 }
 
-class Profile extends Component<ProfileProps, Readonly<any>> {
+interface TState {
+  loadingProfile: boolean;
+  loadingFriends: boolean;
+  friends: any[];
+}
+
+class Profile extends Component<ProfileProps, Readonly<TState>> {
   updateCover = false;
   isOtherUser = true;
-  otherUserId = "";
   db = app.database();
   profileRef: app.database.Reference;
+  profileDetails?: ProfileData;
+  otherUserId = "";
 
   constructor(props: ProfileProps) {
     super(props);
 
     this.state = {
       loadingProfile: true,
-      editProfile: false,
-      username: "",
-      name: "",
-      bio: "",
-      location: "",
-      website: "",
-      birth: "",
-      errors: {},
-
       loadingFriends: true,
       friends: [],
-
-      loadingOtherUserId: true,
     };
 
     this.profileRef = this.db.ref("profiles").child(this.props.auth.user.id);
@@ -76,16 +70,14 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
 
   componentDidMount() {
     // createSmallAvatar();
-
     if (this.props.match.params && this.props.match.params.username) {
       this.isOtherUser = true;
-      this.otherUserId = this.props.match.params.username;
-      this.loadOtherUserProfileData();
+      this.fetchOtherUserDetails();
     } else {
       this.isOtherUser = false;
-      const { user } = this.props.auth;
-      this.setState({ name: `${user.firstName} ${user.lastName}` });
-      this.loadUserProfileData();
+      // const { user } = this.props.auth;
+      // this.setState({ name: `${user.firstName} ${user.lastName}` });
+      this.fetchFriends();
     }
   }
 
@@ -105,15 +97,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       loadingProfile,
       // loadingFriends,
       friends,
-      editProfile,
-      username,
-      name,
-      bio,
-      location,
-      website,
-      birth,
-      errors,
-      loadingOtherUserId,
     } = this.state;
 
     if (loadingProfile)
@@ -135,45 +118,13 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
               user={user}
               isOtherUser={this.isOtherUser}
               otherUserId={this.otherUserId}
-              loadingOtherUserId={loadingOtherUserId}
             />
 
             <div className="user-data">
-              <div className="data-container">
-                <h3>
-                  <FontAwesomeIcon icon={faUser} />
-                  <span>{name}</span>
-                </h3>
-                {bio && (
-                  <div className="data">
-                    <FontAwesomeIcon icon={faBible} />
-                    <small>{bio}</small>
-                  </div>
-                )}
-                {location && (
-                  <div className="data">
-                    <FontAwesomeIcon icon={faAddressBook} />
-                    <small>{location}</small>
-                  </div>
-                )}
-                {website && (
-                  <div className="data">
-                    <FontAwesomeIcon icon={faGlobe} />
-                    <small>{website}</small>
-                  </div>
-                )}
-                {birth && (
-                  <div className="data">
-                    <FontAwesomeIcon icon={faBaby} />
-                    <small>{birth}</small>
-                  </div>
-                )}
-                {!this.isOtherUser && (
-                  <Button className="btn" onClick={this.toggleEditProfile}>
-                    Edit Profile
-                  </Button>
-                )}
-              </div>
+              <ProfileDetails
+                isOtherUser={this.isOtherUser}
+                profileDetails={this.profileDetails || ({} as ProfileData)}
+              />
 
               <div className="data-container">
                 <h3>
@@ -218,26 +169,35 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
             </div>
           </div>
         </div>
-        {editProfile && (
-          <EditProfile
-            onChange={this.onChange}
-            editProfile={this.editProfile}
-            profileData={{
-              bio,
-              birth,
-              username,
-              location,
-              name,
-              website,
-            }}
-            errors={errors}
-            loading={loadingProfile}
-            toggleEditProfile={this.toggleEditProfile}
-          />
-        )}
       </PageTemplate>
     );
   }
+
+  fetchDetails = () => {
+    fetchProfileDetailsById(this.props.auth.user.id).then((detailsSnapshot) => {
+      if (detailsSnapshot.exists()) {
+        this.profileDetails = detailsSnapshot.val();
+        this.setState({ loadingProfile: false });
+      }
+    });
+  };
+
+  fetchOtherUserDetails = () => {
+    fetchProfileDetails(this.props.match.params.username).then(
+      (detailsSnapshot) => {
+        // TODO: create profile for user that does not have one
+        if (!detailsSnapshot.exists()) return (window.location.href = "/home");
+
+        const profile = detailsSnapshot.val();
+        this.otherUserId = Object.keys(profile)[0];
+        this.profileDetails = profile[this.otherUserId];
+        this.setState({ loadingProfile: false });
+
+        // this.loadOtherUserFriends();
+        // this.loadOtherUserProfilePhotos();
+      }
+    );
+  };
 
   setFriends = (friendKeys: string[], friends: any) => {
     this.setState({
@@ -248,7 +208,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
     });
   };
 
-  loadOtherUserFriends = () => {
+  fetchOtherFriends = () => {
     this.db
       .ref("friends")
       .child(this.otherUserId)
@@ -261,28 +221,7 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       });
   };
 
-  loadOtherUserProfileData = () => {
-    this.db
-      .ref("profiles")
-      .orderByChild("username")
-      .equalTo(this.props.match.params.username)
-      .once("value")
-      .then((profileSnapShot) => {
-        if (!profileSnapShot.exists()) return (window.location.href = "/home");
-
-        const profile = profileSnapShot.val();
-        this.otherUserId = Object.keys(profile)[0];
-        this.setProfile(profile[this.otherUserId]);
-        // console.log(profileSnapShot.val())
-        this.setState({ loadingOtherUserId: false });
-
-        this.loadOtherUserFriends();
-
-        // this.loadOtherUserProfilePhotos();
-      });
-  };
-
-  loadUserProfileData = () => {
+  fetchFriends = () => {
     const { friends } = this.props;
 
     const friendKeys = Object.keys(friends);
@@ -291,76 +230,6 @@ class Profile extends Component<ProfileProps, Readonly<any>> {
       : this.setFriends(friendKeys, friends);
 
     // createProfileForExistingUser();
-
-    this.profileRef.once("value", (profileSnapShot) => {
-      this.setProfile(profileSnapShot.val());
-    });
-  };
-
-  setProfile = (profile: ProfileData) => {
-    this.setState({
-      loadingProfile: false,
-      username: profile.username,
-      name: profile.name,
-      bio: profile.bio,
-      location: profile.location,
-      website: profile.website,
-      birth: profile.birth,
-    });
-  };
-
-  onChange = (e: any) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  toggleEditProfile = () => {
-    this.setState({ editProfile: !this.state.editProfile });
-  };
-
-  editProfile = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    this.setState({ loadingProfile: true });
-
-    const { name, bio, location, website, birth } = this.state;
-
-    const { isValid, errors } = validateProfileEditInput({
-      name,
-      bio,
-      location,
-      website,
-      birth,
-    });
-
-    // console.log({ isValid, errors });
-
-    this.setState({ errors });
-
-    if (isValid) {
-      this.profileRef.update(
-        {
-          name,
-          bio,
-          location: location || "",
-          website: website || "",
-          birth: birth || "",
-        },
-        (err) => {
-          this.setState({ loadingProfile: false });
-
-          if (err) {
-            // console.log(err);
-            logError(err);
-            return;
-          }
-
-          this.toggleEditProfile();
-        }
-      );
-    } else {
-      this.setState({ loadingProfile: false });
-    }
   };
 
   findFriends = () => {
