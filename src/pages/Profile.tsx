@@ -77,6 +77,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
       this.isOtherUser = false;
       // const { user } = this.props.auth;
       // this.setState({ name: `${user.firstName} ${user.lastName}` });
+      this.fetchDetails();
       this.fetchFriends();
     }
   }
@@ -123,6 +124,9 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
             <div className="user-data">
               <ProfileDetails
                 isOtherUser={this.isOtherUser}
+                userId={
+                  this.isOtherUser ? this.otherUserId : this.props.auth.user.id
+                }
                 profileDetails={this.profileDetails || ({} as ProfileData)}
               />
 
@@ -192,8 +196,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
         this.otherUserId = Object.keys(profile)[0];
         this.profileDetails = profile[this.otherUserId];
         this.setState({ loadingProfile: false });
-
-        // this.loadOtherUserFriends();
+        this.fetchOtherFriends();
         // this.loadOtherUserProfilePhotos();
       }
     );

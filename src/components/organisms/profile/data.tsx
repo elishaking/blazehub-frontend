@@ -20,6 +20,7 @@ import { ProfileData, ErrorProfileData } from "../../../models/profile";
 interface TProps {
   isOtherUser: boolean;
   profileDetails: ProfileData;
+  userId: string;
 }
 
 interface TState {
@@ -42,12 +43,13 @@ export class ProfileDetails extends Component<TProps, Readonly<TState>> {
   constructor(props: TProps) {
     super(props);
 
-    const { profileDetails } = props;
+    const { profileDetails, userId } = props;
     this.username = profileDetails.username;
+    this.userId = userId;
 
     // TODO: refactor this
     this.state = {
-      loading: true,
+      loading: false,
       username: profileDetails.username,
       name: profileDetails.name,
       bio: profileDetails.bio,
@@ -130,18 +132,6 @@ export class ProfileDetails extends Component<TProps, Readonly<TState>> {
       </>
     );
   }
-
-  setProfileDetails = (profile: ProfileData) => {
-    this.setState({
-      loading: false,
-      username: profile.username,
-      name: profile.name,
-      bio: profile.bio,
-      location: profile.location,
-      website: profile.website,
-      birth: profile.birth,
-    });
-  };
 
   toggleEditProfile = () => {
     this.setState({ editProfile: !this.state.editProfile });

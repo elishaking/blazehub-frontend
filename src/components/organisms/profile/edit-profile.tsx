@@ -11,7 +11,6 @@ interface TProps {
   ) => void;
   onChange: any; // (event: React.ChangeEvent<HTMLInputElement>) => void;
   editProfile: (event: React.FormEvent<HTMLFormElement>) => void;
-
   profileData: ProfileData;
   errors: any;
   loading: boolean;
