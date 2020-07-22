@@ -174,6 +174,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
   };
 
   fetchOtherFriends = () => {
+    // TODO: rectify this
     this.db
       .ref("friends")
       .child(this.otherUserId)
