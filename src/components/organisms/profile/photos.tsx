@@ -68,6 +68,7 @@ const ImageWrapper = styled.div`
 `;
 
 export class ProfilePhotos extends Component<TProps, Readonly<TState>> {
+  // TODO: implement photo view/like/delete
   state = {
     photos: [],
     pendingPhotos: [],

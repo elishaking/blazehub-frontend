@@ -126,6 +126,7 @@ class Profile extends Component<ProfileProps, Readonly<TState>> {
                 profileDetails={this.profileDetails || ({} as ProfileData)}
               />
 
+              {/* TODO: fetch friends inside the component below */}
               <ProfileFriends
                 friends={friends}
                 findFriends={this.findFriends}

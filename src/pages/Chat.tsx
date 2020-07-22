@@ -364,18 +364,18 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                                 : "0.5em",
                           }}
                         >
+                          <div>
+                            <p>{message.text}</p>
+                            <small>{time}</small>
+                          </div>
                           {avatar ? (
-                            <Avatar avatar={avatar} />
+                            <Avatar avatar={avatar} marginRight="0.7em" />
                           ) : (
                             <FontAwesomeIcon
                               icon={faUserCircle}
                               className="icon"
                             />
                           )}
-                          <div>
-                            <p>{message.text}</p>
-                            <small>{time}</small>
-                          </div>
                         </div>
                       );
                     else
@@ -395,8 +395,7 @@ class Chat extends Component<ChatProps, Readonly<any>> {
                           friends[currentFriendKey].avatar ? (
                             <Avatar
                               avatar={friends[currentFriendKey].avatar}
-                              marginRight="0"
-                              marginLeft="1em"
+                              marginLeft="0.7em"
                             />
                           ) : (
                             <FontAwesomeIcon
