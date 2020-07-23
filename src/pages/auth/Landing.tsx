@@ -196,7 +196,6 @@ class Landing extends Component<LandingProps, Readonly<LandingState>> {
       <div className="container landing-bg">
         <header>
           <nav>
-            <h1 style={{ visibility: "hidden" }}>Sendgrid</h1>
             <h1>
               <Logo color={navLogoColor} style={{ fontSize: "1.3em" }} />
               <span>BlazeHub</span>
