@@ -34,8 +34,8 @@ function MainNav({ user, signoutUser: signoutUserFunc }: MainNavProps) {
       <nav>
         <ul>
           <NavItem link="/home" text="Home" icon={faHome} />
-          <NavItem link="/chat" text="Chat" icon={faComments} />
           <NavItem link="/profile" text="Profile" icon={faUserAlt} />
+          <NavItem link="/chat" text="Chat" icon={faComments} />
           <NavItem
             link="/bookmarks"
             text="Bookmarks"

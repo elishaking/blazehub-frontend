@@ -35,6 +35,7 @@ const SLIDE_IN = {
 };
 
 class Chat extends Component<ChatProps, Readonly<any>> {
+  // TODO: run through messages and insert date breakpoints
   userId: string;
   notificationSound: HTMLAudioElement;
   chatRef = app.database().ref("chats");
@@ -62,8 +63,6 @@ class Chat extends Component<ChatProps, Readonly<any>> {
   }
 
   componentDidMount() {
-    // this.setupFirebase();
-
     const { profile, auth } = this.props;
     if (profile.avatar) {
       this.setState({
@@ -434,6 +433,10 @@ class Chat extends Component<ChatProps, Readonly<any>> {
         </div>
 
         <div className="friends" style={slideInStyle}>
+          <header style={{ marginBottom: "1em" }}>
+            <h3>Friends</h3>
+          </header>
+
           {loading ? (
             <Spinner />
           ) : (

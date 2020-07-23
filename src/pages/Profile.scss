@@ -37,6 +37,11 @@
     .cover {
       border: 1px solid #ede0ff;
       border-radius: 5px;
+      width: 100%;
+
+      .cover-img {
+        width: 100%;
+      }
 
       .cover-placeholder {
         background-color: #ede0ff;
