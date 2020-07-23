@@ -18,18 +18,18 @@ interface StoreProps {
 }
 
 interface DispatchProps {
-  getProfilePic: (
+  getProfilePicture: (
     userId: string,
     key: "avatar" | "coverPhoto",
     isForOtherUser?: boolean
   ) => Promise<void>;
-  updateProfilePic: (
+  updateProfilePicture: (
     userId: string,
     key: string,
     dataUrl: string,
     dataUrlSmall?: string
   ) => Promise<void>;
-  deleteProfilePics: () => void;
+  deleteProfilePictures: () => void;
 }
 
 interface OwnProps {
@@ -38,9 +38,9 @@ interface OwnProps {
 
 type TProps = StoreProps & DispatchProps & OwnProps;
 
-interface TState {}
+// interface TState {}
 
-class Header extends Component<TProps, Readonly<TState>> {
+class Header extends Component<TProps, Readonly<any>> {
   updateCover = false;
 
   componentDidMount() {
@@ -50,24 +50,24 @@ class Header extends Component<TProps, Readonly<TState>> {
       avatar,
       coverPhoto,
       isForOtherUser,
-      getProfilePic,
-      deleteProfilePics,
+      getProfilePicture,
+      deleteProfilePictures,
     } = this.props;
 
     // if not auth user
     if (otherUserId) {
-      deleteProfilePics();
-      getProfilePic(otherUserId, "avatar", true);
-      getProfilePic(otherUserId, "coverPhoto", true);
+      deleteProfilePictures();
+      getProfilePicture(otherUserId, "avatar", true);
+      getProfilePicture(otherUserId, "coverPhoto", true);
     } else {
       // if current profile pics in store is not for auth user
       if (isForOtherUser) {
-        deleteProfilePics();
-        getProfilePic(userId, "avatar");
-        getProfilePic(userId, "coverPhoto");
+        deleteProfilePictures();
+        getProfilePicture(userId, "avatar");
+        getProfilePicture(userId, "coverPhoto");
       } else {
-        if (!avatar) getProfilePic(userId, "avatar");
-        if (!coverPhoto) getProfilePic(userId, "coverPhoto");
+        if (!avatar) getProfilePicture(userId, "avatar");
+        if (!coverPhoto) getProfilePicture(userId, "coverPhoto");
       }
     }
   }
@@ -181,14 +181,14 @@ class Header extends Component<TProps, Readonly<TState>> {
   };
 
   updatePic = (dataUrl: string, dataUrlSmall = "") => {
-    const { updateProfilePic, userId } = this.props;
-    if (updateProfilePic && userId) {
+    const { updateProfilePicture, userId } = this.props;
+    if (updateProfilePicture && userId) {
       if (this.updateCover) {
         this.setState({ loadingCoverPhoto: true });
-        updateProfilePic(userId, "coverPhoto", dataUrl);
+        updateProfilePicture(userId, "coverPhoto", dataUrl);
       } else {
         this.setState({ loadingAvatar: true });
-        updateProfilePic(userId, "avatar", dataUrl, dataUrlSmall);
+        updateProfilePicture(userId, "avatar", dataUrl, dataUrlSmall);
       }
     }
   };
@@ -203,13 +203,13 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
   return {
-    getProfilePic: async (userId, key, isForOtherUser) => {
+    getProfilePicture: async (userId, key, isForOtherUser) => {
       await dispatch(getProfilePic(userId, key, isForOtherUser));
     },
-    deleteProfilePics: async () => {
+    deleteProfilePictures: async () => {
       await dispatch(deleteProfilePics());
     },
-    updateProfilePic: async (userId, key, dataUrl, dataUrlSmall) => {
+    updateProfilePicture: async (userId, key, dataUrl, dataUrlSmall) => {
       await dispatch(updateProfilePic(userId, key, dataUrl, dataUrlSmall));
     },
   };

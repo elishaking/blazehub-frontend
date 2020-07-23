@@ -65,7 +65,7 @@ class Feedback extends Component<FeedbackProps> {
         })
         .catch((err) => {
           this.setState({ loading: false });
-          logError(err);
+          logError(err.response);
         });
     }
   };

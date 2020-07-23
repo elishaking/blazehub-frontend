@@ -10,17 +10,29 @@ import { Form } from "../components/organisms/form";
 import { TextFormInput, CompositeButton } from "../components/molecules";
 import { PageTemplate } from "../components/templates";
 
-interface InviteFriendsProps extends RouteComponentProps {
+interface TProps extends RouteComponentProps {
   auth: AuthState;
 }
 
-class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
-  constructor(props: InviteFriendsProps) {
+interface Friend {
+  receiver: string;
+  email: string;
+}
+
+interface TState {
+  inviteSent: boolean;
+  friendEmails: Friend[];
+  loading: boolean;
+  error: string;
+}
+
+class InviteFriends extends Component<TProps, Readonly<TState>> {
+  constructor(props: TProps) {
     super(props);
 
     this.state = {
       inviteSent: false,
-      friendEmails: [""],
+      friendEmails: [{ receiver: "", email: "" }],
       loading: false,
       error: "",
     };
@@ -33,7 +45,7 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
       <PageTemplate showSearch={true} history={this.props.history}>
         {inviteSent ? (
           <div className="invite-friends">
-            <h3 style={{ margin: "0.7em 0 em 0" }}>Invitation sent</h3>
+            <h3 style={{ margin: "0.7em 0 0.7em 0" }}>Invitation sent</h3>
             <Button onClick={this.inviteMore}>Invite More</Button>
           </div>
         ) : (
@@ -72,28 +84,28 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
   }
 
   addField = () => {
-    const { friendEmails } = this.state;
-    friendEmails.push("");
-    this.setState({
-      friendEmails,
-    });
+    this.setState((state, props) => ({
+      friendEmails: [...state.friendEmails, { receiver: "", email: "" }],
+    }));
   };
 
   inviteFriends = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     this.setState({ loading: true, error: "" });
-
     // return console.log(this.state.friendEmails);
-
     axios
       .post("/friends/invite", {
-        emails: this.state.friendEmails,
+        mails: this.state.friendEmails,
       })
       .then((res) => {
-        this.setState({ loading: false, friendEmails: [""], inviteSent: true });
+        this.setState({
+          loading: false,
+          friendEmails: [{ receiver: "", email: "" }],
+          inviteSent: true,
+        });
       })
       .catch((err) => {
+        console.log(err.response);
         this.setState({
           loading: false,
           error:
@@ -101,18 +113,20 @@ class InviteFriends extends Component<InviteFriendsProps, Readonly<any>> {
               ? "Something went wrong"
               : "Please check your connection",
         });
-        // console.error(err);
         logError(err);
       });
   };
 
   inviteMore = () => {
-    this.setState({ inviteSent: false, friendEmails: [{ name: "" }] });
+    this.setState({
+      inviteSent: false,
+      friendEmails: [{ receiver: "", email: "" }],
+    });
   };
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { friendEmails } = this.state;
-    friendEmails[index] = e.target.value;
+    friendEmails[index].email = e.target.value;
 
     this.setState({
       friendEmails,

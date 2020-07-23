@@ -8,7 +8,6 @@ export const initialState = {
 };
 
 export default function (state = initialState, action: any) {
-  console.log(action.type);
   switch (action.type) {
     case SET_PROFILE_PIC:
       const { key, isOtherUser, dataUrl } = action.payload;
